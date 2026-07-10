@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { useStore } from '../store'
 import { aggregate, weeklyTrend } from '../lib/tennis'
 import { hrZoneLabel, hrZonesFromBirthYear } from '../lib/wearable'
 import { computeLadder } from '../lib/elo'
+import { FOCUS_OPTIONS } from '../types'
 
 export default function Progress() {
   const { state, deleteSession } = useStore()
@@ -9,6 +11,13 @@ export default function Progress() {
   const agg = aggregate(sessions)
   const zones = hrZonesFromBirthYear(profile?.birthYear)
   const ladder = computeLadder(sessions, profile?.name || 'Tú')
+
+  // Evolución por golpe
+  const [stroke, setStroke] = useState<string>('Saque')
+  const strokeSessions = sessions.filter((s) => s.focus.includes(stroke))
+  const strokeTrend = weeklyTrend(strokeSessions, 8)
+  const strokeMax = Math.max(30, ...strokeTrend.map((t) => t.minutes))
+  const strokeTotalMin = strokeSessions.reduce((a, s) => a + s.durationMin, 0)
   const trend = weeklyTrend(sessions, 8)
   const maxMin = Math.max(60, ...trend.map((t) => t.minutes))
 
@@ -62,6 +71,49 @@ export default function Progress() {
           <Metric label="Victorias" value={`${agg.wins}`} />
           <Metric label="Derrotas" value={`${agg.losses}`} />
         </div>
+      </div>
+
+      <div className="card">
+        <h2 className="section-title">🎾 Evolución por golpe</h2>
+        <div className="chips">
+          {FOCUS_OPTIONS.map((f) => (
+            <button
+              key={f}
+              type="button"
+              className={`chip ${stroke === f ? 'on' : ''}`}
+              onClick={() => setStroke(f)}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
+        {strokeSessions.length === 0 ? (
+          <p className="muted small">
+            Aún no has registrado sesiones trabajando «{stroke}». Márcalo en «¿Qué
+            trabajaste?» al registrar.
+          </p>
+        ) : (
+          <>
+            <div className="chart">
+              {strokeTrend.map((t, i) => (
+                <div className="chart-col" key={i}>
+                  <div className="chart-bar-wrap">
+                    <div
+                      className="chart-bar"
+                      style={{ height: `${(t.minutes / strokeMax) * 100}%` }}
+                      title={`${t.minutes} min`}
+                    />
+                  </div>
+                  <span className="chart-label">{t.label}</span>
+                </div>
+              ))}
+            </div>
+            <p className="muted small">
+              {stroke}: {strokeSessions.length} sesión(es) · {Math.round(strokeTotalMin / 60)}h{' '}
+              {strokeTotalMin % 60}min en total (minutos/semana, últimas 8 semanas).
+            </p>
+          </>
+        )}
       </div>
 
       {(agg.avgHr != null || agg.totalCalories > 0) && (

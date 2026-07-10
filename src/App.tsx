@@ -9,11 +9,12 @@ import {
 import Onboarding from './screens/Onboarding'
 import Home from './screens/Home'
 import LogSession from './screens/LogSession'
+import LiveMatch from './screens/LiveMatch'
 import Progress from './screens/Progress'
 import Coach from './screens/Coach'
 import Settings from './screens/Settings'
 
-export type Tab = 'home' | 'log' | 'progress' | 'coach' | 'settings'
+export type Tab = 'home' | 'log' | 'live' | 'progress' | 'coach' | 'settings'
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'home', label: 'Inicio', icon: '🏠' },
@@ -59,6 +60,17 @@ function Shell() {
 
   if (!state.onboarded) {
     return <Onboarding />
+  }
+
+  // Partido en vivo: pantalla completa sin barra de pestañas (evita salidas accidentales)
+  if (tab === 'live') {
+    return (
+      <div className="app">
+        <main className="content">
+          <LiveMatch onDone={() => setTab('home')} />
+        </main>
+      </div>
+    )
   }
 
   return (

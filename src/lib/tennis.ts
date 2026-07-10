@@ -144,6 +144,20 @@ function endOfDay(d: Date): Date {
   return x
 }
 
+/** Actividad de la semana actual (lunes 00:00 → ahora). */
+export function currentWeekActivity(sessions: Session[]): { sessions: number; minutes: number } {
+  const now = new Date()
+  const monday = new Date(now)
+  const day = (now.getDay() + 6) % 7 // 0 = lunes
+  monday.setDate(now.getDate() - day)
+  monday.setHours(0, 0, 0, 0)
+  const inWeek = sessions.filter((s) => new Date(s.date) >= monday)
+  return {
+    sessions: inWeek.length,
+    minutes: inWeek.reduce((a, s) => a + (s.durationMin || 0), 0),
+  }
+}
+
 export function ntrpLabel(ntrp: number): string {
   if (ntrp < 2) return 'Principiante'
   if (ntrp < 3) return 'Iniciación'

@@ -81,6 +81,13 @@ export interface ReminderSettings {
   time: string
 }
 
+export interface WeeklyGoal {
+  /** Sesiones objetivo por semana (0 = desactivado) */
+  sessions: number
+  /** Minutos objetivo por semana (0 = desactivado) */
+  minutes: number
+}
+
 export interface AppState {
   profile: PlayerProfile | null
   sessions: Session[]
@@ -92,6 +99,7 @@ export interface AppState {
   onboarded: boolean
   wearable: WearableSettings
   reminders: ReminderSettings
+  weeklyGoal: WeeklyGoal
 }
 
 /** Copia de seguridad exportable (sin credenciales) */
@@ -104,6 +112,7 @@ export interface BackupFile {
   chat: ChatMessage[]
   wearable: WearableSettings
   reminders: ReminderSettings
+  weeklyGoal?: WeeklyGoal
 }
 
 export const FOCUS_OPTIONS = [

@@ -11,6 +11,7 @@ const EMPTY: AppState = {
   onboarded: false,
   wearable: { enabled: false, lastSync: null },
   reminders: { enabled: false, days: [1, 3, 5], time: '18:00' },
+  weeklyGoal: { sessions: 3, minutes: 180 },
 }
 
 export function loadState(): AppState {

@@ -27,11 +27,12 @@ export default function Settings() {
     setProxyUrl,
     setWearable,
     setReminders,
+    setWeeklyGoal,
     addSessions,
     importBackup,
     reset,
   } = useStore()
-  const { profile, wearable, sessions, reminders } = state
+  const { profile, wearable, sessions, reminders, weeklyGoal } = state
 
   const [name, setName] = useState(profile?.name ?? '')
   const [birthYear, setBirthYear] = useState(profile?.birthYear ? String(profile.birthYear) : '')
@@ -136,6 +137,7 @@ export default function Settings() {
       chat: state.chat,
       wearable: state.wearable,
       reminders: state.reminders,
+      weeklyGoal: state.weeklyGoal,
     }
     const json = JSON.stringify(backup, null, 2)
     const date = new Date().toISOString().slice(0, 10)
@@ -329,6 +331,42 @@ export default function Settings() {
       </div>
 
       <div className="card">
+        <h2 className="section-title">🎯 Objetivo semanal</h2>
+        <p className="muted small">
+          Metas de la semana (lunes a domingo). Ponlas a 0 para desactivarlas. El progreso se
+          muestra en Inicio.
+        </p>
+        <div className="row2">
+          <label className="field">
+            <span>Sesiones / semana</span>
+            <input
+              type="number"
+              min={0}
+              max={14}
+              inputMode="numeric"
+              value={weeklyGoal.sessions}
+              onChange={(e) =>
+                setWeeklyGoal({ sessions: Math.max(0, parseInt(e.target.value || '0', 10)) })
+              }
+            />
+          </label>
+          <label className="field">
+            <span>Minutos / semana</span>
+            <input
+              type="number"
+              min={0}
+              step={30}
+              inputMode="numeric"
+              value={weeklyGoal.minutes}
+              onChange={(e) =>
+                setWeeklyGoal({ minutes: Math.max(0, parseInt(e.target.value || '0', 10)) })
+              }
+            />
+          </label>
+        </div>
+      </div>
+
+      <div className="card">
         <h2 className="section-title">⏰ Recordatorios de entrenamiento</h2>
         <label className="switch-row">
           <span>Recordarme entrenar</span>
@@ -460,7 +498,7 @@ export default function Settings() {
       </div>
 
       <p className="footer-note">
-        AceCoach v0.3 · Hecho con 🎾 y Claude ·{' '}
+        AceCoach v0.4 · Hecho con 🎾 y Claude ·{' '}
         <a
           className="footer-link"
           href="https://andreslara22.github.io/Tennis/privacidad.html"

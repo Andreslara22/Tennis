@@ -1,12 +1,17 @@
 import { useStore } from '../store'
-import { aggregate, ntrpLabel } from '../lib/tennis'
+import { aggregate, currentWeekActivity, ntrpLabel } from '../lib/tennis'
 import type { Tab } from '../App'
 
 export default function Home({ go }: { go: (t: Tab) => void }) {
   const { state } = useStore()
-  const { profile, sessions } = state
+  const { profile, sessions, weeklyGoal } = state
   const agg = aggregate(sessions)
   const recent = [...sessions].reverse().slice(0, 5)
+  const week = currentWeekActivity(sessions)
+  const goalActive = weeklyGoal.sessions > 0 || weeklyGoal.minutes > 0
+  const goalDone =
+    (weeklyGoal.sessions === 0 || week.sessions >= weeklyGoal.sessions) &&
+    (weeklyGoal.minutes === 0 || week.minutes >= weeklyGoal.minutes)
 
   return (
     <div className="screen">
@@ -36,12 +41,33 @@ export default function Home({ go }: { go: (t: Tab) => void }) {
         />
       </div>
 
+      {goalActive && (
+        <div className={`card goal-card ${goalDone ? 'done' : ''}`}>
+          <div className="goal-head">
+            <h2 className="section-title">🎯 Objetivo semanal</h2>
+            {goalDone && <span className="pill win">¡Cumplido! 🎉</span>}
+          </div>
+          {weeklyGoal.sessions > 0 && (
+            <GoalBar
+              label={`Sesiones: ${week.sessions}/${weeklyGoal.sessions}`}
+              pct={Math.min(100, (week.sessions / weeklyGoal.sessions) * 100)}
+            />
+          )}
+          {weeklyGoal.minutes > 0 && (
+            <GoalBar
+              label={`Minutos: ${week.minutes}/${weeklyGoal.minutes}`}
+              pct={Math.min(100, (week.minutes / weeklyGoal.minutes) * 100)}
+            />
+          )}
+        </div>
+      )}
+
       <div className="quick-actions">
-        <button className="btn primary" onClick={() => go('log')}>
-          ➕ Registrar sesión
+        <button className="btn primary" onClick={() => go('live')}>
+          🎾 Partido en vivo
         </button>
-        <button className="btn ghost" onClick={() => go('coach')}>
-          🤖 Preguntar al coach
+        <button className="btn ghost" onClick={() => go('log')}>
+          ➕ Registrar sesión
         </button>
       </div>
 
@@ -91,6 +117,17 @@ function StatCard({ value, label, big }: { value: string; label: string; big?: b
     <div className={`stat-card ${big ? 'span2' : ''}`}>
       <div className="stat-value">{value}</div>
       <div className="stat-label">{label}</div>
+    </div>
+  )
+}
+
+function GoalBar({ label, pct }: { label: string; pct: number }) {
+  return (
+    <div className="goal-bar-wrap">
+      <div className="goal-bar-label">{label}</div>
+      <div className="goal-bar">
+        <div className="goal-bar-fill" style={{ width: `${pct}%` }} />
+      </div>
     </div>
   )
 }

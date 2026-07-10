@@ -24,6 +24,12 @@ App **mobile-first** hecha con **React + Vite (TypeScript)** y lista para empaqu
 - **⌚ Wearables (relojes Android / Wear OS)**: sincroniza entrenamientos desde Health
   Connect con frecuencia cardíaca, calorías y duración. El coach usa esos datos en su
   análisis. Deduplicación automática al re-sincronizar.
+- **🎾 Partido en vivo**: marcador punto a punto con juegos, sets, tie-break, iguales y
+  ventajas; deshacer, contadores de aces/winners/errores y guardado automático del partido
+  con su marcador y duración.
+- **🎯 Objetivos semanales**: metas de sesiones y minutos con barras de progreso en Inicio.
+- **📊 Evolución por golpe**: gráfico semanal de minutos por golpe trabajado (saque,
+  revés, volea…).
 - **🏆 Escalera de rivales**: ranking ELO local calculado con tus partidos — tú y tus
   rivales, sin servidores.
 - **⏰ Recordatorios de entrenamiento**: notificaciones locales semanales en Android
@@ -139,7 +145,8 @@ La app soporta dos modos, configurables en **Ajustes → Coach con IA**:
 ```
 src/
   ai/coach.ts        # Coach IA (proxy o clave directa) + coach offline por reglas
-  lib/tennis.ts      # Estadísticas, rachas y tendencias
+  lib/tennis.ts      # Estadísticas, rachas, tendencias y objetivo semanal
+  lib/scoring.ts     # Motor de puntuación de tenis (partido en vivo)
   lib/wearable.ts    # Health Connect (reloj), zonas de FC
   lib/elo.ts         # Escalera de rivales (ELO local)
   lib/reminders.ts   # Recordatorios (notificaciones locales)

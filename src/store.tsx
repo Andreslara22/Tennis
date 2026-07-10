@@ -8,6 +8,7 @@ import type {
   ReminderSettings,
   Session,
   WearableSettings,
+  WeeklyGoal,
 } from './types'
 import { loadState, newId, saveState } from './storage'
 
@@ -24,6 +25,7 @@ interface Store {
   setProxyUrl: (u: string) => void
   setWearable: (w: Partial<WearableSettings>) => void
   setReminders: (r: Partial<ReminderSettings>) => void
+  setWeeklyGoal: (g: Partial<WeeklyGoal>) => void
   /** Restaura una copia de seguridad (conserva las credenciales actuales) */
   importBackup: (b: BackupFile) => void
   finishOnboarding: () => void
@@ -71,6 +73,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       setProxyUrl: (proxyUrl) => setState((s) => ({ ...s, proxyUrl })),
       setWearable: (w) => setState((s) => ({ ...s, wearable: { ...s.wearable, ...w } })),
       setReminders: (r) => setState((s) => ({ ...s, reminders: { ...s.reminders, ...r } })),
+      setWeeklyGoal: (g) => setState((s) => ({ ...s, weeklyGoal: { ...s.weeklyGoal, ...g } })),
       importBackup: (b) =>
         setState((s) => ({
           ...s,
@@ -79,6 +82,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           chat: Array.isArray(b.chat) ? b.chat : s.chat,
           wearable: b.wearable ?? s.wearable,
           reminders: b.reminders ?? s.reminders,
+          weeklyGoal: b.weeklyGoal ?? s.weeklyGoal,
           onboarded: true,
         })),
       finishOnboarding: () => setState((s) => ({ ...s, onboarded: true })),
@@ -92,6 +96,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           onboarded: false,
           wearable: { enabled: false, lastSync: null },
           reminders: { enabled: false, days: [1, 3, 5], time: '18:00' },
+          weeklyGoal: { sessions: 3, minutes: 180 },
         }),
     }),
     [state],
