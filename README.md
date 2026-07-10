@@ -1,3 +1,6 @@
+> 📚 Este repositorio también contiene **[Tarea+](./tareaplus/README.md)** (`tareaplus/`):
+> marca, landing y app Android de la membresía educativa familiar. Lo de abajo documenta AceCoach.
+
 # 🎾 AceCoach
 
 **Tu entrenador de tenis con IA.** Registra tus entrenamientos y partidos, visualiza tu
