@@ -29,6 +29,10 @@ export default function LogSession({ onDone }: { onDone: () => void }) {
   const [doubleFaults, setDoubleFaults] = useState('')
   const [winners, setWinners] = useState('')
   const [unforced, setUnforced] = useState('')
+  // Datos de salud (reloj o manual)
+  const [avgHr, setAvgHr] = useState('')
+  const [maxHr, setMaxHr] = useState('')
+  const [calories, setCalories] = useState('')
 
   const toggleFocus = (f: string) =>
     setFocus((cur) => (cur.includes(f) ? cur.filter((x) => x !== f) : [...cur, f]))
@@ -56,6 +60,10 @@ export default function LogSession({ onDone }: { onDone: () => void }) {
       focus,
       notes: notes.trim() || undefined,
       stats: hasStats ? stats : undefined,
+      avgHr: num(avgHr),
+      maxHr: num(maxHr),
+      calories: num(calories),
+      source: 'manual',
       opponent: type === 'partido' ? opponent.trim() || undefined : undefined,
       won: type === 'partido' ? won : undefined,
       score: type === 'partido' ? score.trim() || undefined : undefined,
@@ -175,6 +183,9 @@ export default function LogSession({ onDone }: { onDone: () => void }) {
             <StatInput label="Dobles faltas" value={doubleFaults} onChange={setDoubleFaults} />
             <StatInput label="Winners" value={winners} onChange={setWinners} />
             <StatInput label="Errores no forzados" value={unforced} onChange={setUnforced} />
+            <StatInput label="⌚ FC media (ppm)" value={avgHr} onChange={setAvgHr} />
+            <StatInput label="⌚ FC máx (ppm)" value={maxHr} onChange={setMaxHr} />
+            <StatInput label="⌚ Calorías (kcal)" value={calories} onChange={setCalories} />
           </div>
         )}
       </div>

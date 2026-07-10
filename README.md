@@ -21,6 +21,9 @@ App **mobile-first** hecha con **React + Vite (TypeScript)** y lista para empaqu
 - **Coach con IA (Claude)**: chat conversacional que analiza tus datos y te da consejos y
   ejercicios personalizados. Sin clave de API funciona en **modo offline** con consejos por
   reglas basados en tus estadísticas.
+- **⌚ Wearables (relojes Android / Wear OS)**: sincroniza entrenamientos desde Health
+  Connect con frecuencia cardíaca, calorías y duración. El coach usa esos datos en su
+  análisis. Deduplicación automática al re-sincronizar.
 - **Persistencia local**: tus datos se guardan en el dispositivo (localStorage).
 
 ---
@@ -57,6 +60,39 @@ La carpeta `android/` está en `.gitignore` porque se regenera con Capacitor.
 
 > iOS es análogo: `npx cap add ios` + `npx cap open ios` (requiere macOS + Xcode). Lo
 > añadimos después de tener Android funcionando.
+
+---
+
+## ⌚ Wearables — relojes Android (Wear OS)
+
+La app lee los entrenamientos que tu reloj (Galaxy Watch, Pixel Watch, TicWatch…) vuelca en
+**Health Connect**, el almacén de salud estándar de Android. Así cualquier reloj compatible
+funciona sin integraciones por marca.
+
+**Cómo funciona:**
+
+1. En **Ajustes → Wearables**, activa la sincronización.
+2. En Android nativo, pulsa **Sincronizar ahora**: se piden permisos de Health Connect y se
+   importan los entrenamientos de los últimos 30 días (duración, FC media/máx, calorías).
+3. En web (sin reloj) puedes probar el flujo con el botón de **datos de demo**.
+
+Los entrenos importados se marcan con ⌚, no se duplican al re-sincronizar, y el **coach de
+IA** incluye la frecuencia cardíaca y las calorías en su análisis.
+
+**Setup nativo (una vez creado el proyecto Android):**
+
+```bash
+npm i capacitor-health-connect
+npx cap sync android
+```
+
+Y en `android/app/src/main/AndroidManifest.xml` añade los permisos de lectura de Health
+Connect que pida el plugin (ejercicio, frecuencia cardíaca y calorías). El usuario final
+necesita la app **Health Connect** de Google Play y su reloj vinculado.
+
+> Nota: la capa de integración está en `src/lib/wearable.ts` con carga dinámica del plugin —
+> la app web compila y funciona aunque el plugin no esté instalado. Si usas otro plugin de
+> Health Connect, solo hay que ajustar ese archivo.
 
 ---
 

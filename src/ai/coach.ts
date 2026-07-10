@@ -48,6 +48,13 @@ function buildContext(
     lines.push(`- Media errores no forzados por sesión: ${agg.avgUnforced.toFixed(1)}`)
   if (agg.winnersToErrors != null)
     lines.push(`- Ratio winners/errores: ${agg.winnersToErrors.toFixed(2)}`)
+  if (agg.avgHr != null)
+    lines.push(
+      `- Datos del reloj (wearable): FC media ${agg.avgHr.toFixed(0)} ppm` +
+        (agg.maxHrEver != null ? `, FC máx ${agg.maxHrEver} ppm` : '') +
+        (agg.totalCalories > 0 ? `, ${agg.totalCalories} kcal acumuladas` : '') +
+        ` en ${agg.wearableSessions} sesión(es) sincronizadas`,
+    )
 
   const recent = sessions.slice(-6).reverse()
   if (recent.length) {
@@ -59,8 +66,10 @@ function buildContext(
         s.type === 'partido'
           ? ` vs ${s.opponent || '?'} (${s.won === true ? 'victoria' : s.won === false ? 'derrota' : '—'}${s.score ? ' ' + s.score : ''})`
           : ''
+      const hr = s.avgHr ? ` · FC ${s.avgHr}ppm` : ''
+      const src = s.source === 'wearable' ? ' · ⌚reloj' : ''
       lines.push(
-        `- ${d} · ${s.type} · ${s.durationMin}min · intensidad ${s.intensity}/5${match}${focus}`,
+        `- ${d} · ${s.type} · ${s.durationMin}min · intensidad ${s.intensity}/5${match}${focus}${hr}${src}`,
       )
     }
   }
@@ -155,6 +164,21 @@ export function offlineCoachAdvice(profile: PlayerProfile | null, sessions: Sess
       )
     } else if (agg.winRate >= 60) {
       tips.push(`¡${agg.winRate.toFixed(0)}% de victorias! Vas sobrado, plantéate rivales de más nivel.`)
+    }
+  }
+
+  // Datos del reloj
+  if (agg.avgHr != null) {
+    if (agg.avgHr < 115) {
+      tips.push(
+        `Tu FC media en pista es ${agg.avgHr.toFixed(0)} ppm: intensidad baja. Si buscas mejorar físico, añade drills de desplazamiento o puntos jugados a ritmo alto.`,
+      )
+    } else if (agg.avgHr > 155) {
+      tips.push(
+        `Tu FC media en pista es ${agg.avgHr.toFixed(0)} ppm: intensidad muy alta. Vigila la recuperación entre sesiones para evitar sobrecarga.`,
+      )
+    } else {
+      tips.push(`FC media en pista: ${agg.avgHr.toFixed(0)} ppm — buena zona de trabajo. ⌚`)
     }
   }
 

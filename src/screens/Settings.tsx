@@ -2,6 +2,12 @@ import { useState } from 'react'
 import { useStore } from '../store'
 import { GOAL_OPTIONS, type Hand, type PlayStyle } from '../types'
 import { ntrpLabel } from '../lib/tennis'
+import {
+  demoWorkouts,
+  isNativeAndroid,
+  readWorkoutsFromHealthConnect,
+  workoutsToSessions,
+} from '../lib/wearable'
 
 const STYLES: PlayStyle[] = [
   'de fondo (baseliner)',
@@ -12,8 +18,8 @@ const STYLES: PlayStyle[] = [
 ]
 
 export default function Settings() {
-  const { state, setProfile, setApiKey, reset } = useStore()
-  const { profile } = state
+  const { state, setProfile, setApiKey, setWearable, addSessions, reset } = useStore()
+  const { profile, wearable, sessions } = state
 
   const [name, setName] = useState(profile?.name ?? '')
   const [ntrp, setNtrp] = useState(profile?.ntrp ?? 3.0)
@@ -25,6 +31,11 @@ export default function Settings() {
   const [key, setKey] = useState(state.apiKey)
   const [showKey, setShowKey] = useState(false)
   const [savedKey, setSavedKey] = useState(false)
+
+  // Wearables
+  const [syncing, setSyncing] = useState(false)
+  const [syncMsg, setSyncMsg] = useState<string | null>(null)
+  const native = isNativeAndroid()
 
   const toggleGoal = (g: string) =>
     setGoals((cur) => (cur.includes(g) ? cur.filter((x) => x !== g) : [...cur, g]))
@@ -46,6 +57,28 @@ export default function Settings() {
     setApiKey(key.trim())
     setSavedKey(true)
     setTimeout(() => setSavedKey(false), 1500)
+  }
+
+  const syncWearable = async (demo: boolean) => {
+    if (syncing) return
+    setSyncing(true)
+    setSyncMsg(null)
+    try {
+      const workouts = demo ? demoWorkouts() : await readWorkoutsFromHealthConnect(30)
+      const fresh = workoutsToSessions(workouts, sessions)
+      if (fresh.length > 0) addSessions(fresh)
+      setWearable({ lastSync: new Date().toISOString() })
+      setSyncMsg(
+        fresh.length > 0
+          ? `✅ ${fresh.length} entrenamiento(s) importado(s) del reloj${demo ? ' (demo)' : ''}.`
+          : 'No hay entrenamientos nuevos que importar.',
+      )
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : 'Error desconocido'
+      setSyncMsg(`⚠️ ${msg}`)
+    } finally {
+      setSyncing(false)
+    }
   }
 
   return (
@@ -110,6 +143,56 @@ export default function Settings() {
         <button className="btn primary" onClick={saveProfile}>
           {savedProfile ? '✅ Guardado' : 'Guardar perfil'}
         </button>
+      </div>
+
+      <div className="card">
+        <h2 className="section-title">⌚ Wearables — relojes Android</h2>
+        <p className="muted small">
+          Sincroniza tus entrenamientos desde un reloj Android (Wear OS: Galaxy Watch, Pixel
+          Watch…) a través de <strong>Health Connect</strong>. Se importan duración, frecuencia
+          cardíaca y calorías, y el coach los usa en su análisis.
+        </p>
+
+        <label className="switch-row">
+          <span>Sincronización con el reloj</span>
+          <input
+            type="checkbox"
+            checked={wearable.enabled}
+            onChange={(e) => setWearable({ enabled: e.target.checked })}
+          />
+        </label>
+
+        {wearable.enabled && (
+          <>
+            {native ? (
+              <button className="btn primary" disabled={syncing} onClick={() => syncWearable(false)}>
+                {syncing ? 'Sincronizando…' : '🔄 Sincronizar ahora (Health Connect)'}
+              </button>
+            ) : (
+              <>
+                <p className="muted small">
+                  Estás en la versión web: Health Connect solo existe en Android. Puedes probar
+                  el flujo con datos de demostración.
+                </p>
+                <button className="btn ghost" disabled={syncing} onClick={() => syncWearable(true)}>
+                  {syncing ? 'Importando…' : '🧪 Probar con datos de demo'}
+                </button>
+              </>
+            )}
+
+            {wearable.lastSync && (
+              <p className="muted small">
+                Último sync: {new Date(wearable.lastSync).toLocaleString('es-ES')}
+              </p>
+            )}
+            {syncMsg && <p className="muted small">{syncMsg}</p>}
+
+            <p className="muted small">
+              Los entrenamientos importados aparecen en tu historial marcados con ⌚ y no se
+              duplican al re-sincronizar.
+            </p>
+          </>
+        )}
       </div>
 
       <div className="card">

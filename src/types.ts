@@ -21,6 +21,9 @@ export interface PlayerProfile {
 
 export type SessionType = 'entrenamiento' | 'partido'
 
+/** Origen del registro: manual o importado de un wearable (reloj) */
+export type SessionSource = 'manual' | 'wearable'
+
 export interface MatchStats {
   /** % de primeros saques dentro (0–100) */
   firstServePct?: number
@@ -42,6 +45,12 @@ export interface Session {
   notes?: string
   stats?: MatchStats
 
+  /** Datos de wearable / salud (reloj Android, banda, etc.) */
+  avgHr?: number // frecuencia cardíaca media (ppm)
+  maxHr?: number // frecuencia cardíaca máxima (ppm)
+  calories?: number // kcal estimadas
+  source?: SessionSource // por defecto 'manual'
+
   // Solo partidos:
   opponent?: string
   /** true = victoria, false = derrota, undefined = no aplica */
@@ -55,6 +64,13 @@ export interface ChatMessage {
   at: string
 }
 
+export interface WearableSettings {
+  /** Sincronización con el reloj activada */
+  enabled: boolean
+  /** Fecha del último sync (ISO) o null si nunca */
+  lastSync: string | null
+}
+
 export interface AppState {
   profile: PlayerProfile | null
   sessions: Session[]
@@ -62,6 +78,7 @@ export interface AppState {
   /** Clave de API de Claude introducida por el usuario (guardada solo en el dispositivo) */
   apiKey: string
   onboarded: boolean
+  wearable: WearableSettings
 }
 
 export const FOCUS_OPTIONS = [

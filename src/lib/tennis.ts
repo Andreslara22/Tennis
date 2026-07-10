@@ -13,6 +13,11 @@ export interface Aggregates {
   avgWinners: number | null
   avgUnforced: number | null
   winnersToErrors: number | null
+  // Datos de wearable
+  avgHr: number | null
+  maxHrEver: number | null
+  totalCalories: number
+  wearableSessions: number
 }
 
 function isSameDay(a: Date, b: Date): boolean {
@@ -76,6 +81,10 @@ export function aggregate(sessions: Session[]): Aggregates {
   const totalWinners = winners.reduce((a, b) => a + b, 0)
   const totalUnforced = unforced.reduce((a, b) => a + b, 0)
 
+  const hrs = sessions.map((s) => s.avgHr).filter((n): n is number => typeof n === 'number')
+  const maxHrs = sessions.map((s) => s.maxHr).filter((n): n is number => typeof n === 'number')
+  const cals = sessions.map((s) => s.calories).filter((n): n is number => typeof n === 'number')
+
   return {
     totalSessions: sessions.length,
     matches: matches.length,
@@ -89,6 +98,10 @@ export function aggregate(sessions: Session[]): Aggregates {
     avgWinners: avg(winners),
     avgUnforced: avg(unforced),
     winnersToErrors: totalUnforced > 0 ? totalWinners / totalUnforced : null,
+    avgHr: avg(hrs),
+    maxHrEver: maxHrs.length ? Math.max(...maxHrs) : null,
+    totalCalories: cals.reduce((a, b) => a + b, 0),
+    wearableSessions: sessions.filter((s) => s.source === 'wearable').length,
   }
 }
 

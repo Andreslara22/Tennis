@@ -60,6 +60,29 @@ export default function Progress() {
         </div>
       </div>
 
+      {(agg.avgHr != null || agg.totalCalories > 0) && (
+        <div className="card">
+          <h2 className="section-title">⌚ Datos del reloj</h2>
+          <div className="metrics">
+            <Metric
+              label="FC media"
+              value={agg.avgHr != null ? `${agg.avgHr.toFixed(0)} ppm` : '—'}
+            />
+            <Metric
+              label="FC máxima"
+              value={agg.maxHrEver != null ? `${agg.maxHrEver} ppm` : '—'}
+            />
+            <Metric
+              label="Calorías"
+              value={agg.totalCalories > 0 ? `${agg.totalCalories}` : '—'}
+            />
+          </div>
+          <p className="muted small">
+            {agg.wearableSessions} sesión(es) sincronizadas desde el reloj.
+          </p>
+        </div>
+      )}
+
       <section>
         <h2 className="section-title">Historial ({sessions.length})</h2>
         {sessions.length === 0 ? (
@@ -69,7 +92,7 @@ export default function Progress() {
             {[...sessions].reverse().map((s) => (
               <li key={s.id} className="session-item">
                 <div className={`session-tag ${s.type === 'partido' ? 'match' : 'practice'}`}>
-                  {s.type === 'partido' ? '🎯' : '🏸'}
+                  {s.source === 'wearable' ? '⌚' : s.type === 'partido' ? '🎯' : '🏸'}
                 </div>
                 <div className="session-main">
                   <div className="session-title">
@@ -85,6 +108,8 @@ export default function Progress() {
                     {new Date(s.date).toLocaleDateString('es-ES')} · {s.durationMin}min ·
                     intensidad {s.intensity}/5
                     {s.focus.length ? ` · ${s.focus.join(', ')}` : ''}
+                    {s.avgHr ? ` · ❤️ ${s.avgHr}ppm` : ''}
+                    {s.calories ? ` · 🔥 ${s.calories}kcal` : ''}
                   </div>
                   {s.notes && <div className="session-notes">“{s.notes}”</div>}
                 </div>

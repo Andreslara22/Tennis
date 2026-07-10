@@ -1,16 +1,19 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import type { AppState, ChatMessage, PlayerProfile, Session } from './types'
+import type { AppState, ChatMessage, PlayerProfile, Session, WearableSettings } from './types'
 import { loadState, newId, saveState } from './storage'
 
 interface Store {
   state: AppState
   setProfile: (p: PlayerProfile) => void
   addSession: (s: Omit<Session, 'id'>) => void
+  /** Importación en bloque (p.ej. sync desde el reloj). Devuelve cuántas se añadieron. */
+  addSessions: (list: Omit<Session, 'id'>[]) => void
   deleteSession: (id: string) => void
   addChat: (m: ChatMessage) => void
   clearChat: () => void
   setApiKey: (k: string) => void
+  setWearable: (w: Partial<WearableSettings>) => void
   finishOnboarding: () => void
   reset: () => void
 }
@@ -41,14 +44,29 @@ export function StoreProvider({ children }: { children: ReactNode }) {
             (a, b) => +new Date(a.date) - +new Date(b.date),
           ),
         })),
+      addSessions: (list) =>
+        setState((s) => ({
+          ...s,
+          sessions: [...s.sessions, ...list.map((x) => ({ ...x, id: newId() }))].sort(
+            (a, b) => +new Date(a.date) - +new Date(b.date),
+          ),
+        })),
       deleteSession: (id) =>
         setState((s) => ({ ...s, sessions: s.sessions.filter((x) => x.id !== id) })),
       addChat: (m) => setState((s) => ({ ...s, chat: [...s.chat, m] })),
       clearChat: () => setState((s) => ({ ...s, chat: [] })),
       setApiKey: (apiKey) => setState((s) => ({ ...s, apiKey })),
+      setWearable: (w) => setState((s) => ({ ...s, wearable: { ...s.wearable, ...w } })),
       finishOnboarding: () => setState((s) => ({ ...s, onboarded: true })),
       reset: () =>
-        setState({ profile: null, sessions: [], chat: [], apiKey: '', onboarded: false }),
+        setState({
+          profile: null,
+          sessions: [],
+          chat: [],
+          apiKey: '',
+          onboarded: false,
+          wearable: { enabled: false, lastSync: null },
+        }),
     }),
     [state],
   )

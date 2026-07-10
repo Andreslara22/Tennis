@@ -8,6 +8,7 @@ const EMPTY: AppState = {
   chat: [],
   apiKey: '',
   onboarded: false,
+  wearable: { enabled: false, lastSync: null },
 }
 
 export function loadState(): AppState {

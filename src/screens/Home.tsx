@@ -59,7 +59,7 @@ export default function Home({ go }: { go: (t: Tab) => void }) {
             {recent.map((s) => (
               <li key={s.id} className="session-item">
                 <div className={`session-tag ${s.type === 'partido' ? 'match' : 'practice'}`}>
-                  {s.type === 'partido' ? '🎯' : '🏸'}
+                  {s.source === 'wearable' ? '⌚' : s.type === 'partido' ? '🎯' : '🏸'}
                 </div>
                 <div className="session-main">
                   <div className="session-title">
