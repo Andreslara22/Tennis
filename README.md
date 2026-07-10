@@ -1,4 +1,4 @@
-> 📚 Este repositorio también contiene **[Tarea+](./tareaplus/README.md)** (`tareaplus/`):
+> 📚 Este repositorio también contiene **[Cae el Veinte](./caeelveinte/README.md)** (`caeelveinte/`):
 > marca, landing y app Android de la membresía educativa familiar. Lo de abajo documenta AceCoach.
 
 # 🎾 AceCoach

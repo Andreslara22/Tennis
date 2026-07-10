@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="200" viewBox="0 0 760 200" role="img" aria-label="cae el veinte">
+  <!-- Cae el Veinte · wordmark horizontal -->
+  <style>
+    .w { font: 900 118px Nunito, system-ui, -apple-system, "Segoe UI", sans-serif; letter-spacing: -3px; }
+  </style>
+  <defs>
+    <radialGradient id="coin" cx="0.35" cy="0.3" r="1">
+      <stop offset="0%" stop-color="#FFD971"/>
+      <stop offset="60%" stop-color="#FFC53D"/>
+      <stop offset="100%" stop-color="#E8A81E"/>
+    </radialGradient>
+  </defs>
+  <text x="24" y="140" class="w" fill="#221A4A">cae el</text>
+  <!-- moneda de veinte -->
+  <circle cx="560" cy="100" r="74" fill="url(#coin)"/>
+  <circle cx="560" cy="100" r="74" fill="none" stroke="#221A4A" stroke-width="6" opacity="0.14"/>
+  <circle cx="560" cy="100" r="55" fill="none" stroke="#221A4A" stroke-width="4.5" opacity="0.28" stroke-dasharray="2 10" stroke-linecap="round"/>
+  <text x="560" y="126" text-anchor="middle" font-family="Nunito, DejaVu Sans, sans-serif" font-weight="900" font-size="72" fill="#221A4A">20</text>
+  <!-- rayitas de caída -->
+  <rect x="646" y="28" width="12" height="38" rx="6" fill="#FFC53D" opacity="0.9"/>
+  <rect x="682" y="14" width="12" height="52" rx="6" fill="#FFC53D" opacity="0.6"/>
+</svg>

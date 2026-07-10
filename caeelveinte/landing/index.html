@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cae el Veinte — El tutor de toda la familia por $99 al mes</title>
+<meta name="description" content="Tutor de tareas con IA por WhatsApp para todos tus hijos: explica paso a paso, alineado al temario SEP, con clase en vivo semanal, prep UNAM/IPN y reporte cada domingo para ti. $99 MXN/mes por toda la familia.">
+<meta property="og:title" content="Cae el Veinte — El tutor de toda la familia">
+<meta property="og:description" content="Todos tus hijos, todas las materias, $99 al mes. Tutor por WhatsApp que enseña paso a paso + reporte semanal para papás.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --mora:#5B3DF5; --mora-oscura:#4527D8; --tinta:#221A4A; --crema:#FFF8EF;
+    --sol:#FFC53D; --wa:#25D366; --wa-oscuro:#1DA851; --coral:#FF6B5E;
+    --blanco:#FFFFFF; --gris:#6B6685; --lila:#EFEAFE;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--crema);color:var(--tinta);line-height:1.6}
+  img,svg{max-width:100%;display:block}
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  h1,h2,h3{font-weight:900;line-height:1.15;letter-spacing:-.02em}
+  h2{font-size:clamp(1.7rem,4vw,2.4rem);margin-bottom:.5rem}
+  .kicker{display:inline-block;background:var(--lila);color:var(--mora);font-weight:800;font-size:.85rem;padding:.3rem .9rem;border-radius:999px;margin-bottom:1rem;letter-spacing:.02em}
+  section{padding:64px 0}
+
+  /* Botones */
+  .btn{display:inline-flex;align-items:center;gap:.55rem;font-weight:800;font-size:1.05rem;padding:.9rem 1.6rem;border-radius:999px;text-decoration:none;transition:transform .15s,box-shadow .15s;border:none;cursor:pointer}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-wa{background:var(--wa);color:#fff;box-shadow:0 6px 20px rgba(37,211,102,.35)}
+  .btn-wa:hover{background:var(--wa-oscuro)}
+  .btn-mora{background:var(--mora);color:#fff;box-shadow:0 6px 20px rgba(91,61,245,.3)}
+  .btn-ghost{background:transparent;color:var(--mora);border:2.5px solid var(--mora)}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:50;background:rgba(255,248,239,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(34,26,74,.08)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0}
+  .logo{display:flex;align-items:baseline;font-weight:900;font-size:1.7rem;letter-spacing:-.03em;text-decoration:none}
+  .logo .veinte{display:inline-flex;align-items:center;justify-content:center;width:1.3em;height:1.3em;background:var(--sol);border-radius:50%;font-size:.72em;transform:translateY(.18em);box-shadow:inset 0 -2px 0 rgba(34,26,74,.25);letter-spacing:0}
+  .nav .btn{padding:.55rem 1.15rem;font-size:.95rem}
+  .nav-links{display:none;gap:1.4rem;font-weight:700;font-size:.95rem}
+  .nav-links a{text-decoration:none;color:var(--gris)}
+  .nav-links a:hover{color:var(--mora)}
+  @media(min-width:820px){.nav-links{display:flex}}
+
+  /* Hero */
+  .hero{padding:56px 0 40px}
+  .hero .wrap{display:grid;gap:2.5rem;align-items:center}
+  @media(min-width:900px){.hero .wrap{grid-template-columns:1.1fr .9fr}}
+  .hero h1{font-size:clamp(2.3rem,6vw,3.6rem)}
+  .hero h1 em{font-style:normal;color:var(--mora)}
+  .hero p.sub{font-size:1.2rem;color:var(--gris);margin:1rem 0 1.6rem;max-width:34rem}
+  .hero .ctas{display:flex;flex-wrap:wrap;gap:.8rem;margin-bottom:1.2rem}
+  .founder{display:inline-flex;align-items:center;gap:.5rem;background:#FFF3D6;border:1.5px dashed var(--sol);color:#8a6100;font-weight:700;font-size:.9rem;padding:.45rem .9rem;border-radius:12px}
+  .precio-hero{font-size:1.05rem;font-weight:800}
+  .precio-hero b{font-size:1.5rem;color:var(--mora)}
+
+  /* Mock de teléfono */
+  .phone{background:var(--tinta);border-radius:38px;padding:14px;max-width:340px;margin:0 auto;box-shadow:0 30px 60px rgba(34,26,74,.25)}
+  .screen{background:#ECE5DD;border-radius:26px;overflow:hidden}
+  .chat-top{background:#075E54;color:#fff;padding:.7rem .9rem;display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:.9rem}
+  .chat-top .dot{width:34px;height:34px;border-radius:50%;background:var(--sol);display:flex;align-items:center;justify-content:center;color:var(--tinta);font-weight:900}
+  .chat-top small{display:block;font-weight:400;font-size:.7rem;opacity:.8}
+  .chat{padding:.8rem;display:flex;flex-direction:column;gap:.55rem;font-size:.82rem;line-height:1.45}
+  .msg{max-width:86%;padding:.5rem .7rem;border-radius:12px;box-shadow:0 1px 1px rgba(0,0,0,.08)}
+  .yo{align-self:flex-end;background:#DCF8C6;border-bottom-right-radius:3px}
+  .tutor{align-self:flex-start;background:#fff;border-bottom-left-radius:3px}
+  .msg .foto{background:#cfc6bc;border-radius:8px;padding:1rem .6rem;text-align:center;font-size:.72rem;color:#5c5347;margin-bottom:.35rem}
+  .msg b{color:var(--mora)}
+
+  /* Tarjeta reporte flotante */
+  .reporte-mini{background:#fff;border-radius:16px;padding:.9rem 1rem;max-width:300px;margin:-26px auto 0;position:relative;box-shadow:0 16px 40px rgba(34,26,74,.18);border:1px solid rgba(34,26,74,.06);font-size:.82rem}
+  .reporte-mini h4{font-size:.85rem;display:flex;align-items:center;gap:.4rem;margin-bottom:.35rem}
+  .reporte-mini .ok{color:#178a4c;font-weight:700}
+  .reporte-mini .atora{color:var(--coral);font-weight:700}
+
+  /* Strip de confianza */
+  .strip{background:var(--tinta);color:#fff;padding:1.1rem 0}
+  .strip .wrap{display:flex;flex-wrap:wrap;gap:.6rem 2.2rem;justify-content:center;font-weight:700;font-size:.95rem}
+  .strip span{display:flex;align-items:center;gap:.5rem;opacity:.95}
+  .strip .s{color:var(--sol)}
+
+  /* Cómo funciona */
+  .pasos{display:grid;gap:1.4rem;margin-top:2rem}
+  @media(min-width:760px){.pasos{grid-template-columns:repeat(3,1fr)}}
+  .paso{background:#fff;border-radius:20px;padding:1.6rem;box-shadow:0 6px 24px rgba(34,26,74,.07)}
+  .paso .num{width:44px;height:44px;border-radius:14px;background:var(--sol);color:var(--tinta);font-weight:900;font-size:1.3rem;display:flex;align-items:center;justify-content:center;margin-bottom:.9rem}
+  .paso h3{font-size:1.15rem;margin-bottom:.4rem}
+  .paso p{color:var(--gris);font-size:.98rem}
+
+  /* Incluye */
+  .grid-inc{display:grid;gap:1.2rem;margin-top:2rem}
+  @media(min-width:640px){.grid-inc{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.grid-inc{grid-template-columns:repeat(3,1fr)}}
+  .inc{background:#fff;border-radius:18px;padding:1.4rem;box-shadow:0 4px 18px rgba(34,26,74,.06)}
+  .inc .ico{font-size:1.7rem;margin-bottom:.6rem}
+  .inc h3{font-size:1.05rem;margin-bottom:.3rem}
+  .inc p{color:var(--gris);font-size:.93rem}
+
+  /* Reporte demo */
+  .rep-section{background:var(--lila)}
+  .rep-grid{display:grid;gap:2.5rem;align-items:center;margin-top:1rem}
+  @media(min-width:880px){.rep-grid{grid-template-columns:1fr 1fr}}
+  .rep-card{background:#fff;border-radius:22px;padding:1.6rem;box-shadow:0 20px 50px rgba(34,26,74,.15);max-width:420px}
+  .rep-card h3{display:flex;align-items:center;gap:.5rem;font-size:1.05rem;border-bottom:2px solid var(--crema);padding-bottom:.7rem;margin-bottom:.9rem}
+  .rep-hijo{padding:.7rem 0;border-bottom:1px dashed rgba(34,26,74,.15)}
+  .rep-hijo:last-child{border-bottom:none}
+  .rep-hijo .nombre{font-weight:800}
+  .rep-hijo .datos{font-size:.9rem;color:var(--gris)}
+  .rep-hijo .atora{color:var(--coral);font-weight:700;font-size:.9rem}
+  .rep-hijo .bien{color:#178a4c;font-weight:700;font-size:.9rem}
+  .rep-txt p{color:var(--gris);font-size:1.05rem;margin:.8rem 0}
+  .rep-txt p b{color:var(--tinta)}
+
+  /* Comparativa */
+  .tabla-scroll{overflow-x:auto;margin-top:2rem;border-radius:18px;box-shadow:0 6px 24px rgba(34,26,74,.08)}
+  table{width:100%;border-collapse:collapse;background:#fff;min-width:640px}
+  th,td{padding:.9rem 1rem;text-align:left;font-size:.95rem;border-bottom:1px solid rgba(34,26,74,.08)}
+  thead th{background:var(--tinta);color:#fff;font-size:.9rem}
+  tbody tr:last-child td{border-bottom:none}
+  td.si{color:#178a4c;font-weight:800}
+  td.no{color:var(--coral);font-weight:700}
+  tr.nosotros{background:#FFFBEF}
+  tr.nosotros td{font-weight:800}
+
+  /* Precios */
+  .planes{display:grid;gap:1.4rem;margin-top:2.4rem;align-items:stretch}
+  @media(min-width:880px){.planes{grid-template-columns:repeat(4,1fr)}}
+  @media(min-width:560px) and (max-width:879px){.planes{grid-template-columns:repeat(2,1fr)}}
+  .plan{background:#fff;border-radius:22px;padding:1.7rem 1.4rem;box-shadow:0 6px 24px rgba(34,26,74,.07);display:flex;flex-direction:column;position:relative}
+  .plan.estrella{border:3px solid var(--mora);box-shadow:0 16px 44px rgba(91,61,245,.22)}
+  .plan .badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--mora);color:#fff;font-size:.75rem;font-weight:800;padding:.25rem .9rem;border-radius:999px;white-space:nowrap}
+  .plan h3{font-size:1.05rem}
+  .plan .precio{font-size:2.1rem;font-weight:900;margin:.4rem 0 0}
+  .plan .precio small{font-size:.95rem;font-weight:700;color:var(--gris)}
+  .plan .nota{font-size:.85rem;color:var(--gris);margin-bottom:1rem}
+  .plan ul{list-style:none;margin:0 0 1.4rem;font-size:.9rem;color:var(--gris);flex:1}
+  .plan li{padding:.28rem 0 .28rem 1.5rem;position:relative}
+  .plan li::before{content:"✓";position:absolute;left:0;color:var(--wa);font-weight:900}
+  .plan .btn{justify-content:center;font-size:.95rem;padding:.75rem 1rem}
+
+  /* Aspirante banner */
+  .aspirante{background:linear-gradient(135deg,var(--mora),var(--mora-oscura));color:#fff;border-radius:26px;padding:2.2rem;display:grid;gap:1.4rem;align-items:center;margin-top:3rem}
+  @media(min-width:820px){.aspirante{grid-template-columns:1.4fr .6fr}}
+  .aspirante h3{font-size:1.5rem;margin-bottom:.4rem}
+  .aspirante p{opacity:.9}
+  .aspirante .btn{background:var(--sol);color:var(--tinta);justify-self:start}
+  @media(min-width:820px){.aspirante .btn{justify-self:end}}
+
+  /* FAQ */
+  details{background:#fff;border-radius:16px;padding:1.1rem 1.4rem;margin-top:.9rem;box-shadow:0 4px 16px rgba(34,26,74,.06)}
+  summary{font-weight:800;cursor:pointer;font-size:1.02rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+  summary::after{content:"+";font-size:1.5rem;color:var(--mora);font-weight:900;transition:transform .2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{color:var(--gris);margin-top:.7rem;font-size:.98rem}
+
+  /* CTA final + footer */
+  .final{background:var(--tinta);color:#fff;text-align:center;padding:80px 0}
+  .final h2{font-size:clamp(1.9rem,5vw,2.8rem)}
+  .final p{opacity:.85;max-width:36rem;margin:1rem auto 1.8rem}
+  footer{background:#181239;color:#B7B0D8;font-size:.88rem;padding:2.2rem 0}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:1rem 2.5rem;justify-content:space-between;align-items:center}
+  footer a{color:#fff;text-decoration:none;font-weight:700}
+  footer .legal{width:100%;font-size:.78rem;opacity:.7;margin-top:.6rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#">cae el&nbsp;<span class="veinte">20</span></a>
+    <nav class="nav-links">
+      <a href="#como">Cómo funciona</a>
+      <a href="#incluye">Qué incluye</a>
+      <a href="#precios">Precios</a>
+      <a href="#faq">Preguntas</a>
+    </nav>
+    <a class="btn btn-wa" href="https://wa.me/5215500000000?text=Hola%2C%20quiero%20probar%20Cae%20el%20Veinte%20para%20mis%20hijos" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.1-4.7-4-4.9-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.3 1.1 2.3 1.5 2.7 1.6.3.2.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .8-.2 1.4Z"/></svg>
+      Empieza por WhatsApp
+    </a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="founder">🎉 Precio fundador: <b>$49/mes de por vida</b> para las primeras 100 familias</span>
+      <h1 style="margin-top:1rem">El tutor de <em>toda la familia</em> por $99 al mes.</h1>
+      <p class="sub">Un tutor con IA disponible todos los días por WhatsApp para <b>todos tus hijos</b>: explica paso a paso (no da respuestas), sigue el temario de la SEP, los prepara para el examen de la UNAM y el IPN — y cada domingo <b>tú recibes el reporte</b> de qué practicó cada uno.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" href="https://wa.me/5215500000000?text=Hola%2C%20quiero%20probar%20Cae%20el%20Veinte%20para%20mis%20hijos" target="_blank" rel="noopener">Empieza por WhatsApp</a>
+        <a class="btn btn-ghost" href="#precios">Ver planes</a>
+      </div>
+      <p class="precio-hero">Plan familiar: <b>$99/mes</b> · hasta 4 hijos · ~$3.30 al día</p>
+    </div>
+    <div>
+      <div class="phone" aria-hidden="true">
+        <div class="screen">
+          <div class="chat-top"><span class="dot">+</span><span>Cae el Veinte Tutor<small>en línea</small></span></div>
+          <div class="chat">
+            <div class="msg yo"><div class="foto">📷 foto de la tarea</div>No entiendo este problema de fracciones 😭</div>
+            <div class="msg tutor">¡Va, Diego! 💪 No te doy la respuesta, pero llegamos juntos. Primero: si Ana se comió 2/8 de la pizza, ¿puedes escribir esa fracción de una forma más simple? ¿Entre qué número puedes dividir arriba y abajo?</div>
+            <div class="msg yo">¿entre 2? ¿queda 1/4?</div>
+            <div class="msg tutor">¡Exacto! 🎉 Eso es <b>simplificar</b>. Ahora el paso 2: si Luis se comió 1/4 y Ana 1/4, ¿cuánta pizza queda? Inténtalo tú…</div>
+          </div>
+        </div>
+      </div>
+      <div class="reporte-mini">
+        <h4>📊 Reporte del domingo · para mamá</h4>
+        <div><b>Diego (5º):</b> <span class="ok">12 ejercicios</span> · fracciones ✓ · <span class="atora">se atora en equivalencias</span></div>
+        <div><b>Regina (2º sec):</b> <span class="ok">8 ejercicios</span> · álgebra ✓ · racha de 5 días 🔥</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="wrap">
+    <span><span class="s">✓</span> Alineado al temario SEP</span>
+    <span><span class="s">✓</span> Prep examen UNAM · IPN</span>
+    <span><span class="s">✓</span> Clase en vivo cada semana</span>
+    <span><span class="s">✓</span> Reporte semanal para papás</span>
+  </div>
+</div>
+
+<section id="como">
+  <div class="wrap">
+    <span class="kicker">Cómo funciona</span>
+    <h2>Tan fácil como mandar un WhatsApp</h2>
+    <div class="pasos">
+      <div class="paso">
+        <div class="num">1</div>
+        <h3>Tu hijo manda su duda</h3>
+        <p>Una foto de la tarea o una pregunta al número de Cae el Veinte en WhatsApp. Sin apps nuevas, sin contraseñas: la herramienta que ya usa toda la familia.</p>
+      </div>
+      <div class="paso">
+        <div class="num">2</div>
+        <h3>El tutor lo guía paso a paso</h3>
+        <p>Nunca da la respuesta: pregunta, da pistas y celebra cada avance, en español mexicano y al nivel del grado de tu hijo. Quiz diario para reforzar.</p>
+      </div>
+      <div class="paso">
+        <div class="num">3</div>
+        <h3>Tú recibes el reporte</h3>
+        <p>Cada domingo te llega qué practicó cada hijo, cuántas veces, y en qué está atorado — para que sepas exactamente cómo va sin perseguirlo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="incluye" style="padding-top:0">
+  <div class="wrap">
+    <span class="kicker">Qué incluye tu membresía</span>
+    <h2>Todo esto, para todos tus hijos</h2>
+    <div class="grid-inc">
+      <div class="inc"><div class="ico">💬</div><h3>Tutor por WhatsApp, todos los días</h3><p>Dudas ilimitadas de todas las materias. Explica paso a paso, alineado al temario SEP de cada grado, de primaria a prepa.</p></div>
+      <div class="inc"><div class="ico">👩‍🏫</div><h3>Clase en vivo semanal</h3><p>Una clase grupal por semana con nuestra maestra, sobre los temas donde más se atoran los niños ese mes.</p></div>
+      <div class="inc"><div class="ico">📊</div><h3>Reporte para mamá y papá</h3><p>Cada domingo: qué practicó cada hijo, su racha, sus logros y en qué necesita ayuda. Tranquilidad sin perseguir a nadie.</p></div>
+      <div class="inc"><div class="ico">🎯</div><h3>Prep UNAM / IPN</h3><p>Simulacros cronometrados y guía por tema para los exámenes de prepa y licenciatura que sí siguen existiendo.</p></div>
+      <div class="inc"><div class="ico">🏅</div><h3>Rachas y logros</h3><p>Quiz diario, rachas y medallas para que estudiar se sienta como un juego — y la constancia se vuelva hábito.</p></div>
+      <div class="inc"><div class="ico">🎁</div><h3>Descuentos con aliados</h3><p>Promociones en papelerías, ópticas y cursos para las familias miembro. Tu membresía se paga sola.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="rep-section">
+  <div class="wrap rep-grid">
+    <div class="rep-txt">
+      <span class="kicker">El domingo sabrás cómo van</span>
+      <h2>No es que le hagan la tarea. Es que tú lo veas aprender.</h2>
+      <p>ChatGPT le da la respuesta a tu hijo y tú nunca te enteras. <b>Cae el Veinte hace lo contrario:</b> lo guía paso a paso hasta que le cae el veinte y lo resuelve él solo — y te manda la evidencia cada semana.</p>
+      <p>Sabrás <b>qué practicó, cuántas veces y en qué se atora</b> cada uno de tus hijos — la información exacta para ayudarlo (o para pedirle a la maestra que refuerce ese tema).</p>
+    </div>
+    <div class="rep-card">
+      <h3>📊 Reporte semanal · Familia García</h3>
+      <div class="rep-hijo">
+        <div class="nombre">Diego · 5º de primaria</div>
+        <div class="datos">12 ejercicios · 4 días activo · <span class="bien">racha de 3 semanas</span></div>
+        <div class="datos">Matemáticas: fracciones ✓ · <span class="atora">se atora en equivalencias</span></div>
+      </div>
+      <div class="rep-hijo">
+        <div class="nombre">Regina · 2º de secundaria</div>
+        <div class="datos">8 ejercicios · 5 días activa · quiz diario completo 🔥</div>
+        <div class="datos">Álgebra ✓ · Historia ✓ · <span class="bien">lista para su examen del jueves</span></div>
+      </div>
+      <div class="rep-hijo">
+        <div class="nombre">Santi · 3º de secundaria (aspirante)</div>
+        <div class="datos">Simulacro UNAM: 78/120 <span class="bien">(+6 vs. semana pasada)</span></div>
+        <div class="datos"><span class="atora">Reforzar: física — leyes de Newton</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="kicker">Compara</span>
+    <h2>Entre ChatGPT gratis y Kumon a $1,300, hay un mejor camino</h2>
+    <div class="tabla-scroll">
+      <table>
+        <thead><tr><th>Opción</th><th>Precio al mes</th><th>¿Cuántos hijos?</th><th>¿Todas las materias?</th><th>¿Reporte a papás?</th></tr></thead>
+        <tbody>
+          <tr class="nosotros"><td>Cae el Veinte familiar</td><td>$99</td><td class="si">Hasta 4</td><td class="si">Sí, temario SEP</td><td class="si">Cada domingo</td></tr>
+          <tr><td>Kumon</td><td>$1,000–1,300 <small>por materia y por hijo</small></td><td class="no">1</td><td class="no">Mate o lectura</td><td>Presencial</td></tr>
+          <tr><td>Clases particulares</td><td>$200–350 <small>por hora</small></td><td class="no">1</td><td class="no">Una materia</td><td class="no">No</td></tr>
+          <tr><td>Duolingo Super</td><td>~$133</td><td class="no">1</td><td class="no">Solo idiomas</td><td class="no">No</td></tr>
+          <tr><td>ChatGPT gratis</td><td>$0</td><td>—</td><td class="no">Hace la tarea, no enseña</td><td class="no">No</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="precios" style="padding-top:0">
+  <div class="wrap">
+    <span class="kicker">Precios</span>
+    <h2>Planes simples, sin letras chiquitas</h2>
+    <p style="color:var(--gris)">Cancela cuando quieras. Pago con tarjeta, transferencia o el plan anual en OXXO.</p>
+    <div class="planes">
+      <div class="plan">
+        <h3>Individual</h3>
+        <div class="precio">$79<small>/mes</small></div>
+        <div class="nota">1 hijo</div>
+        <ul><li>Tutor ilimitado por WhatsApp</li><li>Quiz diario y rachas</li><li>Reporte semanal</li><li>Clase en vivo semanal</li></ul>
+        <a class="btn btn-ghost" href="https://wa.me/5215500000000?text=Quiero%20el%20plan%20individual" target="_blank" rel="noopener">Elegir</a>
+      </div>
+      <div class="plan estrella">
+        <span class="badge">⭐ El favorito de las familias</span>
+        <h3>Familiar</h3>
+        <div class="precio">$99<small>/mes</small></div>
+        <div class="nota">Hasta 4 hijos · ~$3.30 al día</div>
+        <ul><li>Todo lo del individual</li><li><b>Para todos tus hijos</b></li><li>Reporte de toda la familia</li><li>Descuentos con aliados</li></ul>
+        <a class="btn btn-wa" href="https://wa.me/5215500000000?text=Quiero%20el%20plan%20familiar%20de%20%2499" target="_blank" rel="noopener">Empezar ahora</a>
+      </div>
+      <div class="plan">
+        <h3>Familiar anual</h3>
+        <div class="precio">$899<small>/año</small></div>
+        <div class="nota">≈ $75/mes · ahorra 24%</div>
+        <ul><li>Todo lo del familiar</li><li>Pagable en OXXO (1 voucher)</li><li>O a 3 meses sin intereses</li><li>Curso de verano incluido</li></ul>
+        <a class="btn btn-ghost" href="https://wa.me/5215500000000?text=Quiero%20el%20plan%20anual%20de%20%24899" target="_blank" rel="noopener">Elegir</a>
+      </div>
+      <div class="plan">
+        <h3>Aspirante UNAM/IPN</h3>
+        <div class="precio">$599<small> único</small></div>
+        <div class="nota">4 meses de prep intensiva</div>
+        <ul><li>Simulacros cronometrados</li><li>Plan de estudio por tema</li><li>Clases de estrategia</li><li>Para prepa y licenciatura</li></ul>
+        <a class="btn btn-ghost" href="https://wa.me/5215500000000?text=Quiero%20info%20del%20paquete%20Aspirante" target="_blank" rel="noopener">Elegir</a>
+      </div>
+    </div>
+
+    <div class="aspirante">
+      <div>
+        <h3>🎯 ¿Tu hijo quiere quedar en la prepa de la UNAM o el IPN?</h3>
+        <p>Desde 2025 ya no hay examen COMIPEMS: la única competencia real es el examen propio de la UNAM y el IPN — pocos lugares, muchísimos aspirantes. Empieza a prepararlo hoy, no en abril.</p>
+      </div>
+      <a class="btn" href="https://wa.me/5215500000000?text=Quiero%20un%20simulacro%20UNAM%2FIPN%20gratis" target="_blank" rel="noopener">Simulacro gratis</a>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:0">
+  <div class="wrap" style="max-width:760px">
+    <span class="kicker">Preguntas frecuentes</span>
+    <h2>Lo que las mamás nos preguntan</h2>
+    <details>
+      <summary>¿Le van a hacer la tarea a mi hijo?</summary>
+      <p>No — y ese es justo el punto. El tutor está entrenado para <b>guiar sin resolver</b>: hace preguntas, da pistas y verifica cada paso, como un buen maestro particular. Tú pagas porque aprenda, no porque entregue.</p>
+    </details>
+    <details>
+      <summary>¿Qué materias y grados cubre?</summary>
+      <p>Todas las materias del temario SEP, de primaria a preparatoria: matemáticas, español, ciencias, historia, geografía, inglés básico… Cada hijo tiene su perfil con su grado, y el tutor le habla a su nivel.</p>
+    </details>
+    <details>
+      <summary>¿Necesito instalar algo?</summary>
+      <p>No. Funciona 100% por WhatsApp, en el teléfono que ya tienen. La app de Cae el Veinte es un complemento opcional con simulacros, rachas y el panel para papás.</p>
+    </details>
+    <details>
+      <summary>¿Cómo pago si no tengo tarjeta?</summary>
+      <p>Además de tarjeta de débito o crédito, puedes pagar el plan anual ($899) con <b>un solo voucher en OXXO</b>, o por transferencia SPEI. Sin tarjeta, sin cargos sorpresa.</p>
+    </details>
+    <details>
+      <summary>¿Es seguro para mis hijos?</summary>
+      <p>La cuenta la abres y controlas tú (mamá o papá). El contenido es moderado y apto para menores, no hay chat entre niños, y tú ves toda la actividad en el reporte semanal. Tus datos se tratan conforme a la ley mexicana de protección de datos (LFPDPPP).</p>
+    </details>
+    <details>
+      <summary>¿Puedo cancelar cuando quiera?</summary>
+      <p>Sí, desde WhatsApp con un mensaje. Sin plazos forzosos ni penalizaciones. Y si llegas en los primeros 100: $49/mes de por vida mientras no canceles.</p>
+    </details>
+  </div>
+</section>
+
+<div class="final">
+  <div class="wrap">
+    <h2>La tranquilidad de saber que sí están aprendiendo.</h2>
+    <p>Únete a las familias fundadoras: $49/mes de por vida para las primeras 100. Escríbenos y tu primer reporte llega este domingo.</p>
+    <a class="btn btn-wa" href="https://wa.me/5215500000000?text=Hola%2C%20quiero%20ser%20familia%20fundadora%20de%20Cae%20el%20Veinte" target="_blank" rel="noopener">Empieza por WhatsApp</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#" style="font-size:1.3rem;color:#fff">cae el&nbsp;<span class="veinte" style="color:var(--tinta)">20</span></a>
+    <div>
+      <a href="mailto:hola@caeelveinte.mx">hola@caeelveinte.mx</a> ·
+      <a href="privacidad.html">Aviso de privacidad</a>
+    </div>
+    <div class="legal">Cae el Veinte es un servicio de tutoría complementaria; no somos una escuela ni otorgamos validez oficial de estudios. Los menores usan el servicio con el consentimiento y bajo la cuenta de su madre, padre o tutor (LFPDPPP). Precios en pesos mexicanos, IVA incluido. © 2026 Cae el Veinte.</div>
+  </div>
+</footer>
+
+</body>
+</html>
