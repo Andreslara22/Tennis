@@ -498,7 +498,7 @@ export default function Settings() {
       </div>
 
       <p className="footer-note">
-        AceCoach v0.4 · Hecho con 🎾 y Claude ·{' '}
+        AceCoach v0.5 · Hecho con 🎾 y Claude ·{' '}
         <a
           className="footer-link"
           href="https://andreslara22.github.io/Tennis/privacidad.html"

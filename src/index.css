@@ -738,6 +738,15 @@ input[type='range'] {
   border-radius: 10px;
   padding: 10px 12px;
   font-size: 14px;
+  width: 100%;
+  color: var(--text);
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.ladder-row.open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 .ladder-row.me {
   border-color: var(--accent-dim);
@@ -777,6 +786,73 @@ code {
   border-radius: 5px;
   padding: 1px 5px;
   font-size: 0.9em;
+}
+
+/* ---------- Head-to-head ---------- */
+.h2h {
+  background: var(--bg-elev2);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.h2h-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13.5px;
+}
+.h2h-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.h2h-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.h2h-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.h2h-dot.win {
+  background: rgba(52, 211, 153, 0.16);
+  color: var(--win);
+}
+.h2h-dot.loss {
+  background: rgba(248, 113, 113, 0.16);
+  color: var(--loss);
+}
+.h2h-date {
+  color: var(--text-dim);
+}
+.h2h-score {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  font-weight: 600;
+}
+.session-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.full-width {
+  width: 100%;
 }
 
 /* ---------- Objetivo semanal ---------- */

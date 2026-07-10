@@ -25,8 +25,9 @@ function expected(a: number, b: number): number {
 }
 
 export function computeLadder(sessions: Session[], playerName: string): LadderEntry[] {
+  // Solo individuales: en dobles el "rival" es una pareja y distorsionaría el ranking
   const matches = sessions
-    .filter((s) => s.type === 'partido' && s.opponent?.trim() && s.won !== undefined)
+    .filter((s) => s.type === 'partido' && !s.doubles && s.opponent?.trim() && s.won !== undefined)
     .sort((a, b) => +new Date(a.date) - +new Date(b.date))
 
   if (matches.length === 0) return []

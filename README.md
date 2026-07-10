@@ -26,7 +26,13 @@ App **mobile-first** hecha con **React + Vite (TypeScript)** y lista para empaqu
   análisis. Deduplicación automática al re-sincronizar.
 - **🎾 Partido en vivo**: marcador punto a punto con juegos, sets, tie-break, iguales y
   ventajas; deshacer, contadores de aces/winners/errores y guardado automático del partido
-  con su marcador y duración.
+  con su marcador y duración. **Individual o dobles** (con pareja y súper tie-break a 10
+  como set decisivo).
+- **📤 Compartir resultado**: genera una tarjeta-imagen del partido (marcador, rivales,
+  victoria/derrota) y la comparte con la hoja nativa del móvil — perfecta para el grupo
+  del club.
+- **🤝 Head-to-head**: toca cualquier rival en la escalera para ver vuestro historial de
+  enfrentamientos partido a partido.
 - **🎯 Objetivos semanales**: metas de sesiones y minutos con barras de progreso en Inicio.
 - **📊 Evolución por golpe**: gráfico semanal de minutos por golpe trabajado (saque,
   revés, volea…).

@@ -58,6 +58,10 @@ export interface Session {
   /** true = victoria, false = derrota, undefined = no aplica */
   won?: boolean
   score?: string // p.ej. "6-4 3-6 7-5"
+  /** Partido de dobles */
+  doubles?: boolean
+  /** Tu pareja en dobles */
+  partner?: string
 }
 
 export interface ChatMessage {

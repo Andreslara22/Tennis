@@ -15,9 +15,11 @@ export interface LiveScore {
   inTiebreak: boolean
   finished: boolean
   winner: 0 | 1 | null
+  /** 3er set como súper tie-break a 10 (habitual en dobles) */
+  superTb: boolean
 }
 
-export function newMatch(): LiveScore {
+export function newMatch(superTb = false): LiveScore {
   return {
     completedSets: [],
     games: [0, 0],
@@ -25,7 +27,13 @@ export function newMatch(): LiveScore {
     inTiebreak: false,
     finished: false,
     winner: null,
+    superTb,
   }
+}
+
+/** ¿Estamos en el súper tie-break decisivo (3er set a 10)? */
+export function inSuperTiebreak(s: LiveScore): boolean {
+  return s.superTb && s.completedSets.length === 2 && !s.finished
 }
 
 const SETS_TO_WIN = 2
@@ -44,14 +52,31 @@ export function pointTo(state: LiveScore, who: 0 | 1): LiveScore {
     points: [...state.points] as [number, number],
   }
   const other = (1 - who) as 0 | 1
+
+  // 3er set decisivo como súper tie-break a 10 (si está activado)
+  const superFinal = s.superTb && s.completedSets.length === 2
+  if (superFinal) s.inTiebreak = true
+
   s.points[who]++
 
   const p = s.points[who]
   const q = s.points[other]
 
-  const gameWon = s.inTiebreak ? p >= 7 && p - q >= 2 : p >= 4 && p - q >= 2
+  const tbTarget = superFinal ? 10 : 7
+  const gameWon = s.inTiebreak ? p >= tbTarget && p - q >= 2 : p >= 4 && p - q >= 2
 
   if (!gameWon) return s
+
+  if (superFinal) {
+    // El súper tie-break se registra con sus puntos (p.ej. 10-7) y decide el partido
+    s.completedSets.push([s.points[0], s.points[1]])
+    s.points = [0, 0]
+    s.games = [0, 0]
+    s.inTiebreak = false
+    s.finished = true
+    s.winner = who
+    return s
+  }
 
   // Juego ganado
   s.games[who]++
