@@ -1,7 +1,7 @@
 {
   "name": "acecoach",
   "private": true,
-  "version": "0.5.0",
+  "version": "0.6.0",
   "type": "module",
   "description": "AceCoach — entrenador de tenis con IA para seguir tu progreso y mejorar",
   "scripts": {
@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.68.0",
+    "@capacitor-community/speech-recognition": "^7.0.1",
     "@capacitor/local-notifications": "^7.0.7",
     "@kiwi-health/capacitor-health-connect": "^0.0.42",
     "react": "^18.3.1",

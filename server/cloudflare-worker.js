@@ -48,17 +48,48 @@ export default {
       return json({ error: 'Falta "messages"' }, 400)
     }
 
-    // Validación básica del formato de mensajes
-    const clean = messages
-      .filter(
-        (m) =>
-          m &&
-          (m.role === 'user' || m.role === 'assistant') &&
-          typeof m.content === 'string' &&
-          m.content.length > 0,
-      )
-      .slice(-12) // límite de historial
-      .map((m) => ({ role: m.role, content: m.content.slice(0, 8000) }))
+    // Validación del formato de mensajes.
+    // content puede ser texto plano o bloques (texto + imágenes base64 para
+    // el análisis de vídeo con Claude Vision).
+    const MAX_IMAGES = 8
+    const MAX_IMAGE_B64 = 600_000 // ~450KB por fotograma JPEG
+
+    function cleanContent(content) {
+      if (typeof content === 'string') {
+        return content.length > 0 ? content.slice(0, 8000) : null
+      }
+      if (!Array.isArray(content)) return null
+      let images = 0
+      const blocks = []
+      for (const b of content) {
+        if (b?.type === 'text' && typeof b.text === 'string' && b.text.length > 0) {
+          blocks.push({ type: 'text', text: b.text.slice(0, 8000) })
+        } else if (
+          b?.type === 'image' &&
+          b.source?.type === 'base64' &&
+          (b.source.media_type === 'image/jpeg' || b.source.media_type === 'image/png') &&
+          typeof b.source.data === 'string' &&
+          b.source.data.length > 0 &&
+          b.source.data.length <= MAX_IMAGE_B64
+        ) {
+          if (++images > MAX_IMAGES) return null
+          blocks.push({
+            type: 'image',
+            source: { type: 'base64', media_type: b.source.media_type, data: b.source.data },
+          })
+        } else {
+          return null // bloque desconocido o imagen demasiado grande
+        }
+      }
+      return blocks.length > 0 ? blocks : null
+    }
+
+    const clean = []
+    for (const m of messages.slice(-12)) {
+      if (!m || (m.role !== 'user' && m.role !== 'assistant')) continue
+      const content = cleanContent(m.content)
+      if (content) clean.push({ role: m.role, content })
+    }
 
     if (clean.length === 0) return json({ error: 'Mensajes con formato inválido' }, 400)
 

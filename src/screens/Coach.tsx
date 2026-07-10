@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useStore } from '../store'
 import { getCoachReply, offlineCoachAdvice } from '../ai/coach'
+import type { Tab } from '../App'
 
 const SUGGESTIONS = [
   '¿En qué debería centrarme esta semana?',
@@ -9,7 +10,7 @@ const SUGGESTIONS = [
   '¿Por qué cometo tantos errores no forzados?',
 ]
 
-export default function Coach() {
+export default function Coach({ go }: { go: (t: Tab) => void }) {
   const { state, addChat, clearChat } = useStore()
   const { chat, apiKey, proxyUrl, profile, sessions } = state
   const hasAI = Boolean(proxyUrl || apiKey)
@@ -57,11 +58,16 @@ export default function Coach() {
     <div className="screen chat-screen">
       <header className="topbar">
         <h1>Coach 🤖</h1>
-        {chat.length > 0 && (
-          <button className="icon-btn" onClick={clearChat} aria-label="Borrar conversación">
-            🗑
+        <div className="topbar-actions">
+          <button className="btn ghost small-btn" onClick={() => go('video')}>
+            📹 Analizar vídeo
           </button>
-        )}
+          {chat.length > 0 && (
+            <button className="icon-btn" onClick={clearChat} aria-label="Borrar conversación">
+              🗑
+            </button>
+          )}
+        </div>
       </header>
 
       {!hasAI && (

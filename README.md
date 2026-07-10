@@ -24,6 +24,12 @@ App **mobile-first** hecha con **React + Vite (TypeScript)** y lista para empaqu
 - **⌚ Wearables (relojes Android / Wear OS)**: sincroniza entrenamientos desde Health
   Connect con frecuencia cardíaca, calorías y duración. El coach usa esos datos en su
   análisis. Deduplicación automática al re-sincronizar.
+- **📹 Video Coach (IA)**: graba un clip de tu golpe (saque, derecha…), la app extrae 6
+  fotogramas en el dispositivo y Claude Vision analiza tu técnica: puntos fuertes, errores
+  priorizados y un drill. El vídeo nunca se sube — solo los fotogramas comprimidos.
+- **🎤 Dictado por voz en el partido**: di "punto mío", "ace", "winner", "doble falta",
+  "error" o "deshacer" y el marcador y las estadísticas se actualizan solos (Android
+  nativo o Chrome).
 - **🎾 Partido en vivo**: marcador punto a punto con juegos, sets, tie-break, iguales y
   ventajas; deshacer, contadores de aces/winners/errores y guardado automático del partido
   con su marcador y duración. **Individual o dobles** (con pareja y súper tie-break a 10

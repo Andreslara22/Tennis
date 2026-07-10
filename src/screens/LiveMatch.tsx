@@ -11,6 +11,7 @@ import {
   type LiveScore,
 } from '../lib/scoring'
 import { shareMatchImage } from '../lib/shareImage'
+import { isVoiceAvailable, parseCommand, startListening, type VoiceSession } from '../lib/voice'
 
 interface Tally {
   aces: number
@@ -37,12 +38,96 @@ export default function LiveMatch({ onDone }: { onDone: () => void }) {
   const [elapsed, setElapsed] = useState(0)
   const [shareMsg, setShareMsg] = useState<string | null>(null)
 
+  // Dictado por voz
+  const [voiceOk, setVoiceOk] = useState(false)
+  const [listening, setListening] = useState(false)
+  const [heard, setHeard] = useState<string | null>(null)
+  const voiceRef = useRef<VoiceSession | null>(null)
+  // Refs para que el callback de voz vea siempre el estado actual
+  const scoreRef = useRef(score)
+  scoreRef.current = score
+  const historyRef = useRef(history)
+  historyRef.current = history
+
+  useEffect(() => {
+    isVoiceAvailable().then(setVoiceOk).catch(() => setVoiceOk(false))
+    return () => {
+      voiceRef.current?.stop().catch(() => {})
+    }
+  }, [])
+
   useEffect(() => {
     if (!started) return
     startedAt.current = Date.now()
     const t = setInterval(() => setElapsed(Math.floor((Date.now() - startedAt.current) / 60000)), 15000)
     return () => clearInterval(t)
   }, [started])
+
+  const applyVoice = (text: string) => {
+    const cmd = parseCommand(text)
+    if (!cmd) {
+      setHeard(`🎤 "${text}" — no entendido`)
+      return
+    }
+    const cur = scoreRef.current
+    const doPoint = (who: 0 | 1) => {
+      if (cur.finished) return
+      setHistory((h) => [...h, cur])
+      setScoreState(pointTo(cur, who))
+    }
+    switch (cmd.type) {
+      case 'point':
+        doPoint(cmd.who)
+        setHeard(`🎤 Punto ${cmd.who === 0 ? 'tuyo' : 'del rival'}`)
+        break
+      case 'ace':
+        setTally((t) => ({ ...t, aces: t.aces + 1 }))
+        doPoint(0)
+        setHeard('🎤 Ace: +1 y punto tuyo')
+        break
+      case 'winner':
+        setTally((t) => ({ ...t, winners: t.winners + 1 }))
+        doPoint(0)
+        setHeard('🎤 Winner: +1 y punto tuyo')
+        break
+      case 'doubleFault':
+        setTally((t) => ({ ...t, doubleFaults: t.doubleFaults + 1 }))
+        doPoint(1)
+        setHeard('🎤 Doble falta: +1 y punto rival')
+        break
+      case 'unforcedError':
+        setTally((t) => ({ ...t, unforcedErrors: t.unforcedErrors + 1 }))
+        doPoint(1)
+        setHeard('🎤 Error: +1 y punto rival')
+        break
+      case 'undo': {
+        const h = historyRef.current
+        if (h.length > 0) {
+          setScoreState(h[h.length - 1])
+          setHistory(h.slice(0, -1))
+          setHeard('🎤 Punto deshecho')
+        }
+        break
+      }
+    }
+  }
+
+  const toggleVoice = async () => {
+    if (listening) {
+      await voiceRef.current?.stop().catch(() => {})
+      voiceRef.current = null
+      setListening(false)
+      setHeard(null)
+      return
+    }
+    try {
+      voiceRef.current = await startListening(applyVoice, (msg) => setHeard(`🎤 ${msg}`))
+      setListening(true)
+      setHeard('🎤 Escuchando… di "punto mío", "ace", "winner", "error", "doble falta"…')
+    } catch (e) {
+      setHeard(`🎤 ${e instanceof Error ? e.message : 'No disponible'}`)
+    }
+  }
 
   const start = () => {
     setScoreState(newMatch(superTb))
@@ -237,9 +322,17 @@ export default function LiveMatch({ onDone }: { onDone: () => void }) {
             </button>
           </div>
 
-          <button className="btn ghost" onClick={undo} disabled={history.length === 0}>
-            ↩️ Deshacer último punto
-          </button>
+          <div className="row2">
+            <button className="btn ghost" onClick={undo} disabled={history.length === 0}>
+              ↩️ Deshacer
+            </button>
+            {voiceOk && (
+              <button className={`btn ${listening ? 'primary' : 'ghost'}`} onClick={toggleVoice}>
+                {listening ? '🎤 Escuchando…' : '🎤 Dictar por voz'}
+              </button>
+            )}
+          </div>
+          {heard && <p className="muted small voice-heard">{heard}</p>}
 
           <div className="card">
             <h2 className="section-title">Mis estadísticas (toca para sumar)</h2>

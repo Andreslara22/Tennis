@@ -10,11 +10,12 @@ import Onboarding from './screens/Onboarding'
 import Home from './screens/Home'
 import LogSession from './screens/LogSession'
 import LiveMatch from './screens/LiveMatch'
+import VideoCoach from './screens/VideoCoach'
 import Progress from './screens/Progress'
 import Coach from './screens/Coach'
 import Settings from './screens/Settings'
 
-export type Tab = 'home' | 'log' | 'live' | 'progress' | 'coach' | 'settings'
+export type Tab = 'home' | 'log' | 'live' | 'video' | 'progress' | 'coach' | 'settings'
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'home', label: 'Inicio', icon: '🏠' },
@@ -73,13 +74,24 @@ function Shell() {
     )
   }
 
+  // Video Coach: análisis de técnica con IA a partir de un clip
+  if (tab === 'video') {
+    return (
+      <div className="app">
+        <main className="content">
+          <VideoCoach onDone={() => setTab('coach')} />
+        </main>
+      </div>
+    )
+  }
+
   return (
     <div className="app">
       <main className="content">
         {tab === 'home' && <Home go={setTab} />}
         {tab === 'log' && <LogSession onDone={() => setTab('home')} />}
         {tab === 'progress' && <Progress />}
-        {tab === 'coach' && <Coach />}
+        {tab === 'coach' && <Coach go={setTab} />}
         {tab === 'settings' && <Settings />}
       </main>
 

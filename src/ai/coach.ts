@@ -159,6 +159,102 @@ export async function getCoachReply(
   return text || 'No he podido generar una respuesta. Inténtalo de nuevo.'
 }
 
+const VIDEO_SYSTEM_PROMPT = `Eres "AceCoach", un entrenador de tenis experto en biomecánica que analiza vídeo, en español.
+Recibirás fotogramas consecutivos (en orden temporal) de un jugador ejecutando un golpe.
+
+Analiza la técnica siguiendo este esquema:
+1. **Lo que veo** (1-2 frases): describe la fase del golpe visible en la secuencia.
+2. **✅ Puntos fuertes** (2-3): qué está haciendo bien, con la referencia técnica.
+3. **🔧 A mejorar** (2-3, priorizados): el error, por qué penaliza y cómo corregirlo.
+4. **🏋️ Drill recomendado** (1): un ejercicio concreto para el punto más importante.
+
+Reglas:
+- Sé específico y visual ("el codo cae por debajo del hombro en el fotograma 3"), nada de generalidades.
+- Adapta el nivel de exigencia al NTRP del jugador.
+- Si los fotogramas no permiten ver algo con claridad (ángulo, distancia, borrosidad), dilo honestamente y sugiere cómo grabar mejor.
+- Máximo ~350 palabras, con el formato de secciones indicado.`
+
+export interface VideoAnalysisInput {
+  /** Fotogramas JPEG en base64 (sin prefijo data:), en orden temporal */
+  frames: string[]
+  /** Golpe a analizar: 'Saque', 'Derecha', 'Revés', 'General'… */
+  stroke: string
+  /** Nota opcional del jugador */
+  note?: string
+}
+
+type ImageBlock = {
+  type: 'image'
+  source: { type: 'base64'; media_type: 'image/jpeg'; data: string }
+}
+type TextBlock = { type: 'text'; text: string }
+
+/**
+ * Analiza fotogramas de vídeo con Claude Vision (requiere proxy o clave).
+ * Solo viajan los fotogramas comprimidos, nunca el vídeo completo.
+ */
+export async function analyzeVideoFrames(
+  creds: CoachCredentials,
+  profile: PlayerProfile | null,
+  input: VideoAnalysisInput,
+): Promise<string> {
+  const context = profile
+    ? `Jugador: NTRP ${profile.ntrp.toFixed(1)} (${ntrpLabel(profile.ntrp)}), ${profile.hand}, estilo ${profile.style}.`
+    : 'Jugador sin perfil definido.'
+
+  const content: (ImageBlock | TextBlock)[] = [
+    ...input.frames.map(
+      (data): ImageBlock => ({
+        type: 'image',
+        source: { type: 'base64', media_type: 'image/jpeg', data },
+      }),
+    ),
+    {
+      type: 'text',
+      text:
+        `Estos ${input.frames.length} fotogramas (en orden) muestran mi ${input.stroke.toLowerCase()}. ` +
+        `${context}` +
+        (input.note?.trim() ? ` Nota: ${input.note.trim()}.` : '') +
+        ' Analiza mi técnica.',
+    },
+  ]
+
+  const messages = [{ role: 'user' as const, content }]
+
+  if (creds.proxyUrl) {
+    const res = await fetch(creds.proxyUrl, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ system: VIDEO_SYSTEM_PROMPT, messages, max_tokens: 1200 }),
+    })
+    if (!res.ok) {
+      const body = await res.text().catch(() => '')
+      throw new Error(`El proxy respondió ${res.status}. ${body.slice(0, 200)}`)
+    }
+    const data = (await res.json()) as { text?: string; error?: string }
+    if (data.error) throw new Error(data.error)
+    return data.text?.trim() || 'No se pudo analizar el vídeo. Inténtalo de nuevo.'
+  }
+
+  if (!creds.apiKey) throw new Error('El análisis de vídeo necesita el coach con IA: configura un proxy o clave en Ajustes.')
+
+  const client = new Anthropic({ apiKey: creds.apiKey, dangerouslyAllowBrowser: true })
+  const response = await client.messages.create({
+    model: MODEL,
+    max_tokens: 1200,
+    system: VIDEO_SYSTEM_PROMPT,
+    messages: messages as Anthropic.MessageParam[],
+  })
+
+  return (
+    response.content
+      .filter((b): b is Anthropic.TextBlock => b.type === 'text')
+      .map((b) => b.text)
+      .join('\n')
+      .trim() || 'No se pudo analizar el vídeo. Inténtalo de nuevo.'
+  )
+}
+
 /**
  * Coach offline (sin IA): consejos por reglas heurísticas a partir de los datos.
  * Se usa cuando no hay clave de API configurada.

@@ -978,3 +978,39 @@ code {
   margin: 0;
   font-variant-numeric: tabular-nums;
 }
+.voice-heard {
+  text-align: center;
+  min-height: 18px;
+}
+
+/* ---------- Video Coach ---------- */
+.file-btn {
+  display: block;
+  text-align: center;
+  cursor: pointer;
+}
+.frames-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.frame-thumb {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+.analysis .md-line {
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.small-btn {
+  padding: 8px 12px;
+  font-size: 13px;
+}
