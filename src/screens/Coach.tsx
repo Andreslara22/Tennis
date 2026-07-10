@@ -11,7 +11,8 @@ const SUGGESTIONS = [
 
 export default function Coach() {
   const { state, addChat, clearChat } = useStore()
-  const { chat, apiKey, profile, sessions } = state
+  const { chat, apiKey, proxyUrl, profile, sessions } = state
+  const hasAI = Boolean(proxyUrl || apiKey)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -30,12 +31,18 @@ export default function Coach() {
     setLoading(true)
 
     try {
-      if (!apiKey) {
+      if (!hasAI) {
         // Modo offline: consejo heurístico.
         const reply = offlineCoachAdvice(profile, sessions)
         addChat({ role: 'assistant', content: reply, at: new Date().toISOString() })
       } else {
-        const reply = await getCoachReply(apiKey, profile, sessions, chat, message)
+        const reply = await getCoachReply(
+          { proxyUrl: proxyUrl || undefined, apiKey: apiKey || undefined },
+          profile,
+          sessions,
+          chat,
+          message,
+        )
         addChat({ role: 'assistant', content: reply, at: new Date().toISOString() })
       }
     } catch (e) {
@@ -57,11 +64,11 @@ export default function Coach() {
         )}
       </header>
 
-      {!apiKey && (
+      {!hasAI && (
         <div className="banner">
-          Sin clave de API: el coach responde en <strong>modo offline</strong> (consejos por
-          reglas). Añade tu clave de Claude en <strong>Ajustes</strong> para el coach con IA
-          conversacional.
+          Sin IA configurada: el coach responde en <strong>modo offline</strong> (consejos por
+          reglas). Configura tu proxy o clave de Claude en <strong>Ajustes</strong> para el
+          coach con IA conversacional.
         </div>
       )}
 

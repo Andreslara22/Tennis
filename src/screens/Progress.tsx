@@ -1,12 +1,14 @@
 import { useStore } from '../store'
 import { aggregate, weeklyTrend } from '../lib/tennis'
 import { hrZoneLabel, hrZonesFromBirthYear } from '../lib/wearable'
+import { computeLadder } from '../lib/elo'
 
 export default function Progress() {
   const { state, deleteSession } = useStore()
   const { sessions, profile } = state
   const agg = aggregate(sessions)
   const zones = hrZonesFromBirthYear(profile?.birthYear)
+  const ladder = computeLadder(sessions, profile?.name || 'Tú')
   const trend = weeklyTrend(sessions, 8)
   const maxMin = Math.max(60, ...trend.map((t) => t.minutes))
 
@@ -88,6 +90,30 @@ export default function Progress() {
                 teórica: {zones.hrMax} ppm).
               </>
             )}
+          </p>
+        </div>
+      )}
+
+      {ladder.length > 0 && (
+        <div className="card">
+          <h2 className="section-title">🏆 Escalera de rivales (ELO)</h2>
+          <ul className="ladder">
+            {ladder.map((e, i) => (
+              <li key={e.name} className={`ladder-row ${e.isPlayer ? 'me' : ''}`}>
+                <span className="ladder-pos">{i + 1}</span>
+                <span className="ladder-name">
+                  {e.isPlayer ? `${e.name} (tú)` : e.name}
+                </span>
+                <span className="ladder-record">
+                  {e.wins}V–{e.losses}D
+                </span>
+                <span className="ladder-elo">{e.elo}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="muted small">
+            Ranking local calculado con tus partidos registrados (ELO, K=32). Gana a rivales
+            mejor clasificados para subir más rápido.
           </p>
         </div>
       )}

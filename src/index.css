@@ -715,3 +715,66 @@ input[type='range'] {
   color: var(--text-dim);
   text-decoration: underline;
 }
+.chip.day {
+  width: 38px;
+  padding: 8px 0;
+  text-align: center;
+  font-weight: 700;
+}
+.ladder {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ladder-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+.ladder-row.me {
+  border-color: var(--accent-dim);
+  background: rgba(215, 242, 74, 0.07);
+}
+.ladder-pos {
+  width: 22px;
+  text-align: center;
+  font-weight: 800;
+  color: var(--text-mute);
+}
+.ladder-row.me .ladder-pos {
+  color: var(--accent);
+}
+.ladder-name {
+  flex: 1;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ladder-record {
+  color: var(--text-dim);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.ladder-elo {
+  font-weight: 800;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  min-width: 44px;
+  text-align: right;
+}
+code {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 1px 5px;
+  font-size: 0.9em;
+}

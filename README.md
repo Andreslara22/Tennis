@@ -24,6 +24,12 @@ App **mobile-first** hecha con **React + Vite (TypeScript)** y lista para empaqu
 - **⌚ Wearables (relojes Android / Wear OS)**: sincroniza entrenamientos desde Health
   Connect con frecuencia cardíaca, calorías y duración. El coach usa esos datos en su
   análisis. Deduplicación automática al re-sincronizar.
+- **🏆 Escalera de rivales**: ranking ELO local calculado con tus partidos — tú y tus
+  rivales, sin servidores.
+- **⏰ Recordatorios de entrenamiento**: notificaciones locales semanales en Android
+  (elige días y hora).
+- **💾 Copia de seguridad**: exporta/importa tus datos en JSON (sin credenciales) para
+  cambiar de móvil sin perder nada.
 - **Persistencia local**: tus datos se guardan en el dispositivo (localStorage).
 
 ---
@@ -115,19 +121,16 @@ Google Play y su reloj vinculado.
 
 ---
 
-## 🔐 Seguridad de la clave de API (importante)
+## 🔐 Coach con IA: proxy (recomendado) o clave directa
 
-Actualmente el coach llama a la API de Claude **directamente desde el cliente**
-(`dangerouslyAllowBrowser: true`), con la clave que el usuario introduce en Ajustes. Esto es
-cómodo para un MVP, pero **expone la clave en el dispositivo**.
+La app soporta dos modos, configurables en **Ajustes → Coach con IA**:
 
-Para una app pública/producción, lo correcto es:
-
-1. Un **backend/proxy** (por ejemplo una función serverless) que guarde la clave del servidor.
-2. La app llama a *tu* backend, y el backend reenvía la petición a la API de Claude.
-
-Así la clave nunca vive en el cliente. Cuando quieras dar ese paso, se cambia únicamente el
-módulo `src/ai/coach.ts` para que apunte a tu endpoint en lugar de al SDK directo.
+1. **Proxy propio (recomendado / producción)** — incluido en [`server/`](./server/):
+   un Cloudflare Worker (capa gratuita) que guarda tu clave de Anthropic como secreto del
+   servidor. La app le envía `{system, messages}` y recibe `{text}` — la clave **nunca**
+   está en el móvil. Despliegue en 5 minutos: ver [`server/README.md`](./server/README.md).
+2. **Clave directa (solo pruebas)** — el usuario pega su clave y se guarda solo en el
+   dispositivo (`dangerouslyAllowBrowser`). Si hay proxy configurado, siempre se usa el proxy.
 
 ---
 
@@ -135,13 +138,20 @@ módulo `src/ai/coach.ts` para que apunte a tu endpoint en lugar de al SDK direc
 
 ```
 src/
-  ai/coach.ts        # Integración con Claude + coach offline por reglas
-  lib/tennis.ts      # Cálculo de estadísticas, rachas y tendencias
+  ai/coach.ts        # Coach IA (proxy o clave directa) + coach offline por reglas
+  lib/tennis.ts      # Estadísticas, rachas y tendencias
+  lib/wearable.ts    # Health Connect (reloj), zonas de FC
+  lib/elo.ts         # Escalera de rivales (ELO local)
+  lib/reminders.ts   # Recordatorios (notificaciones locales)
   screens/           # Onboarding, Home, LogSession, Progress, Coach, Settings
   store.tsx          # Estado global (React Context) + persistencia
   storage.ts         # Carga/guardado en localStorage
   types.ts           # Modelos de datos
   index.css          # Estilos (tema oscuro, mobile-first)
+server/              # Proxy de IA (Cloudflare Worker) — la clave vive aquí
+android/             # Proyecto nativo (firma, permisos, iconos, splash)
+scripts/             # generate-keystore.sh · generate-assets.mjs
+docs/                # Política de privacidad (GitHub Pages)
 capacitor.config.ts  # Configuración de la app nativa
 ```
 

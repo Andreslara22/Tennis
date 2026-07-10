@@ -73,14 +73,37 @@ export interface WearableSettings {
   lastSync: string | null
 }
 
+export interface ReminderSettings {
+  enabled: boolean
+  /** Días de la semana: 1=lunes … 7=domingo (formato ISO) */
+  days: number[]
+  /** Hora local "HH:MM" */
+  time: string
+}
+
 export interface AppState {
   profile: PlayerProfile | null
   sessions: Session[]
   chat: ChatMessage[]
   /** Clave de API de Claude introducida por el usuario (guardada solo en el dispositivo) */
   apiKey: string
+  /** URL de un proxy propio para el coach IA (recomendado en producción) */
+  proxyUrl: string
   onboarded: boolean
   wearable: WearableSettings
+  reminders: ReminderSettings
+}
+
+/** Copia de seguridad exportable (sin credenciales) */
+export interface BackupFile {
+  app: 'acecoach'
+  version: 1
+  exportedAt: string
+  profile: PlayerProfile | null
+  sessions: Session[]
+  chat: ChatMessage[]
+  wearable: WearableSettings
+  reminders: ReminderSettings
 }
 
 export const FOCUS_OPTIONS = [

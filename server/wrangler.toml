@@ -1,0 +1,5 @@
+name = "acecoach-ai-proxy"
+main = "cloudflare-worker.js"
+compatibility_date = "2026-01-01"
+
+# El secreto se añade con:  wrangler secret put ANTHROPIC_API_KEY

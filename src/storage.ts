@@ -7,8 +7,10 @@ const EMPTY: AppState = {
   sessions: [],
   chat: [],
   apiKey: '',
+  proxyUrl: '',
   onboarded: false,
   wearable: { enabled: false, lastSync: null },
+  reminders: { enabled: false, days: [1, 3, 5], time: '18:00' },
 }
 
 export function loadState(): AppState {

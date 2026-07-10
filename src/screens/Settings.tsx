@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useStore } from '../store'
-import { GOAL_OPTIONS, type Hand, type PlayStyle } from '../types'
+import { GOAL_OPTIONS, type BackupFile, type Hand, type PlayStyle } from '../types'
 import { ntrpLabel } from '../lib/tennis'
+import { applyReminders, cancelReminders, DAY_LABELS } from '../lib/reminders'
 import {
   demoWorkouts,
   hrZonesFromBirthYear,
@@ -19,8 +20,18 @@ const STYLES: PlayStyle[] = [
 ]
 
 export default function Settings() {
-  const { state, setProfile, setApiKey, setWearable, addSessions, reset } = useStore()
-  const { profile, wearable, sessions } = state
+  const {
+    state,
+    setProfile,
+    setApiKey,
+    setProxyUrl,
+    setWearable,
+    setReminders,
+    addSessions,
+    importBackup,
+    reset,
+  } = useStore()
+  const { profile, wearable, sessions, reminders } = state
 
   const [name, setName] = useState(profile?.name ?? '')
   const [birthYear, setBirthYear] = useState(profile?.birthYear ? String(profile.birthYear) : '')
@@ -38,6 +49,17 @@ export default function Settings() {
   const [syncing, setSyncing] = useState(false)
   const [syncMsg, setSyncMsg] = useState<string | null>(null)
   const native = isNativeAndroid()
+
+  // Proxy IA
+  const [proxy, setProxy] = useState(state.proxyUrl)
+  const [savedProxy, setSavedProxy] = useState(false)
+
+  // Recordatorios
+  const [remMsg, setRemMsg] = useState<string | null>(null)
+
+  // Copia de seguridad
+  const fileRef = useRef<HTMLInputElement>(null)
+  const [backupMsg, setBackupMsg] = useState<string | null>(null)
 
   const toggleGoal = (g: string) =>
     setGoals((cur) => (cur.includes(g) ? cur.filter((x) => x !== g) : [...cur, g]))
@@ -61,6 +83,92 @@ export default function Settings() {
     setApiKey(key.trim())
     setSavedKey(true)
     setTimeout(() => setSavedKey(false), 1500)
+  }
+
+  const saveProxy = () => {
+    setProxyUrl(proxy.trim())
+    setSavedProxy(true)
+    setTimeout(() => setSavedProxy(false), 1500)
+  }
+
+  const toggleReminderDay = async (iso: number) => {
+    const days = reminders.days.includes(iso)
+      ? reminders.days.filter((d) => d !== iso)
+      : [...reminders.days, iso].sort()
+    setReminders({ days })
+    if (reminders.enabled) await reschedule({ ...reminders, days })
+  }
+
+  const reschedule = async (settings = reminders) => {
+    setRemMsg(null)
+    try {
+      const ok = await applyReminders(settings)
+      if (settings.enabled) {
+        setRemMsg(
+          ok
+            ? '✅ Recordatorios programados.'
+            : native
+              ? 'Sin días seleccionados.'
+              : 'ℹ️ Los recordatorios funcionan en la app Android (aquí solo se guarda la configuración).',
+        )
+      }
+    } catch (e) {
+      setRemMsg(`⚠️ ${e instanceof Error ? e.message : 'Error al programar'}`)
+    }
+  }
+
+  const toggleReminders = async (enabled: boolean) => {
+    setReminders({ enabled })
+    if (enabled) await reschedule({ ...reminders, enabled })
+    else {
+      await cancelReminders().catch(() => {})
+      setRemMsg(null)
+    }
+  }
+
+  const exportBackup = () => {
+    const backup: BackupFile = {
+      app: 'acecoach',
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      profile: state.profile,
+      sessions: state.sessions,
+      chat: state.chat,
+      wearable: state.wearable,
+      reminders: state.reminders,
+    }
+    const json = JSON.stringify(backup, null, 2)
+    const date = new Date().toISOString().slice(0, 10)
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `acecoach-backup-${date}.json`
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    setTimeout(() => URL.revokeObjectURL(url), 2000)
+    setBackupMsg(`✅ Copia exportada (${state.sessions.length} sesiones). Guárdala en un lugar seguro.`)
+  }
+
+  const importFromFile = async (file: File) => {
+    setBackupMsg(null)
+    try {
+      const parsed = JSON.parse(await file.text()) as BackupFile
+      if (parsed.app !== 'acecoach' || !Array.isArray(parsed.sessions)) {
+        throw new Error('El archivo no parece una copia de AceCoach.')
+      }
+      if (
+        !confirm(
+          `Restaurar copia del ${new Date(parsed.exportedAt).toLocaleDateString('es-ES')} con ${parsed.sessions.length} sesiones?\n\nSustituirá tus datos actuales (la clave de API se conserva).`,
+        )
+      )
+        return
+      importBackup(parsed)
+      setBackupMsg(`✅ Copia restaurada: ${parsed.sessions.length} sesiones.`)
+    } catch (e) {
+      setBackupMsg(`⚠️ ${e instanceof Error ? e.message : 'Archivo inválido'}`)
+    }
   }
 
   const syncWearable = async (demo: boolean) => {
@@ -221,10 +329,73 @@ export default function Settings() {
       </div>
 
       <div className="card">
+        <h2 className="section-title">⏰ Recordatorios de entrenamiento</h2>
+        <label className="switch-row">
+          <span>Recordarme entrenar</span>
+          <input
+            type="checkbox"
+            checked={reminders.enabled}
+            onChange={(e) => toggleReminders(e.target.checked)}
+          />
+        </label>
+        {reminders.enabled && (
+          <>
+            <div className="field">
+              <span>Días</span>
+              <div className="chips">
+                {DAY_LABELS.map((d) => (
+                  <button
+                    key={d.iso}
+                    type="button"
+                    className={`chip day ${reminders.days.includes(d.iso) ? 'on' : ''}`}
+                    onClick={() => toggleReminderDay(d.iso)}
+                  >
+                    {d.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <label className="field">
+              <span>Hora</span>
+              <input
+                type="time"
+                value={reminders.time}
+                onChange={async (e) => {
+                  setReminders({ time: e.target.value })
+                  await reschedule({ ...reminders, time: e.target.value })
+                }}
+              />
+            </label>
+            {remMsg && <p className="muted small">{remMsg}</p>}
+          </>
+        )}
+      </div>
+
+      <div className="card">
         <h2 className="section-title">Coach con IA (Claude)</h2>
         <p className="muted small">
-          Introduce tu clave de API de Anthropic para activar el coach con IA. Se guarda
-          <strong> solo en este dispositivo</strong> y no se envía a ningún servidor propio.
+          <strong>Opción recomendada:</strong> despliega el proxy incluido en{' '}
+          <code>server/</code> (5 min, gratis) y pega aquí su URL — tu clave vive en el
+          servidor y nunca en el móvil.
+        </p>
+        <label className="field">
+          <span>URL del proxy</span>
+          <input
+            type="url"
+            placeholder="https://acecoach-ai-proxy.tucuenta.workers.dev"
+            value={proxy}
+            onChange={(e) => setProxy(e.target.value)}
+            autoComplete="off"
+            spellCheck={false}
+          />
+        </label>
+        <button className="btn primary" onClick={saveProxy}>
+          {savedProxy ? '✅ Guardado' : 'Guardar proxy'}
+        </button>
+
+        <p className="muted small">
+          Alternativa (solo pruebas): clave de API directa. Se guarda{' '}
+          <strong>solo en este dispositivo</strong>. Si hay proxy configurado, se usa el proxy.
         </p>
         <label className="field">
           <span>Clave de API</span>
@@ -242,13 +413,37 @@ export default function Settings() {
             </button>
           </div>
         </label>
-        <button className="btn primary" onClick={saveKey}>
+        <button className="btn ghost" onClick={saveKey}>
           {savedKey ? '✅ Guardada' : 'Guardar clave'}
         </button>
-        <p className="muted small warn">
-          ⚠️ Llamar a la API desde el móvil expone la clave en el dispositivo. Para una app
-          pública se recomienda un backend/proxy que guarde la clave en el servidor (ver README).
+      </div>
+
+      <div className="card">
+        <h2 className="section-title">💾 Copia de seguridad</h2>
+        <p className="muted small">
+          Exporta tus datos a un archivo JSON (perfil, sesiones y chat — sin credenciales) y
+          restáuralos en otro dispositivo.
         </p>
+        <div className="row2">
+          <button className="btn primary" onClick={exportBackup}>
+            ⬇️ Exportar
+          </button>
+          <button className="btn ghost" onClick={() => fileRef.current?.click()}>
+            ⬆️ Importar
+          </button>
+        </div>
+        <input
+          ref={fileRef}
+          type="file"
+          accept="application/json,.json"
+          hidden
+          onChange={(e) => {
+            const f = e.target.files?.[0]
+            if (f) importFromFile(f)
+            e.target.value = ''
+          }}
+        />
+        {backupMsg && <p className="muted small">{backupMsg}</p>}
       </div>
 
       <div className="card danger">
@@ -265,7 +460,7 @@ export default function Settings() {
       </div>
 
       <p className="footer-note">
-        AceCoach v0.2 · Hecho con 🎾 y Claude ·{' '}
+        AceCoach v0.3 · Hecho con 🎾 y Claude ·{' '}
         <a
           className="footer-link"
           href="https://andreslara22.github.io/Tennis/privacidad.html"

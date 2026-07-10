@@ -84,24 +84,15 @@ function buildContext(
   return lines.join('\n')
 }
 
-/**
- * Pide una respuesta al coach con IA. Requiere una clave de API de Anthropic.
- * ⚠️ Llamar a la API de Claude directamente desde el cliente expone la clave
- * en el dispositivo. Para producción, usar un backend/proxy (ver README).
- */
-export async function getCoachReply(
-  apiKey: string,
+function buildMessages(
   profile: PlayerProfile | null,
   sessions: Session[],
   history: ChatMessage[],
   userMessage: string,
-): Promise<string> {
+): Anthropic.MessageParam[] {
   const agg = aggregate(sessions)
   const context = buildContext(profile, sessions, agg)
-
-  const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
-
-  const messages: Anthropic.MessageParam[] = [
+  return [
     ...history.slice(-10).map((m) => ({
       role: m.role,
       content: m.content,
@@ -111,7 +102,47 @@ export async function getCoachReply(
       content: `${userMessage}\n\n---\nDatos actuales del jugador (para tu contexto, no los repitas literalmente):\n${context}`,
     },
   ]
+}
 
+export interface CoachCredentials {
+  /** URL de tu proxy (recomendado): la clave vive en el servidor */
+  proxyUrl?: string
+  /** Clave de API directa (modo MVP): expone la clave en el dispositivo */
+  apiKey?: string
+}
+
+/**
+ * Pide una respuesta al coach con IA.
+ * - Con `proxyUrl`: llama a tu backend (server/), que guarda la clave. ✅ producción
+ * - Con `apiKey`: llama a la API de Claude directamente desde el cliente. Solo MVP.
+ */
+export async function getCoachReply(
+  creds: CoachCredentials,
+  profile: PlayerProfile | null,
+  sessions: Session[],
+  history: ChatMessage[],
+  userMessage: string,
+): Promise<string> {
+  const messages = buildMessages(profile, sessions, history, userMessage)
+
+  if (creds.proxyUrl) {
+    const res = await fetch(creds.proxyUrl, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ system: SYSTEM_PROMPT, messages, max_tokens: 1200 }),
+    })
+    if (!res.ok) {
+      const body = await res.text().catch(() => '')
+      throw new Error(`El proxy respondió ${res.status}. ${body.slice(0, 200)}`)
+    }
+    const data = (await res.json()) as { text?: string; error?: string }
+    if (data.error) throw new Error(data.error)
+    return data.text?.trim() || 'No he podido generar una respuesta. Inténtalo de nuevo.'
+  }
+
+  if (!creds.apiKey) throw new Error('Configura un proxy o una clave de API en Ajustes.')
+
+  const client = new Anthropic({ apiKey: creds.apiKey, dangerouslyAllowBrowser: true })
   const response = await client.messages.create({
     model: MODEL,
     max_tokens: 1200,

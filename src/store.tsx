@@ -1,6 +1,14 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import type { AppState, ChatMessage, PlayerProfile, Session, WearableSettings } from './types'
+import type {
+  AppState,
+  BackupFile,
+  ChatMessage,
+  PlayerProfile,
+  ReminderSettings,
+  Session,
+  WearableSettings,
+} from './types'
 import { loadState, newId, saveState } from './storage'
 
 interface Store {
@@ -13,7 +21,11 @@ interface Store {
   addChat: (m: ChatMessage) => void
   clearChat: () => void
   setApiKey: (k: string) => void
+  setProxyUrl: (u: string) => void
   setWearable: (w: Partial<WearableSettings>) => void
+  setReminders: (r: Partial<ReminderSettings>) => void
+  /** Restaura una copia de seguridad (conserva las credenciales actuales) */
+  importBackup: (b: BackupFile) => void
   finishOnboarding: () => void
   reset: () => void
 }
@@ -56,7 +68,19 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       addChat: (m) => setState((s) => ({ ...s, chat: [...s.chat, m] })),
       clearChat: () => setState((s) => ({ ...s, chat: [] })),
       setApiKey: (apiKey) => setState((s) => ({ ...s, apiKey })),
+      setProxyUrl: (proxyUrl) => setState((s) => ({ ...s, proxyUrl })),
       setWearable: (w) => setState((s) => ({ ...s, wearable: { ...s.wearable, ...w } })),
+      setReminders: (r) => setState((s) => ({ ...s, reminders: { ...s.reminders, ...r } })),
+      importBackup: (b) =>
+        setState((s) => ({
+          ...s,
+          profile: b.profile ?? s.profile,
+          sessions: Array.isArray(b.sessions) ? b.sessions : s.sessions,
+          chat: Array.isArray(b.chat) ? b.chat : s.chat,
+          wearable: b.wearable ?? s.wearable,
+          reminders: b.reminders ?? s.reminders,
+          onboarded: true,
+        })),
       finishOnboarding: () => setState((s) => ({ ...s, onboarded: true })),
       reset: () =>
         setState({
@@ -64,8 +88,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           sessions: [],
           chat: [],
           apiKey: '',
+          proxyUrl: '',
           onboarded: false,
           wearable: { enabled: false, lastSync: null },
+          reminders: { enabled: false, days: [1, 3, 5], time: '18:00' },
         }),
     }),
     [state],
