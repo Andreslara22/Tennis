@@ -32,6 +32,15 @@ android {
         }
     }
     signingConfigs {
+        // Firma de PRUEBA (debug): clave committeada SOLO para builds de test —
+        // así los APKs de prueba se actualizan entre sí sin desinstalar.
+        // ⚠️ NUNCA usar esta clave para Google Play (ahí va la de keystore.properties).
+        debug {
+            storeFile file('../debug-test.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
         if (hasReleaseKeystore) {
             release {
                 storeFile file(keystoreProperties['storeFile'])

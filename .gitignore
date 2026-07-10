@@ -26,6 +26,8 @@ ios
 *.keystore
 *.jks
 keystore.properties
+# Excepción: clave SOLO de prueba (contraseña pública "android", jamás para Play)
+!android/debug-test.keystore
 
 # env & secrets
 .env
