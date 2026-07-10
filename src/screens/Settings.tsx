@@ -264,7 +264,17 @@ export default function Settings() {
         </button>
       </div>
 
-      <p className="footer-note">AceCoach v0.1 · Hecho con 🎾 y Claude</p>
+      <p className="footer-note">
+        AceCoach v0.2 · Hecho con 🎾 y Claude ·{' '}
+        <a
+          className="footer-link"
+          href="https://andreslara22.github.io/Tennis/privacidad.html"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Política de privacidad
+        </a>
+      </p>
     </div>
   )
 }

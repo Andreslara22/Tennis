@@ -59,19 +59,35 @@ SDK y crea `android/local.properties` apuntando al SDK si Android Studio no lo h
 
 ## 4. Ficha de la tienda (checklist)
 
-- [ ] Descripción corta (80 chars) y larga (4000 chars)
-- [ ] Icono 512×512 px y "feature graphic" 1024×500 px
-- [ ] Mínimo 2 capturas de teléfono (usa las de la app: inicio, progreso, coach, ajustes)
+- [ ] Descripción corta (80 chars) y larga (4000 chars) — borradores abajo ⬇️
+- [x] **Icono 512×512** → `store-assets/play-icon-512.png` ✅
+- [x] **Feature graphic 1024×500** → `store-assets/feature-graphic-1024x500.png` ✅
+- [ ] Mínimo 2 capturas de teléfono (haz capturas reales de la app: inicio, progreso, coach)
 - [ ] Categoría: Salud y bienestar (o Deportes)
 - [ ] Datos de contacto del desarrollador
+
+> Los recursos se regeneran con `node scripts/generate-assets.mjs` (también rehace iconos
+> de launcher y splash de Android si cambias la marca).
+
+**Borrador de descripción corta (≤80):**
+> Tu coach de tenis con IA: registra, sincroniza tu reloj y mejora tu juego.
+
+**Borrador de descripción larga:**
+> 🎾 AceCoach es tu entrenador personal de tenis. Registra entrenamientos y partidos,
+> sincroniza tu reloj Android (Wear OS) para importar frecuencia cardíaca y calorías, y
+> recibe consejos personalizados de un coach con inteligencia artificial que analiza tu
+> progreso: racha de días, % de victorias, ratio winners/errores, zonas de FC y más.
+> Tus datos se guardan solo en tu dispositivo.
 
 ## 5. Requisitos de política (importantes por los datos de salud) ⚠️
 
 Como la app lee datos de **Health Connect** (FC, ejercicio, calorías), Google exige extra:
 
-- [ ] **Política de privacidad publicada en una URL** (obligatoria siempre, crítica aquí).
-      Debe explicar qué datos de salud se leen, para qué, y que se quedan en el dispositivo.
-      (Una página de GitHub Pages sirve.)
+- [x] **Política de privacidad redactada** → `docs/privacidad.html` ✅
+      Para publicarla: GitHub → repo **Tennis** → Settings → Pages → "Deploy from a branch"
+      → rama principal, carpeta `/docs` → Save. URL resultante:
+      `https://andreslara22.github.io/Tennis/privacidad.html` (es la que ya enlaza la app en
+      Ajustes y la que pondrás en Play Console).
 - [ ] **Formulario "Data safety"** en Play Console: declarar que se accede a datos de salud
       y que NO se comparten con terceros (en AceCoach todo queda en el dispositivo).
 - [ ] **Declaración de Health Connect**: Play Console → Contenido de la app → hay un

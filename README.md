@@ -64,9 +64,17 @@ cp android/keystore.properties.example android/keystore.properties   # y rellén
 Firmar siempre con la misma clave es lo que permite **actualizar la app sin desinstalar**.
 La clave y sus contraseñas están en `.gitignore` — guarda copia de seguridad fuera del repo.
 
+**Marca e iconos:** los iconos de launcher (legacy + adaptive), los splash screens y los
+recursos de la ficha de Play (`store-assets/`) se generan con:
+
+```bash
+node scripts/generate-assets.mjs
+```
+
 📋 **Publicación en Google Play**: guía completa paso a paso en [`GOOGLE_PLAY.md`](./GOOGLE_PLAY.md)
 (cuenta, ficha, política de privacidad, declaración de Health Connect, testing y rutina de
-actualizaciones).
+actualizaciones). La **política de privacidad** está en `docs/privacidad.html`, lista para
+GitHub Pages (Settings → Pages → rama principal, carpeta `/docs`).
 
 > iOS es análogo: `npx cap add ios` + `npx cap open ios` (requiere macOS + Xcode). Lo
 > añadimos después de tener Android funcionando.
