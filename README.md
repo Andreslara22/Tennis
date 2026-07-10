@@ -1,4 +1,4 @@
-> 📚 Este repositorio también contiene **[Cae el Veinte](./caeelveinte/README.md)** (`caeelveinte/`):
+> 📚 Este repositorio también contiene **[Punto Extra](./puntoextra/README.md)** (`puntoextra/`):
 > marca, landing y app Android de la membresía educativa familiar. Lo de abajo documenta AceCoach.
 
 # 🎾 AceCoach

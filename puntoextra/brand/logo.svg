@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="200" viewBox="0 0 880 200" role="img" aria-label="punto extra">
+  <!-- Punto Extra · wordmark horizontal: "punto" + píldora ámbar "extra" + destello -->
+  <style>
+    .w { font: 900 118px Nunito, system-ui, -apple-system, "Segoe UI", sans-serif; letter-spacing: -3px; }
+    .e { font: 900 96px Nunito, system-ui, -apple-system, "Segoe UI", sans-serif; letter-spacing: -2px; }
+  </style>
+  <defs>
+    <radialGradient id="badge" cx="0.35" cy="0.3" r="1">
+      <stop offset="0%" stop-color="#FFD971"/>
+      <stop offset="60%" stop-color="#FFC53D"/>
+      <stop offset="100%" stop-color="#E8A81E"/>
+    </radialGradient>
+  </defs>
+  <text x="24" y="142" class="w" fill="#221A4A">punto</text>
+  <!-- píldora ámbar con "extra" -->
+  <rect x="392" y="46" width="330" height="122" rx="61" fill="url(#badge)"/>
+  <text x="557" y="144" text-anchor="middle" class="e" fill="#221A4A">extra</text>
+  <!-- destello -->
+  <path d="M772 26 Q780 58 812 66 Q780 74 772 106 Q764 74 732 66 Q764 58 772 26 Z" fill="#FFC53D"/>
+  <path d="M832 110 Q837 130 857 135 Q837 140 832 160 Q827 140 807 135 Q827 130 832 110 Z" fill="#FFC53D" opacity="0.6"/>
+</svg>

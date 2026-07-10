@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">Cae el Veinte</string>
-    <string name="title_activity_main">Cae el Veinte</string>
-    <string name="package_name">mx.caeelveinte.app</string>
-    <string name="custom_url_scheme">mx.caeelveinte.app</string>
-</resources>
