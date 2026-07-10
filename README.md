@@ -46,6 +46,17 @@ App **mobile-first** hecha con **React + Vite (TypeScript)** y lista para empaqu
 
 ---
 
+## 📲 Probar la app en tu Android (APK de prueba)
+
+Cada push a la rama compila automáticamente un APK en GitHub Actions y lo publica aquí:
+
+**👉 [Descargar última APK de prueba](https://github.com/Andreslara22/Tennis/releases/tag/apk-prueba)**
+
+Desde el móvil: descarga `AceCoach-vX.X.X-prueba.apk`, ábrelo y acepta «instalar de origen
+desconocido». Las siguientes builds de prueba se instalan encima sin desinstalar (misma
+firma de test). ⚠️ Es una firma de PRUEBA: al pasar a la versión de Google Play habrá que
+desinstalar esta una única vez (exporta antes tus datos en Ajustes → Copia de seguridad).
+
 ## 🚀 Empezar (desarrollo web)
 
 ```bash
