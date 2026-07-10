@@ -10,178 +10,278 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --mora:#5B3DF5; --mora-oscura:#4527D8; --tinta:#221A4A; --crema:#FFF8EF;
-    --sol:#FFC53D; --wa:#25D366; --wa-oscuro:#1DA851; --coral:#FF6B5E;
-    --blanco:#FFFFFF; --gris:#6B6685; --lila:#EFEAFE;
+    --tinta:#221A4A; --tinta-2:#181239; --crema:#FFF8EF; --crema-2:#FDF3E3;
+    --mora:#5B3DF5; --mora-noche:#4527D8; --ambar:#FFC53D; --ambar-hondo:#E8A81E;
+    --wa:#25D366; --wa-oscuro:#1DA851; --coral:#FF6B5E; --verde:#178A4C;
+    --gris:#6B6685; --lila:#EFEAFE; --linea:rgba(34,26,74,.1);
+    --linea-luz:rgba(255,248,239,.14); --gris-luz:#B7B0D8;
+    --display:'Fraunces',Georgia,serif; --body:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--crema);color:var(--tinta);line-height:1.6}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{font-family:var(--body);background:var(--crema);color:var(--tinta);line-height:1.65;overflow-x:hidden}
   img,svg{max-width:100%;display:block}
   a{color:inherit}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-  h1,h2,h3{font-weight:900;line-height:1.15;letter-spacing:-.02em}
-  h2{font-size:clamp(1.7rem,4vw,2.4rem);margin-bottom:.5rem}
-  .kicker{display:inline-block;background:var(--lila);color:var(--mora);font-weight:800;font-size:.85rem;padding:.3rem .9rem;border-radius:999px;margin-bottom:1rem;letter-spacing:.02em}
-  section{padding:64px 0}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  h1,h2,h3{line-height:1.08;text-wrap:balance}
+  .display{font-family:var(--display);font-weight:900;letter-spacing:-.01em}
+  .display em{font-style:italic;font-weight:900;color:var(--mora)}
+  .eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-size:.78rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--mora)}
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--ambar);border-radius:2px}
+  section{padding:96px 0}
+  @media(max-width:720px){section{padding:64px 0}}
 
-  /* Botones */
-  .btn{display:inline-flex;align-items:center;gap:.55rem;font-weight:800;font-size:1.05rem;padding:.9rem 1.6rem;border-radius:999px;text-decoration:none;transition:transform .15s,box-shadow .15s;border:none;cursor:pointer}
+  /* ── Revelado al scroll ─────────────────────────────── */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.rv{opacity:1;transform:none;transition:none}}
+
+  /* ── Botones ────────────────────────────────────────── */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;font-weight:800;font-size:1rem;
+    padding:1rem 1.75rem;border-radius:999px;text-decoration:none;border:none;cursor:pointer;
+    transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
   .btn:hover{transform:translateY(-2px)}
-  .btn-wa{background:var(--wa);color:#fff;box-shadow:0 6px 20px rgba(37,211,102,.35)}
-  .btn-wa:hover{background:var(--wa-oscuro)}
-  .btn-mora{background:var(--mora);color:#fff;box-shadow:0 6px 20px rgba(91,61,245,.3)}
-  .btn-ghost{background:transparent;color:var(--mora);border:2.5px solid var(--mora)}
+  .btn:focus-visible{outline:3px solid var(--ambar);outline-offset:3px}
+  .btn-wa{background:var(--wa);color:#fff;box-shadow:0 10px 30px -8px rgba(37,211,102,.55)}
+  .btn-wa:hover{background:var(--wa-oscuro);box-shadow:0 14px 34px -8px rgba(37,211,102,.6)}
+  .btn-linea{background:transparent;color:var(--tinta);border:2px solid var(--tinta);box-shadow:none}
+  .btn-linea:hover{background:var(--tinta);color:var(--crema)}
+  .btn-ambar{background:var(--ambar);color:var(--tinta);box-shadow:0 10px 30px -8px rgba(232,168,30,.55)}
 
-  /* Header */
-  header{position:sticky;top:0;z-index:50;background:rgba(255,248,239,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(34,26,74,.08)}
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0}
-  .logo{display:flex;align-items:baseline;font-weight:900;font-size:1.7rem;letter-spacing:-.03em;text-decoration:none}
-  .logo .extra{display:inline-flex;align-items:center;justify-content:center;background:var(--sol);border-radius:999px;font-size:.78em;padding:.02em .38em .06em;transform:translateY(-.02em);box-shadow:inset 0 -2px 0 rgba(34,26,74,.22);letter-spacing:-.01em}
-  .nav .btn{padding:.55rem 1.15rem;font-size:.95rem}
-  .nav-links{display:none;gap:1.4rem;font-weight:700;font-size:.95rem}
-  .nav-links a{text-decoration:none;color:var(--gris)}
-  .nav-links a:hover{color:var(--mora)}
-  @media(min-width:820px){.nav-links{display:flex}}
+  /* ── Barra superior + nav ───────────────────────────── */
+  .topbar{background:var(--tinta);color:var(--crema);text-align:center;font-size:.85rem;font-weight:700;padding:.55rem 16px}
+  .topbar b{color:var(--ambar)}
+  header.nav-shell{position:sticky;top:0;z-index:60;background:rgba(255,248,239,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--linea)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding-block:.85rem}
+  .logo{display:flex;align-items:baseline;gap:.3rem;font-family:var(--body);font-weight:900;font-size:1.45rem;letter-spacing:-.03em;text-decoration:none}
+  .logo .pill{background:var(--ambar);border-radius:999px;padding:.04em .5em .1em;font-size:.82em;box-shadow:inset 0 -2px 0 rgba(34,26,74,.22)}
+  .nav-links{display:none;gap:2rem;font-weight:700;font-size:.93rem}
+  .nav-links a{text-decoration:none;color:var(--gris);transition:color .15s}
+  .nav-links a:hover{color:var(--tinta)}
+  @media(min-width:880px){.nav-links{display:flex}}
+  .nav .btn{padding:.6rem 1.2rem;font-size:.9rem;white-space:nowrap}
+  @media(max-width:520px){
+    .nav .btn{padding:.55rem 1rem;font-size:.85rem}
+    .nav .btn .oculta-sm{display:none}
+    .logo{font-size:1.25rem}
+  }
 
-  /* Hero */
-  .hero{padding:56px 0 40px}
-  .hero .wrap{display:grid;gap:2.5rem;align-items:center}
-  @media(min-width:900px){.hero .wrap{grid-template-columns:1.1fr .9fr}}
-  .hero h1{font-size:clamp(2.3rem,6vw,3.6rem)}
-  .hero h1 em{font-style:normal;color:var(--mora)}
-  .hero p.sub{font-size:1.2rem;color:var(--gris);margin:1rem 0 1.6rem;max-width:34rem}
-  .hero .ctas{display:flex;flex-wrap:wrap;gap:.8rem;margin-bottom:1.2rem}
-  .founder{display:inline-flex;align-items:center;gap:.5rem;background:#FFF3D6;border:1.5px dashed var(--sol);color:#8a6100;font-weight:700;font-size:.9rem;padding:.45rem .9rem;border-radius:12px}
-  .precio-hero{font-size:1.05rem;font-weight:800}
-  .precio-hero b{font-size:1.5rem;color:var(--mora)}
+  /* ── Hero ───────────────────────────────────────────── */
+  .hero{position:relative;padding:88px 0 110px;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-320px;right:-260px;width:780px;height:780px;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(91,61,245,.16),transparent 70%);pointer-events:none}
+  .hero::after{content:"";position:absolute;bottom:-380px;left:-300px;width:760px;height:760px;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(255,197,61,.22),transparent 70%);pointer-events:none}
+  .hero .wrap{position:relative;display:grid;gap:4rem;align-items:center}
+  @media(min-width:960px){.hero .wrap{grid-template-columns:1.05fr .95fr}}
+  .hero h1{font-size:clamp(2.7rem,6.2vw,4.6rem);margin:1.3rem 0 1.4rem}
+  .hero .sub{font-size:1.18rem;color:var(--gris);max-width:33rem;margin-bottom:2rem}
+  .hero .sub b{color:var(--tinta)}
+  .ctas{display:flex;flex-wrap:wrap;gap:.9rem;align-items:center;margin-bottom:1.6rem}
+  .micro-trust{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;font-size:.86rem;font-weight:700;color:var(--gris)}
+  .micro-trust span{display:flex;align-items:center;gap:.45rem}
+  .micro-trust svg{flex:none}
 
-  /* Mock de teléfono */
-  .phone{background:var(--tinta);border-radius:38px;padding:14px;max-width:340px;margin:0 auto;box-shadow:0 30px 60px rgba(34,26,74,.25)}
-  .screen{background:#ECE5DD;border-radius:26px;overflow:hidden}
-  .chat-top{background:#075E54;color:#fff;padding:.7rem .9rem;display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:.9rem}
-  .chat-top .dot{width:34px;height:34px;border-radius:50%;background:var(--sol);display:flex;align-items:center;justify-content:center;color:var(--tinta);font-weight:900}
-  .chat-top small{display:block;font-weight:400;font-size:.7rem;opacity:.8}
-  .chat{padding:.8rem;display:flex;flex-direction:column;gap:.55rem;font-size:.82rem;line-height:1.45}
-  .msg{max-width:86%;padding:.5rem .7rem;border-radius:12px;box-shadow:0 1px 1px rgba(0,0,0,.08)}
-  .yo{align-self:flex-end;background:#DCF8C6;border-bottom-right-radius:3px}
-  .tutor{align-self:flex-start;background:#fff;border-bottom-left-radius:3px}
-  .msg .foto{background:#cfc6bc;border-radius:8px;padding:1rem .6rem;text-align:center;font-size:.72rem;color:#5c5347;margin-bottom:.35rem}
+  /* Escena del teléfono */
+  .escena{position:relative;max-width:400px;margin:0 auto}
+  .phone{background:var(--tinta);border-radius:44px;padding:14px;box-shadow:0 44px 90px -30px rgba(34,26,74,.5);
+    transform:rotate(2.5deg);animation:flota 7s ease-in-out infinite}
+  @keyframes flota{0%,100%{transform:rotate(2.5deg) translateY(0)}50%{transform:rotate(2.5deg) translateY(-12px)}}
+  @media (prefers-reduced-motion: reduce){.phone{animation:none}}
+  .screen{background:#ECE5DD;border-radius:32px;overflow:hidden}
+  .chat-top{background:#075E54;color:#fff;padding:.85rem 1rem;display:flex;align-items:center;gap:.65rem;font-weight:800;font-size:.9rem}
+  .chat-top .ava{width:36px;height:36px;border-radius:50%;background:var(--ambar);display:flex;align-items:center;justify-content:center;color:var(--tinta);font-weight:900;font-size:.72rem;flex:none}
+  .chat-top small{display:block;font-weight:600;font-size:.68rem;opacity:.75}
+  .chat{padding:.9rem;display:flex;flex-direction:column;gap:.6rem;font-size:.83rem;line-height:1.5}
+  .msg{max-width:88%;padding:.55rem .75rem;border-radius:14px;box-shadow:0 1px 1px rgba(0,0,0,.07)}
+  .msg.yo{align-self:flex-end;background:#DCF8C6;border-bottom-right-radius:4px}
+  .msg.tutor{align-self:flex-start;background:#fff;border-bottom-left-radius:4px}
+  .msg .foto{background:#cfc6bc;border-radius:9px;padding:1.05rem .6rem;text-align:center;font-size:.72rem;color:#5c5347;margin-bottom:.4rem}
   .msg b{color:var(--mora)}
+  .badge-uno{position:absolute;top:-26px;left:-30px;width:92px;height:92px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#FFD971,var(--ambar) 60%,var(--ambar-hondo));
+    display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.9rem;color:var(--tinta);
+    box-shadow:0 18px 36px -12px rgba(232,168,30,.65);transform:rotate(-8deg)}
+  .badge-uno::after{content:"✦";position:absolute;top:-14px;right:-8px;color:var(--ambar-hondo);font-size:1.2rem}
+  .rep-float{position:relative;background:#fff;border-radius:20px;padding:1rem 1.15rem;margin:-34px 0 0 -20px;max-width:330px;
+    box-shadow:0 30px 60px -20px rgba(34,26,74,.35);border:1px solid var(--linea);font-size:.84rem;transform:rotate(-1.5deg)}
+  .rep-float h4{font-family:var(--body);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mora);margin-bottom:.5rem}
+  .rep-float .fila{padding:.3rem 0;border-top:1px dashed var(--linea)}
+  .rep-float .fila:first-of-type{border-top:none}
+  .ok{color:var(--verde);font-weight:800}
+  .atora{color:var(--coral);font-weight:800}
 
-  /* Tarjeta reporte flotante */
-  .reporte-mini{background:#fff;border-radius:16px;padding:.9rem 1rem;max-width:300px;margin:-26px auto 0;position:relative;box-shadow:0 16px 40px rgba(34,26,74,.18);border:1px solid rgba(34,26,74,.06);font-size:.82rem}
-  .reporte-mini h4{font-size:.85rem;display:flex;align-items:center;gap:.4rem;margin-bottom:.35rem}
-  .reporte-mini .ok{color:#178a4c;font-weight:700}
-  .reporte-mini .atora{color:var(--coral);font-weight:700}
+  /* ── Marquee ───────────────────────────────────────── */
+  .marquee{background:var(--tinta);color:var(--crema);overflow:hidden;padding:1.1rem 0;border-top:3px solid var(--ambar)}
+  .marquee .track{display:flex;gap:0;white-space:nowrap;animation:desliza 30s linear infinite;width:max-content}
+  @media (prefers-reduced-motion: reduce){.marquee .track{animation:none}}
+  .marquee span{display:inline-flex;align-items:center;gap:1.1rem;padding:0 1.1rem;font-weight:800;font-size:.95rem;letter-spacing:.02em}
+  .marquee .uno{color:var(--ambar);font-family:var(--display);font-style:italic;font-weight:900}
+  @keyframes desliza{to{transform:translateX(-50%)}}
 
-  /* Strip de confianza */
-  .strip{background:var(--tinta);color:#fff;padding:1.1rem 0}
-  .strip .wrap{display:flex;flex-wrap:wrap;gap:.6rem 2.2rem;justify-content:center;font-weight:700;font-size:.95rem}
-  .strip span{display:flex;align-items:center;gap:.5rem;opacity:.95}
-  .strip .s{color:var(--sol)}
+  /* ── Cifras ─────────────────────────────────────────── */
+  .cifras{padding:72px 0}
+  .cifras .grid{display:grid;gap:2.5rem;margin-top:2.6rem}
+  @media(min-width:760px){.cifras .grid{grid-template-columns:repeat(3,1fr)}}
+  .cifra .num{font-family:var(--display);font-weight:900;font-size:clamp(2.6rem,4.6vw,3.6rem);line-height:1;color:var(--tinta);font-variant-numeric:tabular-nums}
+  .cifra .num small{font-size:.45em;color:var(--mora)}
+  .cifra p{color:var(--gris);font-size:.95rem;margin-top:.5rem;max-width:24rem}
+  .cifra{border-top:2px solid var(--tinta);padding-top:1.2rem}
+  .cifra:nth-child(2){border-top-color:var(--mora)}
+  .cifra:nth-child(3){border-top-color:var(--ambar)}
 
-  /* Cómo funciona */
-  .pasos{display:grid;gap:1.4rem;margin-top:2rem}
-  @media(min-width:760px){.pasos{grid-template-columns:repeat(3,1fr)}}
-  .paso{background:#fff;border-radius:20px;padding:1.6rem;box-shadow:0 6px 24px rgba(34,26,74,.07)}
-  .paso .num{width:44px;height:44px;border-radius:14px;background:var(--sol);color:var(--tinta);font-weight:900;font-size:1.3rem;display:flex;align-items:center;justify-content:center;margin-bottom:.9rem}
-  .paso h3{font-size:1.15rem;margin-bottom:.4rem}
-  .paso p{color:var(--gris);font-size:.98rem}
+  /* ── Cómo funciona ──────────────────────────────────── */
+  .como h2{font-size:clamp(2rem,4.4vw,3.1rem);margin:.9rem 0 3rem;max-width:44rem}
+  .pasos{display:grid;gap:0;border-top:1px solid var(--linea)}
+  @media(min-width:860px){.pasos{grid-template-columns:repeat(3,1fr)}}
+  .paso{padding:2.2rem 2rem 2.4rem;border-bottom:1px solid var(--linea);position:relative}
+  @media(min-width:860px){.paso{border-bottom:none;border-right:1px solid var(--linea)}.paso:last-child{border-right:none}}
+  .paso .n{font-family:var(--display);font-style:italic;font-weight:900;font-size:3rem;color:var(--ambar-hondo);line-height:1}
+  .paso h3{font-family:var(--display);font-weight:700;font-size:1.35rem;margin:.9rem 0 .6rem}
+  .paso p{color:var(--gris);font-size:.97rem}
 
-  /* Incluye */
-  .grid-inc{display:grid;gap:1.2rem;margin-top:2rem}
-  @media(min-width:640px){.grid-inc{grid-template-columns:repeat(2,1fr)}}
-  @media(min-width:960px){.grid-inc{grid-template-columns:repeat(3,1fr)}}
-  .inc{background:#fff;border-radius:18px;padding:1.4rem;box-shadow:0 4px 18px rgba(34,26,74,.06)}
-  .inc .ico{font-size:1.7rem;margin-bottom:.6rem}
-  .inc h3{font-size:1.05rem;margin-bottom:.3rem}
-  .inc p{color:var(--gris);font-size:.93rem}
+  /* ── Bento ──────────────────────────────────────────── */
+  .bento-sec{background:var(--crema-2)}
+  .bento-sec h2{font-size:clamp(2rem,4.4vw,3.1rem);margin:.9rem 0 .6rem}
+  .bento-sec .lead{color:var(--gris);max-width:36rem;margin-bottom:2.8rem;font-size:1.08rem}
+  .bento{display:grid;gap:1.1rem;grid-template-columns:1fr}
+  @media(min-width:700px){.bento{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:1000px){.bento{grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(190px,auto)}
+    .b-tutor{grid-column:span 2;grid-row:span 2}.b-reporte{grid-column:span 2}.b-vivo,.b-unam,.b-racha,.b-alianzas{grid-column:span 1}}
+  .celda{background:#fff;border:1px solid var(--linea);border-radius:24px;padding:1.7rem;position:relative;overflow:hidden;
+    transition:transform .25s ease,box-shadow .25s ease}
+  .celda:hover{transform:translateY(-4px);box-shadow:0 24px 50px -22px rgba(34,26,74,.28)}
+  .celda h3{font-family:var(--display);font-weight:700;font-size:1.22rem;margin-bottom:.45rem}
+  .celda p{color:var(--gris);font-size:.94rem;max-width:30rem}
+  .celda .tag{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mora);margin-bottom:.9rem}
+  .b-tutor{background:linear-gradient(160deg,#fff, #F6F1FF)}
+  .mini-chat{margin-top:1.3rem;display:flex;flex-direction:column;gap:.5rem;font-size:.83rem}
+  .mini-chat .msg{box-shadow:0 3px 12px -4px rgba(34,26,74,.18)}
+  .mini-chat .msg.yo{background:var(--lila)}
+  .b-reporte .rep-linea{display:flex;justify-content:space-between;gap:1rem;border-top:1px dashed var(--linea);padding:.45rem 0;font-size:.86rem}
+  .b-reporte .rep-linea:first-of-type{margin-top:1rem}
+  .b-racha .llamas{font-size:1.8rem;letter-spacing:.1em;margin-top:1rem}
+  .b-racha .llamas span:nth-child(n+5){opacity:.25;filter:grayscale(1)}
+  .celda .esquina{position:absolute;right:-22px;bottom:-22px;width:110px;height:110px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#FFD971,var(--ambar) 60%,var(--ambar-hondo));opacity:.16}
 
-  /* Reporte demo */
-  .rep-section{background:var(--lila)}
-  .rep-grid{display:grid;gap:2.5rem;align-items:center;margin-top:1rem}
-  @media(min-width:880px){.rep-grid{grid-template-columns:1fr 1fr}}
-  .rep-card{background:#fff;border-radius:22px;padding:1.6rem;box-shadow:0 20px 50px rgba(34,26,74,.15);max-width:420px}
-  .rep-card h3{display:flex;align-items:center;gap:.5rem;font-size:1.05rem;border-bottom:2px solid var(--crema);padding-bottom:.7rem;margin-bottom:.9rem}
-  .rep-hijo{padding:.7rem 0;border-bottom:1px dashed rgba(34,26,74,.15)}
+  /* ── Teatro: el reporte del domingo ─────────────────── */
+  .teatro{background:var(--tinta);color:var(--crema);position:relative;overflow:hidden}
+  .teatro::before{content:"";position:absolute;top:-260px;left:50%;transform:translateX(-50%);width:900px;height:520px;
+    background:radial-gradient(closest-side,rgba(91,61,245,.4),transparent 70%);pointer-events:none}
+  .teatro .wrap{position:relative;display:grid;gap:3.5rem;align-items:center}
+  @media(min-width:960px){.teatro .wrap{grid-template-columns:1.05fr .95fr}}
+  .teatro .eyebrow{color:var(--ambar)}
+  .teatro h2{font-size:clamp(2.1rem,4.6vw,3.3rem);margin:1rem 0 1.3rem}
+  .teatro h2 em{color:var(--ambar)}
+  .teatro p{color:var(--gris-luz);font-size:1.08rem;max-width:32rem;margin-bottom:1.1rem}
+  .teatro p b{color:var(--crema)}
+  .rep-card{background:var(--crema);color:var(--tinta);border-radius:26px;padding:1.9rem;max-width:460px;justify-self:center;
+    box-shadow:0 50px 110px -30px rgba(0,0,0,.6);transform:rotate(1.2deg)}
+  .rep-card .cab{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--tinta);padding-bottom:.8rem;margin-bottom:.4rem}
+  .rep-card .cab h3{font-family:var(--display);font-weight:900;font-size:1.15rem}
+  .rep-card .cab small{font-weight:800;color:var(--gris);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
+  .rep-hijo{padding:.95rem 0;border-bottom:1px dashed var(--linea)}
   .rep-hijo:last-child{border-bottom:none}
-  .rep-hijo .nombre{font-weight:800}
-  .rep-hijo .datos{font-size:.9rem;color:var(--gris)}
-  .rep-hijo .atora{color:var(--coral);font-weight:700;font-size:.9rem}
-  .rep-hijo .bien{color:#178a4c;font-weight:700;font-size:.9rem}
-  .rep-txt p{color:var(--gris);font-size:1.05rem;margin:.8rem 0}
-  .rep-txt p b{color:var(--tinta)}
+  .rep-hijo .nombre{font-weight:900;display:flex;justify-content:space-between;align-items:center}
+  .rep-hijo .nombre .mas1{background:var(--ambar);border-radius:999px;font-size:.72rem;font-weight:900;padding:.15rem .6rem}
+  .rep-hijo .dato{font-size:.88rem;color:var(--gris)}
 
-  /* Comparativa */
-  .tabla-scroll{overflow-x:auto;margin-top:2rem;border-radius:18px;box-shadow:0 6px 24px rgba(34,26,74,.08)}
-  table{width:100%;border-collapse:collapse;background:#fff;min-width:640px}
-  th,td{padding:.9rem 1rem;text-align:left;font-size:.95rem;border-bottom:1px solid rgba(34,26,74,.08)}
-  thead th{background:var(--tinta);color:#fff;font-size:.9rem}
+  /* ── Comparativa ────────────────────────────────────── */
+  .compara h2{font-size:clamp(2rem,4.4vw,3.1rem);margin:.9rem 0 2.6rem;max-width:46rem}
+  .tabla-scroll{overflow-x:auto;border:1px solid var(--linea);border-radius:22px;background:#fff}
+  table{width:100%;border-collapse:collapse;min-width:680px;font-size:.95rem}
+  th,td{padding:1.05rem 1.3rem;text-align:left;border-bottom:1px solid var(--linea)}
+  thead th{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);font-weight:800;background:var(--crema-2)}
   tbody tr:last-child td{border-bottom:none}
-  td.si{color:#178a4c;font-weight:800}
+  td.si{color:var(--verde);font-weight:800}
   td.no{color:var(--coral);font-weight:700}
-  tr.nosotros{background:#FFFBEF}
+  tr.nosotros{background:#FFF7E0}
   tr.nosotros td{font-weight:800}
+  tr.nosotros td:first-child{position:relative;padding-left:1.9rem}
+  tr.nosotros td:first-child::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--ambar)}
+  td small{color:var(--gris);font-weight:600}
 
-  /* Precios */
-  .planes{display:grid;gap:1.4rem;margin-top:2.4rem;align-items:stretch}
-  @media(min-width:880px){.planes{grid-template-columns:repeat(4,1fr)}}
-  @media(min-width:560px) and (max-width:879px){.planes{grid-template-columns:repeat(2,1fr)}}
-  .plan{background:#fff;border-radius:22px;padding:1.7rem 1.4rem;box-shadow:0 6px 24px rgba(34,26,74,.07);display:flex;flex-direction:column;position:relative}
-  .plan.estrella{border:3px solid var(--mora);box-shadow:0 16px 44px rgba(91,61,245,.22)}
-  .plan .badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--mora);color:#fff;font-size:.75rem;font-weight:800;padding:.25rem .9rem;border-radius:999px;white-space:nowrap}
-  .plan h3{font-size:1.05rem}
-  .plan .precio{font-size:2.1rem;font-weight:900;margin:.4rem 0 0}
-  .plan .precio small{font-size:.95rem;font-weight:700;color:var(--gris)}
-  .plan .nota{font-size:.85rem;color:var(--gris);margin-bottom:1rem}
-  .plan ul{list-style:none;margin:0 0 1.4rem;font-size:.9rem;color:var(--gris);flex:1}
-  .plan li{padding:.28rem 0 .28rem 1.5rem;position:relative}
-  .plan li::before{content:"✓";position:absolute;left:0;color:var(--wa);font-weight:900}
-  .plan .btn{justify-content:center;font-size:.95rem;padding:.75rem 1rem}
+  /* ── Precios ────────────────────────────────────────── */
+  .precios{background:var(--crema-2)}
+  .precios h2{font-size:clamp(2rem,4.4vw,3.1rem);margin:.9rem 0 .5rem}
+  .precios .lead{color:var(--gris);margin-bottom:3rem;font-size:1.05rem}
+  .planes{display:grid;gap:1.2rem;align-items:stretch}
+  @media(min-width:640px){.planes{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:1020px){.planes{grid-template-columns:repeat(4,1fr)}}
+  .plan{background:#fff;border:1px solid var(--linea);border-radius:24px;padding:1.9rem 1.6rem;display:flex;flex-direction:column;position:relative}
+  .plan.estrella{border:2px solid var(--tinta);box-shadow:0 30px 60px -24px rgba(34,26,74,.35);background:linear-gradient(170deg,#fff,#FFF7E0)}
+  @media(min-width:1020px){.plan.estrella{transform:translateY(-14px)}}
+  .plan .badge{position:absolute;top:-15px;left:1.4rem;background:var(--tinta);color:var(--ambar);font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:.32rem .85rem;border-radius:999px;white-space:nowrap}
+  .plan h3{font-family:var(--display);font-weight:700;font-size:1.15rem}
+  .plan .precio{font-family:var(--display);font-weight:900;font-size:2.7rem;margin:.5rem 0 0;line-height:1;font-variant-numeric:tabular-nums}
+  .plan .precio small{font-family:var(--body);font-size:.9rem;font-weight:700;color:var(--gris)}
+  .plan .nota{font-size:.86rem;color:var(--gris);margin:.4rem 0 1.2rem}
+  .plan ul{list-style:none;font-size:.92rem;color:var(--gris);flex:1;margin-bottom:1.6rem}
+  .plan li{padding:.32rem 0 .32rem 1.6rem;position:relative}
+  .plan li::before{content:"✓";position:absolute;left:0;color:var(--verde);font-weight:900}
+  .plan li b{color:var(--tinta)}
+  .plan .btn{font-size:.95rem;padding:.85rem 1rem}
 
-  /* Aspirante banner */
-  .aspirante{background:linear-gradient(135deg,var(--mora),var(--mora-oscura));color:#fff;border-radius:26px;padding:2.2rem;display:grid;gap:1.4rem;align-items:center;margin-top:3rem}
-  @media(min-width:820px){.aspirante{grid-template-columns:1.4fr .6fr}}
-  .aspirante h3{font-size:1.5rem;margin-bottom:.4rem}
-  .aspirante p{opacity:.9}
-  .aspirante .btn{background:var(--sol);color:var(--tinta);justify-self:start}
-  @media(min-width:820px){.aspirante .btn{justify-self:end}}
+  /* ── Aspirante ──────────────────────────────────────── */
+  .aspirante{margin-top:3.2rem;background:linear-gradient(120deg,var(--mora),var(--mora-noche) 70%);color:#fff;border-radius:28px;
+    padding:2.6rem;display:grid;gap:1.6rem;align-items:center;position:relative;overflow:hidden}
+  .aspirante::after{content:"+1";position:absolute;right:-30px;top:-46px;font-family:var(--display);font-style:italic;font-weight:900;
+    font-size:11rem;color:rgba(255,197,61,.16);line-height:1}
+  @media(min-width:860px){.aspirante{grid-template-columns:1.5fr .5fr}}
+  .aspirante h3{font-family:var(--display);font-weight:900;font-size:clamp(1.5rem,2.8vw,2rem);margin-bottom:.6rem}
+  .aspirante p{opacity:.88;max-width:38rem}
+  .aspirante .btn{justify-self:start}
+  @media(min-width:860px){.aspirante .btn{justify-self:end}}
 
-  /* FAQ */
-  details{background:#fff;border-radius:16px;padding:1.1rem 1.4rem;margin-top:.9rem;box-shadow:0 4px 16px rgba(34,26,74,.06)}
-  summary{font-weight:800;cursor:pointer;font-size:1.02rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem}
-  summary::after{content:"+";font-size:1.5rem;color:var(--mora);font-weight:900;transition:transform .2s}
+  /* ── FAQ ────────────────────────────────────────────── */
+  .faq .wrap{max-width:820px}
+  .faq h2{font-size:clamp(2rem,4.4vw,3rem);margin:.9rem 0 2.4rem}
+  details{border-bottom:1px solid var(--linea)}
+  details:first-of-type{border-top:1px solid var(--linea)}
+  summary{font-weight:800;cursor:pointer;font-size:1.06rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1.2rem;padding:1.3rem .2rem}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-family:var(--display);font-size:1.7rem;color:var(--mora);font-weight:900;transition:transform .25s;flex:none}
   details[open] summary::after{transform:rotate(45deg)}
-  details p{color:var(--gris);margin-top:.7rem;font-size:.98rem}
+  details p{color:var(--gris);padding:0 .2rem 1.4rem;font-size:.99rem;max-width:60ch}
+  details p b{color:var(--tinta)}
 
-  /* CTA final + footer */
-  .final{background:var(--tinta);color:#fff;text-align:center;padding:80px 0}
-  .final h2{font-size:clamp(1.9rem,5vw,2.8rem)}
-  .final p{opacity:.85;max-width:36rem;margin:1rem auto 1.8rem}
-  footer{background:#181239;color:#B7B0D8;font-size:.88rem;padding:2.2rem 0}
-  footer .wrap{display:flex;flex-wrap:wrap;gap:1rem 2.5rem;justify-content:space-between;align-items:center}
-  footer a{color:#fff;text-decoration:none;font-weight:700}
-  footer .legal{width:100%;font-size:.78rem;opacity:.7;margin-top:.6rem}
+  /* ── Cierre + footer ────────────────────────────────── */
+  .cierre{background:var(--tinta);color:var(--crema);text-align:center;padding:120px 0;position:relative;overflow:hidden}
+  .cierre::before{content:"";position:absolute;bottom:-300px;left:50%;transform:translateX(-50%);width:900px;height:560px;
+    background:radial-gradient(closest-side,rgba(255,197,61,.22),transparent 70%);pointer-events:none}
+  .cierre h2{font-size:clamp(2.3rem,5.4vw,4rem);max-width:20ch;margin:0 auto}
+  .cierre h2 em{color:var(--ambar)}
+  .cierre p{color:var(--gris-luz);max-width:34rem;margin:1.4rem auto 2.4rem;position:relative}
+  footer{background:var(--tinta-2);color:var(--gris-luz);font-size:.88rem;padding:2.6rem 0}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:1.2rem 3rem;justify-content:space-between;align-items:center}
+  footer a{color:var(--crema);text-decoration:none;font-weight:700}
+  footer a:hover{color:var(--ambar)}
+  footer .legal{width:100%;font-size:.78rem;opacity:.65;margin-top:.8rem;max-width:74ch}
 </style>
+<noscript><style>.rv{opacity:1;transform:none}</style></noscript>
 </head>
 <body>
 
-<header>
+<div class="topbar">🎉 Precio fundador: <b>$49/mes de por vida</b> para las primeras 100 familias</div>
+
+<header class="nav-shell">
   <div class="wrap nav">
-    <a class="logo" href="#">punto&nbsp;<span class="extra">extra</span></a>
+    <a class="logo" href="#">punto <span class="pill">extra</span></a>
     <nav class="nav-links">
       <a href="#como">Cómo funciona</a>
       <a href="#incluye">Qué incluye</a>
+      <a href="#reporte">El reporte</a>
       <a href="#precios">Precios</a>
       <a href="#faq">Preguntas</a>
     </nav>
     <a class="btn btn-wa" href="https://wa.me/5215500000000?text=Hola%2C%20quiero%20probar%20Punto%20Extra%20para%20mis%20hijos" target="_blank" rel="noopener">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.1-4.7-4-4.9-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.3 1.1 2.3 1.5 2.7 1.6.3.2.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .8-.2 1.4Z"/></svg>
-      Empieza por WhatsApp
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.1-4.7-4-4.9-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.3 1.1 2.3 1.5 2.7 1.6.3.2.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .8-.2 1.4Z"/></svg>
+      <span class="oculta-sm">Empieza por</span> WhatsApp
     </a>
   </div>
 </header>
@@ -189,118 +289,180 @@
 <section class="hero">
   <div class="wrap">
     <div>
-      <span class="founder">🎉 Precio fundador: <b>$49/mes de por vida</b> para las primeras 100 familias</span>
-      <h1 style="margin-top:1rem">El tutor de <em>toda la familia</em> por $99 al mes.</h1>
-      <p class="sub">Un tutor con IA disponible todos los días por WhatsApp para <b>todos tus hijos</b>: explica paso a paso (no da respuestas), sigue el temario de la SEP, los prepara para el examen de la UNAM y el IPN — y cada domingo <b>tú recibes el reporte</b> de qué practicó cada uno.</p>
+      <span class="eyebrow">Membresía educativa familiar · México</span>
+      <h1 class="display">El tutor de <em>toda la familia</em> por $99 al mes.</h1>
+      <p class="sub">Un tutor con IA disponible todos los días por WhatsApp para <b>todos tus hijos</b>. Explica paso a paso — <b>nunca da la respuesta</b> — sigue el temario de la SEP, los prepara para el examen de la UNAM y el IPN, y cada domingo <b>tú recibes el reporte</b> de qué practicó cada uno.</p>
       <div class="ctas">
         <a class="btn btn-wa" href="https://wa.me/5215500000000?text=Hola%2C%20quiero%20probar%20Punto%20Extra%20para%20mis%20hijos" target="_blank" rel="noopener">Empieza por WhatsApp</a>
-        <a class="btn btn-ghost" href="#precios">Ver planes</a>
+        <a class="btn btn-linea" href="#precios">Ver planes</a>
       </div>
-      <p class="precio-hero">Plan familiar: <b>$99/mes</b> · hasta 4 hijos · ~$3.30 al día</p>
+      <div class="micro-trust">
+        <span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8.5 6 12l8-9" stroke="#178A4C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Temario SEP por grado</span>
+        <span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8.5 6 12l8-9" stroke="#178A4C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Hasta 4 hijos</span>
+        <span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8.5 6 12l8-9" stroke="#178A4C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Cancela cuando quieras</span>
+      </div>
     </div>
-    <div>
+    <div class="escena">
+      <div class="badge-uno" aria-hidden="true">+1</div>
       <div class="phone" aria-hidden="true">
         <div class="screen">
-          <div class="chat-top"><span class="dot" style="font-size:.72rem">+1</span><span>Punto Extra Tutor<small>en línea</small></span></div>
+          <div class="chat-top"><span class="ava">+1</span><span>Punto Extra Tutor<small>en línea</small></span></div>
           <div class="chat">
             <div class="msg yo"><div class="foto">📷 foto de la tarea</div>No entiendo este problema de fracciones 😭</div>
-            <div class="msg tutor">¡Va, Diego! 💪 No te doy la respuesta, pero llegamos juntos. Primero: si Ana se comió 2/8 de la pizza, ¿puedes escribir esa fracción de una forma más simple? ¿Entre qué número puedes dividir arriba y abajo?</div>
+            <div class="msg tutor">¡Va, Diego! 💪 No te doy la respuesta, pero llegamos juntos. Si Ana se comió 2/8 de la pizza, ¿puedes escribir esa fracción más simple? ¿Entre qué número puedes dividir arriba y abajo?</div>
             <div class="msg yo">¿entre 2? ¿queda 1/4?</div>
-            <div class="msg tutor">¡Exacto! 🎉 Eso es <b>simplificar</b>. Ahora el paso 2: si Luis se comió 1/4 y Ana 1/4, ¿cuánta pizza queda? Inténtalo tú…</div>
+            <div class="msg tutor">¡Exacto! 🎉 Eso es <b>simplificar</b> — te ganaste tu punto extra. Ahora el paso 2: si Luis también se comió 1/4, ¿cuánta pizza queda? Inténtalo tú…</div>
           </div>
         </div>
       </div>
-      <div class="reporte-mini">
-        <h4>📊 Reporte del domingo · para mamá</h4>
-        <div><b>Diego (5º):</b> <span class="ok">12 ejercicios</span> · fracciones ✓ · <span class="atora">se atora en equivalencias</span></div>
-        <div><b>Regina (2º sec):</b> <span class="ok">8 ejercicios</span> · álgebra ✓ · racha de 5 días 🔥</div>
+      <div class="rep-float" aria-hidden="true">
+        <h4>Reporte del domingo · para mamá</h4>
+        <div class="fila"><b>Diego (5º):</b> <span class="ok">12 ejercicios</span> · fracciones ✓ · <span class="atora">se atora en equivalencias</span></div>
+        <div class="fila"><b>Regina (2º sec):</b> <span class="ok">8 ejercicios</span> · álgebra ✓ · racha de 5 días 🔥</div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="strip">
-  <div class="wrap">
-    <span><span class="s">✓</span> Alineado al temario SEP</span>
-    <span><span class="s">✓</span> Prep examen UNAM · IPN</span>
-    <span><span class="s">✓</span> Clase en vivo cada semana</span>
-    <span><span class="s">✓</span> Reporte semanal para papás</span>
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>Temario SEP por grado <i class="uno">+1</i></span><span>Prep examen UNAM · IPN <i class="uno">+1</i></span><span>Clase en vivo cada semana <i class="uno">+1</i></span><span>Reporte dominical para papás <i class="uno">+1</i></span><span>Todas las materias <i class="uno">+1</i></span><span>Hasta 4 hijos <i class="uno">+1</i></span>
+    <span>Temario SEP por grado <i class="uno">+1</i></span><span>Prep examen UNAM · IPN <i class="uno">+1</i></span><span>Clase en vivo cada semana <i class="uno">+1</i></span><span>Reporte dominical para papás <i class="uno">+1</i></span><span>Todas las materias <i class="uno">+1</i></span><span>Hasta 4 hijos <i class="uno">+1</i></span>
   </div>
 </div>
 
-<section id="como">
+<section class="cifras">
   <div class="wrap">
-    <span class="kicker">Cómo funciona</span>
-    <h2>Tan fácil como mandar un WhatsApp</h2>
+    <span class="eyebrow rv">El momento es ahora</span>
+    <div class="grid">
+      <div class="cifra rv">
+        <div class="num" data-n="34.3" data-suf=" M">0<small> M</small></div>
+        <p>de estudiantes hay en el sistema educativo mexicano — y la tarea de hoy no espera a nadie.</p>
+      </div>
+      <div class="cifra rv">
+        <div class="num" data-n="62614">0</div>
+        <p>lugares dieron la UNAM y el IPN en 2025 para cientos de miles de aspirantes a prepa. La prep ya no es opcional.</p>
+      </div>
+      <div class="cifra rv">
+        <div class="num" data-n="1300" data-pre="$">$0</div>
+        <p>al mes cuesta Kumon — por una sola materia y un solo hijo. Punto Extra cubre a toda la familia por $99.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="como" id="como">
+  <div class="wrap">
+    <span class="eyebrow rv">Cómo funciona</span>
+    <h2 class="display rv">Tan fácil como mandar un <em>WhatsApp</em>.</h2>
     <div class="pasos">
-      <div class="paso">
-        <div class="num">1</div>
+      <div class="paso rv">
+        <div class="n">1</div>
         <h3>Tu hijo manda su duda</h3>
-        <p>Una foto de la tarea o una pregunta al número de Punto Extra en WhatsApp. Sin apps nuevas, sin contraseñas: la herramienta que ya usa toda la familia.</p>
+        <p>Una foto de la tarea o una pregunta al número de Punto Extra. Sin apps nuevas, sin contraseñas: la herramienta que ya usa toda la familia.</p>
       </div>
-      <div class="paso">
-        <div class="num">2</div>
+      <div class="paso rv">
+        <div class="n">2</div>
         <h3>El tutor lo guía paso a paso</h3>
-        <p>Nunca da la respuesta: pregunta, da pistas y celebra cada avance, en español mexicano y al nivel del grado de tu hijo. Quiz diario para reforzar.</p>
+        <p>Nunca da la respuesta: pregunta, da pistas y celebra cada avance, en español mexicano y al nivel del grado de tu hijo.</p>
       </div>
-      <div class="paso">
-        <div class="num">3</div>
+      <div class="paso rv">
+        <div class="n">3</div>
         <h3>Tú recibes el reporte</h3>
-        <p>Cada domingo te llega qué practicó cada hijo, cuántas veces, y en qué está atorado — para que sepas exactamente cómo va sin perseguirlo.</p>
+        <p>Cada domingo te llega qué practicó cada hijo, cuántas veces, y en qué está atorado — sin perseguir a nadie.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="incluye" style="padding-top:0">
+<section class="bento-sec" id="incluye">
   <div class="wrap">
-    <span class="kicker">Qué incluye tu membresía</span>
-    <h2>Todo esto, para todos tus hijos</h2>
-    <div class="grid-inc">
-      <div class="inc"><div class="ico">💬</div><h3>Tutor por WhatsApp, todos los días</h3><p>Dudas ilimitadas de todas las materias. Explica paso a paso, alineado al temario SEP de cada grado, de primaria a prepa.</p></div>
-      <div class="inc"><div class="ico">👩‍🏫</div><h3>Clase en vivo semanal</h3><p>Una clase grupal por semana con nuestra maestra, sobre los temas donde más se atoran los niños ese mes.</p></div>
-      <div class="inc"><div class="ico">📊</div><h3>Reporte para mamá y papá</h3><p>Cada domingo: qué practicó cada hijo, su racha, sus logros y en qué necesita ayuda. Tranquilidad sin perseguir a nadie.</p></div>
-      <div class="inc"><div class="ico">🎯</div><h3>Prep UNAM / IPN</h3><p>Simulacros cronometrados y guía por tema para los exámenes de prepa y licenciatura que sí siguen existiendo.</p></div>
-      <div class="inc"><div class="ico">🏅</div><h3>Rachas y logros</h3><p>Quiz diario, rachas y medallas para que estudiar se sienta como un juego — y la constancia se vuelva hábito.</p></div>
-      <div class="inc"><div class="ico">🎁</div><h3>Descuentos con aliados</h3><p>Promociones en papelerías, ópticas y cursos para las familias miembro. Tu membresía se paga sola.</p></div>
+    <span class="eyebrow rv">Qué incluye tu membresía</span>
+    <h2 class="display rv">Todo esto, para <em>todos</em> tus hijos.</h2>
+    <p class="lead rv">Un solo pago cubre hasta 4 hijos, de primaria a prepa. Sin inscripción, sin materiales, sin plazos forzosos.</p>
+    <div class="bento">
+      <div class="celda b-tutor rv">
+        <span class="tag">Tutor · todos los días</span>
+        <h3>Dudas ilimitadas de todas las materias</h3>
+        <p>Mate, español, ciencias, historia, inglés. Alineado al temario SEP del grado exacto de cada hijo.</p>
+        <div class="mini-chat" aria-hidden="true">
+          <div class="msg yo">¿Me explicas el Teorema de Pitágoras? 🙏</div>
+          <div class="msg tutor">Claro 📐 Primero tú: en un triángulo rectángulo, ¿cuál es el lado más largo? ¿Cómo se llama?</div>
+          <div class="msg yo">¿la hipotenusa?</div>
+          <div class="msg tutor">¡+1! 🎉 Ahora, ¿qué relación tienen los catetos con ella? Te doy una pista: eleva al cuadrado…</div>
+        </div>
+      </div>
+      <div class="celda b-reporte rv">
+        <span class="tag">Reporte · cada domingo</span>
+        <h3>La evidencia de que sí están aprendiendo</h3>
+        <p>Qué practicó cada hijo, su racha y en qué se atora.</p>
+        <div aria-hidden="true">
+          <div class="rep-linea"><span><b>Diego</b> · fracciones</span><span class="ok">12 ejercicios ✓</span></div>
+          <div class="rep-linea"><span><b>Regina</b> · álgebra</span><span class="ok">racha de 5 días 🔥</span></div>
+          <div class="rep-linea"><span><b>Santi</b> · física</span><span class="atora">reforzar Newton</span></div>
+        </div>
+      </div>
+      <div class="celda b-vivo rv">
+        <span class="tag">En vivo</span>
+        <h3>Clase semanal con maestra real</h3>
+        <p>Grupal, sobre los temas donde más se atoran los niños ese mes.</p>
+        <div class="esquina" aria-hidden="true"></div>
+      </div>
+      <div class="celda b-unam rv">
+        <span class="tag">Aspirantes</span>
+        <h3>Prep UNAM / IPN</h3>
+        <p>Simulacros cronometrados y guía por tema para los exámenes que sí siguen existiendo.</p>
+      </div>
+      <div class="celda b-racha rv">
+        <span class="tag">Hábito</span>
+        <h3>Quiz diario, rachas y puntos extra</h3>
+        <p>Estudiar se siente como juego; la constancia se vuelve hábito.</p>
+        <div class="llamas" aria-hidden="true"><span>🔥</span><span>🔥</span><span>🔥</span><span>🔥</span><span>🔥</span><span>🔥</span><span>🔥</span></div>
+      </div>
+      <div class="celda b-alianzas rv">
+        <span class="tag">Aliados</span>
+        <h3>Descuentos que pagan tu membresía</h3>
+        <p>Papelerías, ópticas y cursos con promociones para familias miembro.</p>
+        <div class="esquina" aria-hidden="true"></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="rep-section">
-  <div class="wrap rep-grid">
-    <div class="rep-txt">
-      <span class="kicker">El domingo sabrás cómo van</span>
-      <h2>No es que le hagan la tarea. Es que tú lo veas aprender.</h2>
-      <p>ChatGPT le da la respuesta a tu hijo y tú nunca te enteras. <b>Punto Extra hace lo contrario:</b> lo guía paso a paso hasta que lo resuelve él solo — se gana su punto extra y tú recibes la evidencia cada semana.</p>
-      <p>Sabrás <b>qué practicó, cuántas veces y en qué se atora</b> cada uno de tus hijos — la información exacta para ayudarlo (o para pedirle a la maestra que refuerce ese tema).</p>
-    </div>
-    <div class="rep-card">
-      <h3>📊 Reporte semanal · Familia García</h3>
-      <div class="rep-hijo">
-        <div class="nombre">Diego · 5º de primaria</div>
-        <div class="datos">12 ejercicios · 4 días activo · <span class="bien">racha de 3 semanas</span></div>
-        <div class="datos">Matemáticas: fracciones ✓ · <span class="atora">se atora en equivalencias</span></div>
-      </div>
-      <div class="rep-hijo">
-        <div class="nombre">Regina · 2º de secundaria</div>
-        <div class="datos">8 ejercicios · 5 días activa · quiz diario completo 🔥</div>
-        <div class="datos">Álgebra ✓ · Historia ✓ · <span class="bien">lista para su examen del jueves</span></div>
-      </div>
-      <div class="rep-hijo">
-        <div class="nombre">Santi · 3º de secundaria (aspirante)</div>
-        <div class="datos">Simulacro UNAM: 78/120 <span class="bien">(+6 vs. semana pasada)</span></div>
-        <div class="datos"><span class="atora">Reforzar: física — leyes de Newton</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section>
+<section class="teatro" id="reporte">
   <div class="wrap">
-    <span class="kicker">Compara</span>
-    <h2>Entre ChatGPT gratis y Kumon a $1,300, hay un mejor camino</h2>
-    <div class="tabla-scroll">
+    <div>
+      <span class="eyebrow rv">El domingo sabrás cómo van</span>
+      <h2 class="display rv">No es que le hagan la tarea. Es que tú <em>lo veas aprender</em>.</h2>
+      <p class="rv">ChatGPT le da la respuesta a tu hijo y tú nunca te enteras. <b>Punto Extra hace lo contrario:</b> lo guía paso a paso hasta que lo resuelve él solo — se gana su punto extra y tú recibes la evidencia cada semana.</p>
+      <p class="rv">Sabrás <b>qué practicó, cuántas veces y en qué se atora</b> cada uno — la información exacta para ayudarlo, o para pedirle a la maestra que refuerce ese tema.</p>
+    </div>
+    <div class="rep-card rv">
+      <div class="cab"><h3>Reporte semanal</h3><small>Familia García</small></div>
+      <div class="rep-hijo">
+        <div class="nombre">Diego · 5º de primaria <span class="mas1">+3 puntos</span></div>
+        <div class="dato">12 ejercicios · 4 días activo · <span class="ok">racha de 3 semanas</span></div>
+        <div class="dato">Matemáticas: fracciones ✓ · <span class="atora">se atora en equivalencias</span></div>
+      </div>
+      <div class="rep-hijo">
+        <div class="nombre">Regina · 2º de secundaria <span class="mas1">+5 puntos</span></div>
+        <div class="dato">8 ejercicios · 5 días activa · quiz diario completo 🔥</div>
+        <div class="dato">Álgebra ✓ · Historia ✓ · <span class="ok">lista para su examen del jueves</span></div>
+      </div>
+      <div class="rep-hijo">
+        <div class="nombre">Santi · 3º de secundaria <span class="mas1">aspirante</span></div>
+        <div class="dato">Simulacro UNAM: 78/120 <span class="ok">(+6 vs. semana pasada)</span></div>
+        <div class="dato"><span class="atora">Reforzar: física — leyes de Newton</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="compara">
+  <div class="wrap">
+    <span class="eyebrow rv">Compara</span>
+    <h2 class="display rv">Entre ChatGPT gratis y Kumon a $1,300, hay un <em>mejor camino</em>.</h2>
+    <div class="tabla-scroll rv">
       <table>
         <thead><tr><th>Opción</th><th>Precio al mes</th><th>¿Cuántos hijos?</th><th>¿Todas las materias?</th><th>¿Reporte a papás?</th></tr></thead>
         <tbody>
@@ -315,102 +477,149 @@
   </div>
 </section>
 
-<section id="precios" style="padding-top:0">
+<section class="precios" id="precios">
   <div class="wrap">
-    <span class="kicker">Precios</span>
-    <h2>Planes simples, sin letras chiquitas</h2>
-    <p style="color:var(--gris)">Cancela cuando quieras. Pago con tarjeta, transferencia o el plan anual en OXXO.</p>
+    <span class="eyebrow rv">Precios</span>
+    <h2 class="display rv">Planes simples, sin letras <em>chiquitas</em>.</h2>
+    <p class="lead rv">Cancela cuando quieras. Pago con tarjeta, transferencia, o el plan anual en OXXO con un solo voucher.</p>
     <div class="planes">
-      <div class="plan">
+      <div class="plan rv">
         <h3>Individual</h3>
         <div class="precio">$79<small>/mes</small></div>
         <div class="nota">1 hijo</div>
         <ul><li>Tutor ilimitado por WhatsApp</li><li>Quiz diario y rachas</li><li>Reporte semanal</li><li>Clase en vivo semanal</li></ul>
-        <a class="btn btn-ghost" href="https://wa.me/5215500000000?text=Quiero%20el%20plan%20individual" target="_blank" rel="noopener">Elegir</a>
+        <a class="btn btn-linea" href="https://wa.me/5215500000000?text=Quiero%20el%20plan%20individual" target="_blank" rel="noopener">Elegir</a>
       </div>
-      <div class="plan estrella">
-        <span class="badge">⭐ El favorito de las familias</span>
+      <div class="plan estrella rv">
+        <span class="badge">El favorito de las familias</span>
         <h3>Familiar</h3>
         <div class="precio">$99<small>/mes</small></div>
         <div class="nota">Hasta 4 hijos · ~$3.30 al día</div>
         <ul><li>Todo lo del individual</li><li><b>Para todos tus hijos</b></li><li>Reporte de toda la familia</li><li>Descuentos con aliados</li></ul>
         <a class="btn btn-wa" href="https://wa.me/5215500000000?text=Quiero%20el%20plan%20familiar%20de%20%2499" target="_blank" rel="noopener">Empezar ahora</a>
       </div>
-      <div class="plan">
+      <div class="plan rv">
         <h3>Familiar anual</h3>
         <div class="precio">$899<small>/año</small></div>
         <div class="nota">≈ $75/mes · ahorra 24%</div>
         <ul><li>Todo lo del familiar</li><li>Pagable en OXXO (1 voucher)</li><li>O a 3 meses sin intereses</li><li>Curso de verano incluido</li></ul>
-        <a class="btn btn-ghost" href="https://wa.me/5215500000000?text=Quiero%20el%20plan%20anual%20de%20%24899" target="_blank" rel="noopener">Elegir</a>
+        <a class="btn btn-linea" href="https://wa.me/5215500000000?text=Quiero%20el%20plan%20anual%20de%20%24899" target="_blank" rel="noopener">Elegir</a>
       </div>
-      <div class="plan">
+      <div class="plan rv">
         <h3>Aspirante UNAM/IPN</h3>
         <div class="precio">$599<small> único</small></div>
         <div class="nota">4 meses de prep intensiva</div>
         <ul><li>Simulacros cronometrados</li><li>Plan de estudio por tema</li><li>Clases de estrategia</li><li>Para prepa y licenciatura</li></ul>
-        <a class="btn btn-ghost" href="https://wa.me/5215500000000?text=Quiero%20info%20del%20paquete%20Aspirante" target="_blank" rel="noopener">Elegir</a>
+        <a class="btn btn-linea" href="https://wa.me/5215500000000?text=Quiero%20info%20del%20paquete%20Aspirante" target="_blank" rel="noopener">Elegir</a>
       </div>
     </div>
 
-    <div class="aspirante">
+    <div class="aspirante rv">
       <div>
-        <h3>🎯 ¿Tu hijo quiere quedar en la prepa de la UNAM o el IPN?</h3>
+        <h3>¿Tu hijo quiere quedar en la prepa de la UNAM o el IPN?</h3>
         <p>Desde 2025 ya no hay examen COMIPEMS: la única competencia real es el examen propio de la UNAM y el IPN — pocos lugares, muchísimos aspirantes. Empieza a prepararlo hoy, no en abril.</p>
       </div>
-      <a class="btn" href="https://wa.me/5215500000000?text=Quiero%20un%20simulacro%20UNAM%2FIPN%20gratis" target="_blank" rel="noopener">Simulacro gratis</a>
+      <a class="btn btn-ambar" href="https://wa.me/5215500000000?text=Quiero%20un%20simulacro%20UNAM%2FIPN%20gratis" target="_blank" rel="noopener">Simulacro gratis</a>
     </div>
   </div>
 </section>
 
-<section id="faq" style="padding-top:0">
-  <div class="wrap" style="max-width:760px">
-    <span class="kicker">Preguntas frecuentes</span>
-    <h2>Lo que las mamás nos preguntan</h2>
-    <details>
+<section class="faq" id="faq">
+  <div class="wrap">
+    <span class="eyebrow rv">Preguntas frecuentes</span>
+    <h2 class="display rv">Lo que las mamás nos <em>preguntan</em>.</h2>
+    <details class="rv">
       <summary>¿Le van a hacer la tarea a mi hijo?</summary>
       <p>No — y ese es justo el punto. El tutor está entrenado para <b>guiar sin resolver</b>: hace preguntas, da pistas y verifica cada paso, como un buen maestro particular. Tú pagas porque aprenda, no porque entregue.</p>
     </details>
-    <details>
+    <details class="rv">
       <summary>¿Qué materias y grados cubre?</summary>
       <p>Todas las materias del temario SEP, de primaria a preparatoria: matemáticas, español, ciencias, historia, geografía, inglés básico… Cada hijo tiene su perfil con su grado, y el tutor le habla a su nivel.</p>
     </details>
-    <details>
+    <details class="rv">
       <summary>¿Necesito instalar algo?</summary>
       <p>No. Funciona 100% por WhatsApp, en el teléfono que ya tienen. La app de Punto Extra es un complemento opcional con simulacros, rachas y el panel para papás.</p>
     </details>
-    <details>
+    <details class="rv">
       <summary>¿Cómo pago si no tengo tarjeta?</summary>
       <p>Además de tarjeta de débito o crédito, puedes pagar el plan anual ($899) con <b>un solo voucher en OXXO</b>, o por transferencia SPEI. Sin tarjeta, sin cargos sorpresa.</p>
     </details>
-    <details>
+    <details class="rv">
       <summary>¿Es seguro para mis hijos?</summary>
       <p>La cuenta la abres y controlas tú (mamá o papá). El contenido es moderado y apto para menores, no hay chat entre niños, y tú ves toda la actividad en el reporte semanal. Tus datos se tratan conforme a la ley mexicana de protección de datos (LFPDPPP).</p>
     </details>
-    <details>
+    <details class="rv">
       <summary>¿Puedo cancelar cuando quiera?</summary>
       <p>Sí, desde WhatsApp con un mensaje. Sin plazos forzosos ni penalizaciones. Y si llegas en los primeros 100: $49/mes de por vida mientras no canceles.</p>
     </details>
   </div>
 </section>
 
-<div class="final">
+<div class="cierre">
   <div class="wrap">
-    <h2>La tranquilidad de saber que sí están aprendiendo.</h2>
-    <p>Únete a las familias fundadoras: $49/mes de por vida para las primeras 100. Escríbenos y tu primer reporte llega este domingo.</p>
-    <a class="btn btn-wa" href="https://wa.me/5215500000000?text=Hola%2C%20quiero%20ser%20familia%20fundadora%20de%20Punto%20Extra" target="_blank" rel="noopener">Empieza por WhatsApp</a>
+    <h2 class="display rv">La tranquilidad de saber que <em>sí están aprendiendo</em>.</h2>
+    <p class="rv">Únete a las familias fundadoras: $49/mes de por vida para las primeras 100. Escríbenos hoy y tu primer reporte llega este domingo.</p>
+    <a class="btn btn-wa rv" href="https://wa.me/5215500000000?text=Hola%2C%20quiero%20ser%20familia%20fundadora%20de%20Punto%20Extra" target="_blank" rel="noopener">Empieza por WhatsApp</a>
   </div>
 </div>
 
 <footer>
   <div class="wrap">
-    <a class="logo" href="#" style="font-size:1.3rem;color:#fff">punto&nbsp;<span class="extra" style="color:var(--tinta)">extra</span></a>
+    <a class="logo" href="#" style="color:var(--crema)">punto <span class="pill" style="color:var(--tinta)">extra</span></a>
     <div>
       <a href="mailto:hola@puntoextra.mx">hola@puntoextra.mx</a> ·
       <a href="privacidad.html">Aviso de privacidad</a>
     </div>
-    <div class="legal">Punto Extra es un servicio de tutoría complementaria; no somos una escuela ni otorgamos validez oficial de estudios. Los menores usan el servicio con el consentimiento y bajo la cuenta de su madre, padre o tutor (LFPDPPP). Precios en pesos mexicanos, IVA incluido. © 2026 Punto Extra.</div>
+    <div class="legal">Punto Extra es un servicio de tutoría complementaria; no somos una escuela ni otorgamos validez oficial de estudios. Los menores usan el servicio con el consentimiento y bajo la cuenta de su madre, padre o tutor (LFPDPPP). Precios en pesos mexicanos, IVA incluido. Cifras de mercado: SEP (Principales Cifras 2024–2025) y prensa nacional sobre la admisión UNAM/IPN 2025. © 2026 Punto Extra.</div>
   </div>
 </footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Revelado al scroll
+  var els = document.querySelectorAll('.rv');
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function(e){ e.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function(e){ io.observe(e); });
+  }
+
+  // Contadores animados
+  function anima(el){
+    var n = parseFloat(el.dataset.n), pre = el.dataset.pre || '', suf = el.dataset.suf || '';
+    var dec = (el.dataset.n.indexOf('.') > -1) ? 1 : 0;
+    var t0 = null, dur = 1400;
+    function fmt(v){ return pre + v.toLocaleString('es-MX', {minimumFractionDigits: dec, maximumFractionDigits: dec}) + suf; }
+    if (reduce) { el.textContent = fmt(n); return; }
+    function paso(t){
+      if (!t0) t0 = t;
+      var p = Math.min((t - t0) / dur, 1);
+      p = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(n * p);
+      if (p < 1) requestAnimationFrame(paso);
+    }
+    requestAnimationFrame(paso);
+  }
+  var nums = document.querySelectorAll('.cifra .num');
+  if ('IntersectionObserver' in window && !reduce) {
+    var io2 = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) { anima(en.target); io2.unobserve(en.target); }
+      });
+    }, { threshold: 0.6 });
+    nums.forEach(function(e){ io2.observe(e); });
+  } else {
+    nums.forEach(anima);
+  }
+})();
+</script>
 
 </body>
 </html>
