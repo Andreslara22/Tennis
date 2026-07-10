@@ -1,0 +1,88 @@
+// Modelos de datos de AceCoach
+
+export type Hand = 'diestro' | 'zurdo'
+export type PlayStyle =
+  | 'agresivo (saque y volea)'
+  | 'de fondo (baseliner)'
+  | 'contragolpeador'
+  | 'todoterreno (all-court)'
+  | 'sin definir'
+
+export interface PlayerProfile {
+  name: string
+  /** Nivel NTRP aproximado, 1.0–7.0 */
+  ntrp: number
+  hand: Hand
+  style: PlayStyle
+  /** Objetivos que persigue el jugador */
+  goals: string[]
+  createdAt: string
+}
+
+export type SessionType = 'entrenamiento' | 'partido'
+
+export interface MatchStats {
+  /** % de primeros saques dentro (0–100) */
+  firstServePct?: number
+  aces?: number
+  doubleFaults?: number
+  winners?: number
+  unforcedErrors?: number
+}
+
+export interface Session {
+  id: string
+  date: string // ISO
+  type: SessionType
+  durationMin: number
+  /** Aspectos trabajados: 'derecha', 'revés', 'saque', 'volea', 'físico', etc. */
+  focus: string[]
+  /** Intensidad percibida 1–5 */
+  intensity: number
+  notes?: string
+  stats?: MatchStats
+
+  // Solo partidos:
+  opponent?: string
+  /** true = victoria, false = derrota, undefined = no aplica */
+  won?: boolean
+  score?: string // p.ej. "6-4 3-6 7-5"
+}
+
+export interface ChatMessage {
+  role: 'user' | 'assistant'
+  content: string
+  at: string
+}
+
+export interface AppState {
+  profile: PlayerProfile | null
+  sessions: Session[]
+  chat: ChatMessage[]
+  /** Clave de API de Claude introducida por el usuario (guardada solo en el dispositivo) */
+  apiKey: string
+  onboarded: boolean
+}
+
+export const FOCUS_OPTIONS = [
+  'Derecha',
+  'Revés',
+  'Saque',
+  'Resto',
+  'Volea',
+  'Globo / defensa',
+  'Dejada',
+  'Físico',
+  'Táctica',
+  'Mental',
+] as const
+
+export const GOAL_OPTIONS = [
+  'Mejorar el saque',
+  'Ganar consistencia de fondo',
+  'Reducir errores no forzados',
+  'Subir de nivel NTRP',
+  'Mejorar la forma física',
+  'Preparar un torneo',
+  'Trabajar la mentalidad competitiva',
+] as const
