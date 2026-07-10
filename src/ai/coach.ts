@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import type { ChatMessage, PlayerProfile, Session } from '../types'
 import { aggregate, ntrpLabel, type Aggregates } from '../lib/tennis'
+import { hrZoneLabel, hrZonesFromBirthYear } from '../lib/wearable'
 
 const MODEL = 'claude-opus-4-8'
 
@@ -48,13 +49,20 @@ function buildContext(
     lines.push(`- Media errores no forzados por sesión: ${agg.avgUnforced.toFixed(1)}`)
   if (agg.winnersToErrors != null)
     lines.push(`- Ratio winners/errores: ${agg.winnersToErrors.toFixed(2)}`)
-  if (agg.avgHr != null)
+  if (agg.avgHr != null) {
+    const zones = hrZonesFromBirthYear(profile?.birthYear)
     lines.push(
       `- Datos del reloj (wearable): FC media ${agg.avgHr.toFixed(0)} ppm` +
+        (zones ? ` (${hrZoneLabel(agg.avgHr, zones)})` : '') +
         (agg.maxHrEver != null ? `, FC máx ${agg.maxHrEver} ppm` : '') +
         (agg.totalCalories > 0 ? `, ${agg.totalCalories} kcal acumuladas` : '') +
         ` en ${agg.wearableSessions} sesión(es) sincronizadas`,
     )
+    if (zones)
+      lines.push(
+        `- Zonas FC del jugador (FC máx teórica ${zones.hrMax} ppm): Z1 ≤${zones.z1}, Z2 ≤${zones.z2}, Z3 ≤${zones.z3}, Z4 ≤${zones.z4}, Z5 >${zones.z4}`,
+      )
+  }
 
   const recent = sessions.slice(-6).reverse()
   if (recent.length) {

@@ -1,10 +1,12 @@
 import { useStore } from '../store'
 import { aggregate, weeklyTrend } from '../lib/tennis'
+import { hrZoneLabel, hrZonesFromBirthYear } from '../lib/wearable'
 
 export default function Progress() {
   const { state, deleteSession } = useStore()
-  const { sessions } = state
+  const { sessions, profile } = state
   const agg = aggregate(sessions)
+  const zones = hrZonesFromBirthYear(profile?.birthYear)
   const trend = weeklyTrend(sessions, 8)
   const maxMin = Math.max(60, ...trend.map((t) => t.minutes))
 
@@ -79,6 +81,13 @@ export default function Progress() {
           </div>
           <p className="muted small">
             {agg.wearableSessions} sesión(es) sincronizadas desde el reloj.
+            {zones && agg.avgHr != null && (
+              <>
+                {' '}
+                Tu FC media cae en <strong>{hrZoneLabel(agg.avgHr, zones)}</strong> (FC máx
+                teórica: {zones.hrMax} ppm).
+              </>
+            )}
           </p>
         </div>
       )}

@@ -16,6 +16,8 @@ export interface PlayerProfile {
   style: PlayStyle
   /** Objetivos que persigue el jugador */
   goals: string[]
+  /** Año de nacimiento (opcional) — personaliza las zonas de FC del reloj */
+  birthYear?: number
   createdAt: string
 }
 

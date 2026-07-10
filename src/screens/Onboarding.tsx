@@ -14,6 +14,7 @@ const STYLES: PlayStyle[] = [
 export default function Onboarding() {
   const { setProfile, finishOnboarding } = useStore()
   const [name, setName] = useState('')
+  const [birthYear, setBirthYear] = useState('')
   const [ntrp, setNtrp] = useState(3.0)
   const [hand, setHand] = useState<Hand>('diestro')
   const [style, setStyle] = useState<PlayStyle>('de fondo (baseliner)')
@@ -23,12 +24,14 @@ export default function Onboarding() {
     setGoals((cur) => (cur.includes(g) ? cur.filter((x) => x !== g) : [...cur, g]))
 
   const start = () => {
+    const by = parseInt(birthYear, 10)
     setProfile({
       name: name.trim() || 'Jugador/a',
       ntrp,
       hand,
       style,
       goals,
+      birthYear: Number.isFinite(by) && by > 1900 ? by : undefined,
       createdAt: new Date().toISOString(),
     })
     finishOnboarding()
@@ -43,15 +46,27 @@ export default function Onboarding() {
       </div>
 
       <div className="card">
-        <label className="field">
-          <span>¿Cómo te llamas?</span>
-          <input
-            type="text"
-            placeholder="Tu nombre"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </label>
+        <div className="row2">
+          <label className="field">
+            <span>¿Cómo te llamas?</span>
+            <input
+              type="text"
+              placeholder="Tu nombre"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </label>
+          <label className="field">
+            <span>Año de nacimiento</span>
+            <input
+              type="number"
+              inputMode="numeric"
+              placeholder="p.ej. 1995"
+              value={birthYear}
+              onChange={(e) => setBirthYear(e.target.value)}
+            />
+          </label>
+        </div>
 
         <label className="field">
           <span>

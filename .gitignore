@@ -9,10 +9,23 @@ dist-ssr
 vite.config.js
 vite.config.d.ts
 
-# capacitor / android
-android
+# capacitor — el proyecto android/ SÍ se versiona (firma, permisos, gradle),
+# pero no sus artefactos de build ni configuración local:
+android/.gradle/
+android/.idea/
+android/app/build/
+android/build/
+android/capacitor-cordova-android-plugins/build/
+android/local.properties
+android/.kotlin/
+
+# iOS (aún no generado)
 ios
-.gradle
+
+# 🔐 FIRMA — NUNCA subir la clave ni sus contraseñas
+*.keystore
+*.jks
+keystore.properties
 
 # env & secrets
 .env

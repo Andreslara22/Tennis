@@ -4,6 +4,7 @@ import { GOAL_OPTIONS, type Hand, type PlayStyle } from '../types'
 import { ntrpLabel } from '../lib/tennis'
 import {
   demoWorkouts,
+  hrZonesFromBirthYear,
   isNativeAndroid,
   readWorkoutsFromHealthConnect,
   workoutsToSessions,
@@ -22,6 +23,7 @@ export default function Settings() {
   const { profile, wearable, sessions } = state
 
   const [name, setName] = useState(profile?.name ?? '')
+  const [birthYear, setBirthYear] = useState(profile?.birthYear ? String(profile.birthYear) : '')
   const [ntrp, setNtrp] = useState(profile?.ntrp ?? 3.0)
   const [hand, setHand] = useState<Hand>(profile?.hand ?? 'diestro')
   const [style, setStyle] = useState<PlayStyle>(profile?.style ?? 'de fondo (baseliner)')
@@ -41,12 +43,14 @@ export default function Settings() {
     setGoals((cur) => (cur.includes(g) ? cur.filter((x) => x !== g) : [...cur, g]))
 
   const saveProfile = () => {
+    const by = parseInt(birthYear, 10)
     setProfile({
       name: name.trim() || 'Jugador/a',
       ntrp,
       hand,
       style,
       goals,
+      birthYear: Number.isFinite(by) && by > 1900 ? by : undefined,
       createdAt: profile?.createdAt ?? new Date().toISOString(),
     })
     setSavedProfile(true)
@@ -65,7 +69,8 @@ export default function Settings() {
     setSyncMsg(null)
     try {
       const workouts = demo ? demoWorkouts() : await readWorkoutsFromHealthConnect(30)
-      const fresh = workoutsToSessions(workouts, sessions)
+      const zones = hrZonesFromBirthYear(profile?.birthYear)
+      const fresh = workoutsToSessions(workouts, sessions, zones)
       if (fresh.length > 0) addSessions(fresh)
       setWearable({ lastSync: new Date().toISOString() })
       setSyncMsg(
@@ -89,10 +94,30 @@ export default function Settings() {
 
       <div className="card">
         <h2 className="section-title">Perfil</h2>
-        <label className="field">
-          <span>Nombre</span>
-          <input value={name} onChange={(e) => setName(e.target.value)} />
-        </label>
+        <div className="row2">
+          <label className="field">
+            <span>Nombre</span>
+            <input value={name} onChange={(e) => setName(e.target.value)} />
+          </label>
+          <label className="field">
+            <span>Año de nacimiento</span>
+            <input
+              type="number"
+              inputMode="numeric"
+              placeholder="p.ej. 1995"
+              min={1920}
+              max={new Date().getFullYear()}
+              value={birthYear}
+              onChange={(e) => setBirthYear(e.target.value)}
+            />
+          </label>
+        </div>
+        {hrZonesFromBirthYear(parseInt(birthYear, 10)) && (
+          <p className="muted small">
+            ⌚ FC máx estimada: {hrZonesFromBirthYear(parseInt(birthYear, 10))!.hrMax} ppm — se
+            usa para personalizar tus zonas de intensidad.
+          </p>
+        )}
         <label className="field">
           <span>
             Nivel NTRP: <strong>{ntrp.toFixed(1)}</strong> · {ntrpLabel(ntrp)}

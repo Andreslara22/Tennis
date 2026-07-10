@@ -43,20 +43,30 @@ para desarrollo (ver `.env.example`).
 
 ---
 
-## 📱 Empaquetar para Android (Capacitor)
+## 📱 Android (Capacitor 7)
 
-Requisitos: Android Studio + JDK instalados en tu máquina local.
+El proyecto nativo ya está generado y **versionado** en `android/` (con permisos de Health
+Connect y firma de release configurados). Requisitos: Android Studio + JDK.
 
 ```bash
-npm run build                 # genera dist/
-npx cap add android           # solo la primera vez (crea la carpeta android/)
-npx cap sync android          # copia el build al proyecto nativo
-npx cap open android          # abre Android Studio para compilar/ejecutar
+npm run android           # build web + sync + abrir Android Studio
+npm run android:apk       # APK release firmado (para probar en tu móvil)
+npm run android:release   # App Bundle .aab firmado (para subir a Google Play)
 ```
 
-Atajo: `npm run android` hace build + sync + open de una vez (tras el primer `cap add`).
+**Firma (hazlo una vez):**
 
-La carpeta `android/` está en `.gitignore` porque se regenera con Capacitor.
+```bash
+./scripts/generate-keystore.sh                                  # crea la clave
+cp android/keystore.properties.example android/keystore.properties   # y rellénalo
+```
+
+Firmar siempre con la misma clave es lo que permite **actualizar la app sin desinstalar**.
+La clave y sus contraseñas están en `.gitignore` — guarda copia de seguridad fuera del repo.
+
+📋 **Publicación en Google Play**: guía completa paso a paso en [`GOOGLE_PLAY.md`](./GOOGLE_PLAY.md)
+(cuenta, ficha, política de privacidad, declaración de Health Connect, testing y rutina de
+actualizaciones).
 
 > iOS es análogo: `npx cap add ios` + `npx cap open ios` (requiere macOS + Xcode). Lo
 > añadimos después de tener Android funcionando.
@@ -73,26 +83,27 @@ funciona sin integraciones por marca.
 
 1. En **Ajustes → Wearables**, activa la sincronización.
 2. En Android nativo, pulsa **Sincronizar ahora**: se piden permisos de Health Connect y se
-   importan los entrenamientos de los últimos 30 días (duración, FC media/máx, calorías).
-3. En web (sin reloj) puedes probar el flujo con el botón de **datos de demo**.
+   importan los entrenamientos de los últimos 30 días (duración, FC media/máx, calorías,
+   correlacionados por rango temporal).
+3. Con la sincronización activada, la app también **auto-sincroniza al abrirse** (máximo una
+   vez cada 6 horas, en segundo plano y sin molestar si falla).
+4. En web (sin reloj) puedes probar el flujo con el botón de **datos de demo**.
 
 Los entrenos importados se marcan con ⌚, no se duplican al re-sincronizar, y el **coach de
 IA** incluye la frecuencia cardíaca y las calorías en su análisis.
 
-**Setup nativo (una vez creado el proyecto Android):**
+**Zonas de FC personalizadas:** si indicas tu año de nacimiento en el perfil, la app calcula
+tu FC máxima teórica (220 − edad) y tus zonas Z1–Z5. La intensidad de los entrenos importados
+se estima con tus zonas, el Progreso te dice en qué zona entrenas y el coach lo usa en su
+análisis.
 
-```bash
-npm i capacitor-health-connect
-npx cap sync android
-```
+Todo lo nativo ya está configurado en este repo: plugin
+`@kiwi-health/capacitor-health-connect`, permisos en `AndroidManifest.xml` y los intent
+handlers que exige Google. El usuario final solo necesita la app **Health Connect** de
+Google Play y su reloj vinculado.
 
-Y en `android/app/src/main/AndroidManifest.xml` añade los permisos de lectura de Health
-Connect que pida el plugin (ejercicio, frecuencia cardíaca y calorías). El usuario final
-necesita la app **Health Connect** de Google Play y su reloj vinculado.
-
-> Nota: la capa de integración está en `src/lib/wearable.ts` con carga dinámica del plugin —
-> la app web compila y funciona aunque el plugin no esté instalado. Si usas otro plugin de
-> Health Connect, solo hay que ajustar ese archivo.
+> La capa de integración está en `src/lib/wearable.ts`. En web, el plugin simplemente no
+> está disponible y la UI ofrece el modo demo.
 
 ---
 

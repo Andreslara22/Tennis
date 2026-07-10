@@ -1,3 +1,5 @@
+import { Capacitor } from '@capacitor/core'
+import { HealthConnect } from '@kiwi-health/capacitor-health-connect'
 import type { Session } from '../types'
 
 /**
@@ -8,8 +10,7 @@ import type { Session } from '../types'
  * Google. Leemos de ahí: cualquier reloj compatible funciona sin integrar
  * cada marca por separado.
  *
- * - App nativa (Capacitor + Android): se usa el plugin de Health Connect si
- *   está instalado (ver README → Wearables).
+ * - App nativa (Capacitor + Android): plugin @kiwi-health/capacitor-health-connect.
  * - Web / desarrollo: no hay Health Connect, así que ofrecemos una
  *   importación de DEMO claramente etiquetada para probar el flujo.
  */
@@ -26,80 +27,111 @@ export interface WearableWorkout {
 
 /** ¿Estamos corriendo como app nativa Android (Capacitor)? */
 export function isNativeAndroid(): boolean {
-  const cap = (window as unknown as { Capacitor?: { getPlatform?: () => string } }).Capacitor
-  return !!cap?.getPlatform && cap.getPlatform() === 'android'
+  return Capacitor.getPlatform() === 'android'
 }
+
+const READ_TYPES = ['ExerciseSession', 'HeartRateSeries', 'TotalCaloriesBurned'] as const
 
 /**
  * Lee entrenamientos desde Health Connect (solo Android nativo).
- * Requiere el plugin `capacitor-health-connect` añadido al proyecto Android.
+ * Correlaciona FC y calorías con cada sesión por solapamiento temporal.
  */
 export async function readWorkoutsFromHealthConnect(sinceDays = 30): Promise<WearableWorkout[]> {
-  const pkgName = 'capacitor-health-connect'
-  let mod: Record<string, unknown>
-  try {
-    // Import dinámico para no romper el build web si el plugin no está instalado.
-    mod = (await import(/* @vite-ignore */ pkgName)) as Record<string, unknown>
-  } catch {
+  const { availability } = await HealthConnect.checkAvailability()
+  if (availability === 'NotInstalled') {
     throw new Error(
-      'Plugin de Health Connect no instalado. Ejecuta "npm i capacitor-health-connect && npx cap sync android" (ver README → Wearables).',
+      'Health Connect no está instalado. Instálalo desde Google Play y vincula tu reloj.',
+    )
+  }
+  if (availability !== 'Available') {
+    throw new Error('Health Connect no está disponible en este dispositivo.')
+  }
+
+  const perms = await HealthConnect.requestHealthPermissions({
+    read: [...READ_TYPES],
+    write: [],
+  })
+  if (!perms.hasAllPermissions && perms.grantedPermissions.length === 0) {
+    throw new Error(
+      'Permisos de Health Connect denegados. Concédelos en Ajustes → Health Connect → Permisos de apps.',
     )
   }
 
-  const HealthConnect = (mod.HealthConnect ?? mod.default) as {
-    checkAvailability?: () => Promise<{ availability: string }>
-    requestHealthPermissions?: (o: unknown) => Promise<unknown>
-    readRecords?: (o: unknown) => Promise<{ records: HCExercise[] }>
+  const timeRangeFilter = {
+    type: 'between' as const,
+    startTime: new Date(Date.now() - sinceDays * 86400_000),
+    endTime: new Date(),
   }
 
-  if (HealthConnect.checkAvailability) {
-    const { availability } = await HealthConnect.checkAvailability()
-    if (availability !== 'Available') {
-      throw new Error(
-        'Health Connect no está disponible en este dispositivo. Instálalo desde Google Play y vincula tu reloj.',
-      )
+  const [exercises, hrSeries, calRecords] = await Promise.all([
+    readAll('ExerciseSession', timeRangeFilter),
+    readAll('HeartRateSeries', timeRangeFilter),
+    readAll('TotalCaloriesBurned', timeRangeFilter),
+  ])
+
+  return exercises.map((ex) => {
+    const start = new Date(ex.startTime as unknown as string | Date)
+    const end = new Date(ex.endTime as unknown as string | Date)
+
+    // FC: muestras dentro de la ventana del ejercicio
+    const samples: number[] = []
+    for (const serie of hrSeries) {
+      const s = serie as unknown as {
+        samples?: { time: string | Date; beatsPerMinute: number }[]
+      }
+      for (const smp of s.samples ?? []) {
+        const t = new Date(smp.time)
+        if (t >= start && t <= end) samples.push(smp.beatsPerMinute)
+      }
     }
-  }
 
-  await HealthConnect.requestHealthPermissions?.({
-    read: ['ExerciseSession', 'HeartRateSeries', 'TotalCaloriesBurned'],
-    write: [],
+    // Calorías: registros que solapan con la ventana del ejercicio
+    let kcal = 0
+    for (const c of calRecords) {
+      const cr = c as unknown as {
+        startTime: string | Date
+        endTime: string | Date
+        energy?: { unit: string; value: number }
+      }
+      const cs = new Date(cr.startTime)
+      const ce = new Date(cr.endTime)
+      if (cs < end && ce > start && cr.energy?.value) kcal += cr.energy.value
+    }
+
+    const exr = ex as unknown as { title?: string }
+    return {
+      start: start.toISOString(),
+      durationMin: Math.max(1, Math.round((+end - +start) / 60000)),
+      title: exr.title || 'Entrenamiento del reloj',
+      avgHr: samples.length
+        ? Math.round(samples.reduce((a, b) => a + b, 0) / samples.length)
+        : undefined,
+      maxHr: samples.length ? Math.max(...samples) : undefined,
+      calories: kcal > 0 ? Math.round(kcal) : undefined,
+    }
   })
-
-  const since = new Date()
-  since.setDate(since.getDate() - sinceDays)
-
-  const res = await HealthConnect.readRecords?.({
-    type: 'ExerciseSession',
-    timeRangeFilter: {
-      type: 'between',
-      startTime: since.toISOString(),
-      endTime: new Date().toISOString(),
-    },
-  })
-
-  return (res?.records ?? []).map(hcToWorkout)
 }
 
-interface HCExercise {
-  startTime?: string
-  endTime?: string
-  title?: string
-  metadata?: { avgHeartRate?: number; maxHeartRate?: number; totalCalories?: number }
-}
+type TimeRange = { type: 'between'; startTime: Date; endTime: Date }
 
-function hcToWorkout(r: HCExercise): WearableWorkout {
-  const start = r.startTime ?? new Date().toISOString()
-  const end = r.endTime ?? start
-  const durationMin = Math.max(1, Math.round((+new Date(end) - +new Date(start)) / 60000))
-  return {
-    start,
-    durationMin,
-    title: r.title,
-    avgHr: r.metadata?.avgHeartRate,
-    maxHr: r.metadata?.maxHeartRate,
-    calories: r.metadata?.totalCalories,
-  }
+/** Lee todas las páginas de un tipo de registro. */
+async function readAll(
+  type: (typeof READ_TYPES)[number],
+  timeRangeFilter: TimeRange,
+): Promise<Record<string, unknown>[]> {
+  const out: Record<string, unknown>[] = []
+  let pageToken: string | undefined
+  do {
+    const res = await HealthConnect.readRecords({
+      type,
+      timeRangeFilter,
+      pageSize: 1000,
+      pageToken,
+    })
+    out.push(...(res.records as unknown as Record<string, unknown>[]))
+    pageToken = res.pageToken
+  } while (pageToken)
+  return out
 }
 
 /**
@@ -127,9 +159,56 @@ export function demoWorkouts(): WearableWorkout[] {
   return out
 }
 
-/** Estima la intensidad 1–5 a partir de la FC media. */
-export function intensityFromHr(avgHr?: number): number {
+// ---------- Zonas de frecuencia cardíaca ----------
+
+export interface HrZones {
+  /** FC máxima teórica (220 − edad) */
+  hrMax: number
+  /** Límites superiores de las zonas 1–5 en ppm */
+  z1: number // recuperación (<60%)
+  z2: number // aeróbico suave (60–70%)
+  z3: number // aeróbico (70–80%)
+  z4: number // umbral (80–90%)
+  // z5: >90% hasta hrMax
+}
+
+/** Zonas de FC personalizadas a partir del año de nacimiento (fórmula 220 − edad). */
+export function hrZonesFromBirthYear(birthYear?: number): HrZones | null {
+  if (!birthYear) return null
+  const age = new Date().getFullYear() - birthYear
+  if (age < 8 || age > 100) return null
+  const hrMax = 220 - age
+  return {
+    hrMax,
+    z1: Math.round(hrMax * 0.6),
+    z2: Math.round(hrMax * 0.7),
+    z3: Math.round(hrMax * 0.8),
+    z4: Math.round(hrMax * 0.9),
+  }
+}
+
+/** Nombre de la zona en la que cae una FC dada. */
+export function hrZoneLabel(avgHr: number, zones: HrZones): string {
+  if (avgHr <= zones.z1) return 'Z1 · recuperación'
+  if (avgHr <= zones.z2) return 'Z2 · aeróbico suave'
+  if (avgHr <= zones.z3) return 'Z3 · aeróbico'
+  if (avgHr <= zones.z4) return 'Z4 · umbral'
+  return 'Z5 · máxima'
+}
+
+/**
+ * Estima la intensidad 1–5. Con zonas personalizadas usa el % de FC máx;
+ * sin ellas, umbrales genéricos.
+ */
+export function intensityFromHr(avgHr?: number, zones?: HrZones | null): number {
   if (!avgHr) return 3
+  if (zones) {
+    if (avgHr <= zones.z1) return 1
+    if (avgHr <= zones.z2) return 2
+    if (avgHr <= zones.z3) return 3
+    if (avgHr <= zones.z4) return 4
+    return 5
+  }
   if (avgHr < 110) return 2
   if (avgHr < 130) return 3
   if (avgHr < 150) return 4
@@ -143,6 +222,7 @@ export function intensityFromHr(avgHr?: number): number {
 export function workoutsToSessions(
   workouts: WearableWorkout[],
   existing: Session[],
+  zones?: HrZones | null,
 ): Omit<Session, 'id'>[] {
   const imported = new Set(
     existing.filter((s) => s.source === 'wearable').map((s) => s.date),
@@ -153,7 +233,7 @@ export function workoutsToSessions(
       date: w.start,
       type: 'entrenamiento' as const,
       durationMin: w.durationMin,
-      intensity: intensityFromHr(w.avgHr),
+      intensity: intensityFromHr(w.avgHr, zones),
       focus: ['Físico'],
       notes: w.title ? `⌚ ${w.title}` : '⌚ Importado del reloj',
       avgHr: w.avgHr,

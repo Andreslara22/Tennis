@@ -1,5 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { StoreProvider, useStore } from './store'
+import {
+  hrZonesFromBirthYear,
+  isNativeAndroid,
+  readWorkoutsFromHealthConnect,
+  workoutsToSessions,
+} from './lib/wearable'
 import Onboarding from './screens/Onboarding'
 import Home from './screens/Home'
 import LogSession from './screens/LogSession'
@@ -17,9 +23,39 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'settings', label: 'Ajustes', icon: '⚙️' },
 ]
 
+/** Sincroniza el reloj en segundo plano al abrir la app (máx. 1 vez cada 6h). */
+function useWearableAutoSync() {
+  const { state, addSessions, setWearable } = useStore()
+  const ran = useRef(false)
+
+  useEffect(() => {
+    if (ran.current) return
+    ran.current = true
+
+    const { wearable, sessions, profile, onboarded } = state
+    if (!onboarded || !wearable.enabled || !isNativeAndroid()) return
+    const SIX_HOURS = 6 * 3600_000
+    if (wearable.lastSync && Date.now() - +new Date(wearable.lastSync) < SIX_HOURS) return
+
+    readWorkoutsFromHealthConnect(30)
+      .then((workouts) => {
+        const zones = hrZonesFromBirthYear(profile?.birthYear)
+        const fresh = workoutsToSessions(workouts, sessions, zones)
+        if (fresh.length > 0) addSessions(fresh)
+        setWearable({ lastSync: new Date().toISOString() })
+      })
+      .catch(() => {
+        // Silencioso: sin permisos o sin Health Connect. El usuario puede
+        // sincronizar manualmente desde Ajustes, donde sí mostramos el error.
+      })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+}
+
 function Shell() {
   const { state } = useStore()
   const [tab, setTab] = useState<Tab>('home')
+  useWearableAutoSync()
 
   if (!state.onboarded) {
     return <Onboarding />
