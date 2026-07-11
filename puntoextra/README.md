@@ -56,6 +56,10 @@ Google Play están en `app/store-assets/`.
 - **Reporte 📊**: el "reporte del domingo" — ejercicios, días activos, aciertos, materias
   y *en qué se atora* cada hijo — listo para compartir por WhatsApp.
 - **Persistencia local** (localStorage) — sin backend en el MVP.
+- **Familia de ejemplo**: desde el onboarding, "Explora con una familia de ejemplo"
+  carga a los García (3 hijos, 2 semanas de actividad, simulacros y medallas) para
+  demostrar la app poblada a mamás, aliados o inversionistas. Se borra en Ajustes.
+- **Simulacro UNAM/IPN** cronometrado (secundaria/prepa), logros y gráfica semanal.
 
 ### Nota de producción
 

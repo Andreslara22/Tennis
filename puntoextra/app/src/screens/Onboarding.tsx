@@ -8,7 +8,7 @@ interface HijoDraft {
 }
 
 export default function Onboarding() {
-  const { setFamilia } = useStore()
+  const { setFamilia, cargarDemo } = useStore()
   const [paso, setPaso] = useState(0)
   const [nombreTutor, setNombreTutor] = useState('')
   const [hijos, setHijos] = useState<HijoDraft[]>([{ nombre: '', grado: '5P' }])
@@ -65,6 +65,9 @@ export default function Onboarding() {
               Continuar
             </button>
           </div>
+          <button className="link-demo" onClick={cargarDemo}>
+            ¿Solo quieres ver cómo funciona? Explora con una familia de ejemplo →
+          </button>
         </>
       )}
 

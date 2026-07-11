@@ -1,7 +1,7 @@
 {
   "name": "puntoextra",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.2.0",
   "description": "Punto Extra — el tutor de toda la familia. Membresía educativa familiar por WhatsApp + app.",
   "type": "module",
   "scripts": {

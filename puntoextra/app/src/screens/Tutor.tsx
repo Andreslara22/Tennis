@@ -63,10 +63,19 @@ export default function Tutor({ hijoId, setHijoId }: { hijoId: string | null; se
 
       <div className="chat">
         {mensajes.length === 0 && (
-          <div className="msg tutor">
-            ¡Hola {hijo.nombre}! 👋 Soy tu tutor de Punto Extra. Mándame tu duda o escribe el problema de tu tarea y lo
-            resolvemos <b>juntos, paso a paso</b>. (Yo no doy respuestas… ¡te ayudo a encontrarlas! 😉)
-          </div>
+          <>
+            <div className="msg tutor">
+              ¡Hola {hijo.nombre}! 👋 Soy tu tutor de Punto Extra. Mándame tu duda o escribe el problema de tu tarea y lo
+              resolvemos <b>juntos, paso a paso</b>. (Yo no doy respuestas… ¡te ayudo a encontrarlas! 😉)
+            </div>
+            <div className="sugerencias">
+              {['No entiendo las fracciones equivalentes', '¿Cómo despejo x en 3x + 5 = 20?', '¿Cuánto es el 15% de 200?', '¿Cuándo lleva tilde una esdrújula?'].map((q) => (
+                <button key={q} onClick={() => setTexto(q)}>
+                  {q}
+                </button>
+              ))}
+            </div>
+          </>
         )}
         {mensajes.map((m) => (
           <div key={m.id} className={`msg ${m.role}`}>

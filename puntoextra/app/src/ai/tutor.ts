@@ -130,6 +130,22 @@ const GUIAS: Guia[] = [
       'Arma la oración y léela en voz alta. ¿Suena como algo que dirías? Escríbemela y la revisamos juntos.',
     ],
   },
+  {
+    claves: /resumen|idea principal|comprensi[oó]n|lectura|p[aá]rrafo|ensayo/i,
+    pasos: [
+      'Buen plan 📖 Lee el texto UNA vez completo sin subrayar nada. Luego dime: ¿de qué trata, en una sola oración?',
+      '¡Eso es la idea principal! Ahora busca 2 o 3 datos que la sostengan — esos son los secundarios. ¿Cuáles encontraste?',
+      'Perfecto: idea principal + datos que la apoyan = tu resumen. Escríbelo con tus palabras (sin copiar frases) y me lo enseñas 🎉',
+    ],
+  },
+  {
+    claves: /independencia|revoluci[oó]n|porfiriato|conquista|l[ií]nea del tiempo|hist[oó]ric/i,
+    pasos: [
+      'La historia se entiende con orden ⏳ Primero: ¿QUÉ pasó y en qué AÑO? Ubícalo en tu línea del tiempo.',
+      'Bien. Ahora lo importante: ¿POR QUÉ pasó? ¿Qué problema quería resolver la gente de ese momento?',
+      'Último paso: ¿qué CAMBIÓ después? Si puedes contar causa → hecho → consecuencia, ya no es memorizar: es entender. ¡+1! 🎉',
+    ],
+  },
 ]
 
 const GENERICO = [
