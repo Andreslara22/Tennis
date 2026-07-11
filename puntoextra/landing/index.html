@@ -369,11 +369,18 @@
   .cierre h2{font-size:clamp(2.3rem,5.4vw,4rem);max-width:20ch;margin:0 auto}
   .cierre h2 em{color:var(--ambar)}
   .cierre p{color:var(--gris-luz);max-width:34rem;margin:1.4rem auto 2.4rem;position:relative}
-  footer{background:var(--tinta-2);color:var(--gris-luz);font-size:.88rem;padding:2.6rem 0}
-  footer .wrap{display:flex;flex-wrap:wrap;gap:1.2rem 3rem;justify-content:space-between;align-items:center}
-  footer a{color:var(--crema);text-decoration:none;font-weight:700}
-  footer a:hover{color:var(--ambar)}
-  footer .legal{width:100%;font-size:.78rem;opacity:.65;margin-top:.8rem;max-width:74ch}
+  footer{background:var(--tinta-2);color:var(--gris-luz);font-size:.92rem}
+  .pie-arriba{display:grid;gap:2.4rem;padding:3.6rem 0 2.6rem;border-bottom:1px solid rgba(255,248,239,.1)}
+  @media(min-width:860px){.pie-arriba{grid-template-columns:1.35fr 1fr 1fr 1.2fr}}
+  .pie-marca p{margin:.9rem 0 1.2rem;max-width:22rem}
+  .pie-col h4{color:var(--crema);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:1rem}
+  .pie-col a{display:block;color:var(--gris-luz);text-decoration:none;padding:.28rem 0;font-weight:700}
+  .pie-col a:hover{color:var(--ambar)}
+  .pie-contacto div{display:flex;gap:.6rem;align-items:baseline;padding:.28rem 0;font-weight:700}
+  .pie-contacto a{display:inline;padding:0;color:var(--crema)}
+  .pie-abajo{display:flex;flex-wrap:wrap;gap:.8rem 2rem;justify-content:space-between;align-items:center;padding:1.4rem 0 2rem;font-size:.78rem;opacity:.75}
+  .pie-abajo .legal{max-width:74ch}
+  .hecho{color:var(--crema);font-weight:800}
 </style>
 <noscript><style>.rv{opacity:1;transform:none}</style></noscript>
 </head>
@@ -390,6 +397,7 @@
       <a href="#reporte">El reporte</a>
       <a href="#precios">Precios</a>
       <a href="#faq">Preguntas</a>
+      <a href="blog/">Blog</a>
       <a href="app/">Portal</a>
     </nav>
     <div class="nav-right">
@@ -408,6 +416,7 @@
     <a href="#reporte">El reporte</a>
     <a href="#precios">Precios</a>
     <a href="#faq">Preguntas</a>
+    <a href="blog/">Blog para papás</a>
     <a href="app/">Portal de la app</a>
   </nav>
 </header>
@@ -723,13 +732,39 @@
 
 <footer>
   <div class="wrap">
-    <a class="logo" href="#" style="color:var(--crema)">punto <span class="pill" style="color:var(--tinta)">extra</span></a>
-    <div>
-      <a href="mailto:hola@puntoextra.mx">hola@puntoextra.mx</a> ·
-      <a href="app/">Portal de la app</a> ·
-      <a href="privacidad.html">Aviso de privacidad</a>
+    <div class="pie-arriba">
+      <div class="pie-marca">
+        <a class="logo" href="#" style="color:var(--crema)">punto <span class="pill" style="color:var(--tinta)">extra</span></a>
+        <p>El tutor de toda la familia por $99 al mes. Explica paso a paso, nunca da la respuesta — y cada domingo tú recibes el reporte.</p>
+        <a class="btn btn-wa" href="https://wa.me/526141062426?text=Hola%2C%20quiero%20info%20de%20Punto%20Extra" target="_blank" rel="noopener" style="font-size:.9rem;padding:.7rem 1.3rem">Escríbenos por WhatsApp</a>
+      </div>
+      <div class="pie-col">
+        <h4>Producto</h4>
+        <a href="#como">Cómo funciona</a>
+        <a href="#incluye">Qué incluye</a>
+        <a href="#demo">Demo del tutor</a>
+        <a href="#precios">Precios</a>
+        <a href="app/">Portal de la app</a>
+      </div>
+      <div class="pie-col">
+        <h4>Recursos</h4>
+        <a href="blog/">Blog para papás</a>
+        <a href="#faq">Preguntas frecuentes</a>
+        <a href="https://wa.me/526141062426?text=Quiero%20un%20simulacro%20UNAM%2FIPN%20gratis" target="_blank" rel="noopener">Simulacro UNAM/IPN gratis</a>
+        <a href="privacidad.html">Aviso de privacidad</a>
+      </div>
+      <div class="pie-col pie-contacto">
+        <h4>Contacto</h4>
+        <div>💬 <a href="https://wa.me/526141062426" target="_blank" rel="noopener">WhatsApp 614 106 2426</a></div>
+        <div>✉️ <a href="mailto:hola@puntoextra.mx">hola@puntoextra.mx</a></div>
+        <div>🕗 Lunes a sábado, 8:00–20:00</div>
+        <div class="hecho">Hecho en México 🇲🇽</div>
+      </div>
     </div>
-    <div class="legal">Punto Extra es un servicio de tutoría complementaria; no somos una escuela ni otorgamos validez oficial de estudios. Los menores usan el servicio con el consentimiento y bajo la cuenta de su madre, padre o tutor (LFPDPPP). Precios en pesos mexicanos, IVA incluido. Cifras de mercado: SEP (Principales Cifras 2024–2025) y prensa nacional sobre la admisión UNAM/IPN 2025. © 2026 Punto Extra.</div>
+    <div class="pie-abajo">
+      <div class="legal">Punto Extra es un servicio de tutoría complementaria; no somos una escuela ni otorgamos validez oficial de estudios. Los menores usan el servicio con el consentimiento y bajo la cuenta de su madre, padre o tutor (LFPDPPP). Precios en pesos mexicanos, IVA incluido. Cifras de mercado: SEP (Principales Cifras 2024–2025) y prensa nacional sobre la admisión UNAM/IPN 2025.</div>
+      <div>© 2026 Punto Extra</div>
+    </div>
   </div>
 </footer>
 
