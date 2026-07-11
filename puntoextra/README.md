@@ -19,9 +19,12 @@ puntoextra/
 
 ## Landing
 
-Un solo archivo, sin build: abre `landing/index.html` o publícala en cualquier hosting
-estático (GitHub Pages, Netlify, Vercel). Antes de lanzar: reemplaza el número de WhatsApp
-placeholder `5215500000000` por el número real de WhatsApp Business (buscar y reemplazar).
+Sin build: abre `landing/index.html` o publica la carpeta `landing/` completa en cualquier
+hosting estático (GitHub Pages, Netlify, Vercel). Incluye demo interactivo del tutor,
+contador de lugares fundadores (edita `FAMILIAS_FUNDADORAS` en el script de `index.html`
+conforme se unan familias), SEO completo (OG, JSON-LD de producto y FAQ) y el portal de la
+app web en `landing/app/` (regenerable con `npm run portal`). El WhatsApp configurado es
+`wa.me/526141062426`.
 
 ## App (React + Vite + Capacitor)
 
@@ -33,6 +36,7 @@ npm run build        # typecheck + build de producción
 npm run android      # build + sync + abrir Android Studio
 npm run android:apk  # APK release (requiere Android SDK y firma)
 npm run assets       # regenera iconos launcher, splash y ficha de Play
+npm run portal       # build de la app web → landing/app/ (el "Portal" de la landing)
 ```
 
 El proyecto nativo está versionado en `app/android/` (appId `mx.puntoextra.app`, nombre

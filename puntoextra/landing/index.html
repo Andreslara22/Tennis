@@ -3,11 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Punto Extra — El tutor de toda la familia por $99 al mes</title>
+<title>Punto Extra — Tutor de tareas por WhatsApp para toda la familia | $99 al mes</title>
 <meta name="description" content="Tutor de tareas con IA por WhatsApp para todos tus hijos: explica paso a paso, alineado al temario SEP, con clase en vivo semanal, prep UNAM/IPN y reporte cada domingo para ti. $99 MXN/mes por toda la familia.">
+<link rel="canonical" href="https://puntoextra.mx/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#221A4A">
 <meta property="og:title" content="Punto Extra — El tutor de toda la familia">
 <meta property="og:description" content="Todos tus hijos, todas las materias, $99 al mes. Tutor por WhatsApp que enseña paso a paso + reporte semanal para papás.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://puntoextra.mx/">
+<meta property="og:image" content="https://puntoextra.mx/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_MX">
+<meta property="og:site_name" content="Punto Extra">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Punto Extra — El tutor de toda la familia">
+<meta name="twitter:description" content="Tutor de tareas por WhatsApp: todos tus hijos, todas las materias, $99 al mes.">
+<meta name="twitter:image" content="https://puntoextra.mx/og-image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Membresía Punto Extra",
+  "description": "Tutor de tareas con IA por WhatsApp para toda la familia: temario SEP, clase en vivo semanal, prep UNAM/IPN y reporte semanal para papás.",
+  "brand": { "@type": "Brand", "name": "Punto Extra" },
+  "image": "https://puntoextra.mx/og-image.png",
+  "offers": [
+    { "@type": "Offer", "name": "Individual", "price": "79", "priceCurrency": "MXN", "url": "https://puntoextra.mx/#precios" },
+    { "@type": "Offer", "name": "Familiar (hasta 4 hijos)", "price": "99", "priceCurrency": "MXN", "url": "https://puntoextra.mx/#precios" },
+    { "@type": "Offer", "name": "Familiar anual", "price": "899", "priceCurrency": "MXN", "url": "https://puntoextra.mx/#precios" },
+    { "@type": "Offer", "name": "Aspirante UNAM/IPN", "price": "599", "priceCurrency": "MXN", "url": "https://puntoextra.mx/#precios" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "¿Le van a hacer la tarea a mi hijo?", "acceptedAnswer": { "@type": "Answer", "text": "No. El tutor está entrenado para guiar sin resolver: hace preguntas, da pistas y verifica cada paso, como un buen maestro particular. Pagas porque aprenda, no porque entregue." } },
+    { "@type": "Question", "name": "¿Qué materias y grados cubre?", "acceptedAnswer": { "@type": "Answer", "text": "Todas las materias del temario SEP, de primaria a preparatoria: matemáticas, español, ciencias, historia, geografía e inglés básico. Cada hijo tiene su perfil con su grado." } },
+    { "@type": "Question", "name": "¿Necesito instalar algo?", "acceptedAnswer": { "@type": "Answer", "text": "No. Funciona 100% por WhatsApp. La app de Punto Extra es un complemento opcional con simulacros, rachas y el panel para papás." } },
+    { "@type": "Question", "name": "¿Cómo pago si no tengo tarjeta?", "acceptedAnswer": { "@type": "Answer", "text": "Puedes pagar el plan anual de $899 con un solo voucher en OXXO, o por transferencia SPEI, además de tarjeta de débito o crédito." } },
+    { "@type": "Question", "name": "¿Es seguro para mis hijos?", "acceptedAnswer": { "@type": "Answer", "text": "La cuenta la abre y controla la madre, el padre o el tutor. Contenido moderado apto para menores, sin chat entre niños, y toda la actividad visible en el reporte semanal (LFPDPPP)." } },
+    { "@type": "Question", "name": "¿Puedo cancelar cuando quiera?", "acceptedAnswer": { "@type": "Answer", "text": "Sí, desde WhatsApp con un mensaje. Sin plazos forzosos ni penalizaciones." } }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -174,6 +218,39 @@
   .paso h3{font-family:var(--display);font-weight:700;font-size:1.35rem;margin:.9rem 0 .6rem}
   .paso p{color:var(--gris);font-size:.97rem}
 
+  /* ── Demo del tutor ─────────────────────────────────── */
+  .demo{background:var(--tinta);color:var(--crema);position:relative;overflow:hidden}
+  .demo::before{content:"";position:absolute;top:-240px;right:-180px;width:640px;height:640px;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(255,197,61,.16),transparent 70%);pointer-events:none}
+  .demo .wrap{position:relative;display:grid;gap:3rem;align-items:center}
+  @media(min-width:960px){.demo .wrap{grid-template-columns:.95fr 1.05fr}}
+  .demo .eyebrow{color:var(--ambar)}
+  .demo h2{font-size:clamp(2rem,4.4vw,3.1rem);margin:1rem 0 1.2rem}
+  .demo h2 em{color:var(--ambar)}
+  .demo .lead{color:var(--gris-luz);font-size:1.06rem;max-width:30rem;margin-bottom:1.6rem}
+  .demo .lead b{color:var(--crema)}
+  .chips{display:flex;flex-wrap:wrap;gap:.6rem}
+  .chips button{background:transparent;border:1.5px solid var(--linea-luz);color:var(--crema);font-family:var(--body);
+    font-weight:700;font-size:.88rem;padding:.55rem 1.1rem;border-radius:999px;cursor:pointer;transition:background .15s,border-color .15s}
+  .chips button:hover{background:rgba(255,248,239,.08);border-color:var(--ambar)}
+  .demo-caja{background:#ECE5DD;border-radius:26px;overflow:hidden;box-shadow:0 40px 90px -30px rgba(0,0,0,.55);max-width:480px;justify-self:center;width:100%}
+  .demo-caja .chat-top{border-radius:0}
+  .demo-hilo{height:340px;overflow-y:auto;padding:.9rem;display:flex;flex-direction:column;gap:.6rem;font-size:.9rem;line-height:1.5;scroll-behavior:smooth}
+  @media(max-width:720px){.demo-hilo{height:300px}}
+  .demo-hilo .msg{max-width:88%;color:var(--tinta)}
+  .escribiendo{align-self:flex-start;background:#fff;border-radius:14px;padding:.6rem .9rem;display:flex;gap:5px}
+  .escribiendo i{width:7px;height:7px;border-radius:50%;background:#9a91b8;animation:puntito 1.2s infinite}
+  .escribiendo i:nth-child(2){animation-delay:.18s}
+  .escribiendo i:nth-child(3){animation-delay:.36s}
+  @keyframes puntito{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}
+  .demo-input{display:flex;gap:.55rem;padding:.75rem;background:#F0EAE2;border-top:1px solid rgba(34,26,74,.08)}
+  .demo-input input{flex:1;border:none;border-radius:999px;padding:.8rem 1.15rem;font-family:var(--body);font-size:.95rem;color:var(--tinta);background:#fff}
+  .demo-input input:focus{outline:2px solid var(--mora)}
+  .demo-input button{width:48px;height:48px;border-radius:50%;border:none;background:var(--wa);color:#fff;font-size:1.15rem;cursor:pointer;flex:none}
+  .demo-input button:disabled{opacity:.5;cursor:default}
+  .demo-pie{font-size:.78rem;color:var(--gris-luz);padding:.7rem 1rem .9rem;text-align:center;background:var(--tinta)}
+  .demo-cta{margin-top:1.6rem}
+
   /* ── Bento ──────────────────────────────────────────── */
   .bento-sec{background:var(--crema-2)}
   .bento-sec h2{font-size:clamp(2rem,4.4vw,3.1rem);margin:.9rem 0 .6rem}
@@ -302,7 +379,7 @@
 </head>
 <body>
 
-<div class="topbar">🎉 Precio fundador: <b>$49/mes de por vida</b><span class="oculta-sm"> para las primeras 100 familias</span></div>
+<div class="topbar">🎉 Precio fundador: <b>$49/mes de por vida</b> — quedan <b class="lugares">100</b> lugares<span class="oculta-sm"> de 100</span></div>
 
 <header class="nav-shell">
   <div class="wrap nav">
@@ -313,9 +390,10 @@
       <a href="#reporte">El reporte</a>
       <a href="#precios">Precios</a>
       <a href="#faq">Preguntas</a>
+      <a href="app/">Portal</a>
     </nav>
     <div class="nav-right">
-    <a class="btn btn-wa" href="https://wa.me/5215500000000?text=Hola%2C%20quiero%20probar%20Punto%20Extra%20para%20mis%20hijos" target="_blank" rel="noopener">
+    <a class="btn btn-wa" href="https://wa.me/526141062426?text=Hola%2C%20quiero%20probar%20Punto%20Extra%20para%20mis%20hijos" target="_blank" rel="noopener">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.1-4.7-4-4.9-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.3 1.1 2.3 1.5 2.7 1.6.3.2.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .8-.2 1.4Z"/></svg>
       <span class="oculta-sm">Empieza por</span> WhatsApp
     </a>
@@ -330,6 +408,7 @@
     <a href="#reporte">El reporte</a>
     <a href="#precios">Precios</a>
     <a href="#faq">Preguntas</a>
+    <a href="app/">Portal de la app</a>
   </nav>
 </header>
 
@@ -340,7 +419,7 @@
       <h1 class="display">El tutor de <em>toda la familia</em> por $99 al mes.</h1>
       <p class="sub">Un tutor con IA disponible todos los días por WhatsApp para <b>todos tus hijos</b>. Explica paso a paso — <b>nunca da la respuesta</b> — sigue el temario de la SEP, los prepara para el examen de la UNAM y el IPN, y cada domingo <b>tú recibes el reporte</b> de qué practicó cada uno.</p>
       <div class="ctas">
-        <a class="btn btn-wa" href="https://wa.me/5215500000000?text=Hola%2C%20quiero%20probar%20Punto%20Extra%20para%20mis%20hijos" target="_blank" rel="noopener">Empieza por WhatsApp</a>
+        <a class="btn btn-wa" href="https://wa.me/526141062426?text=Hola%2C%20quiero%20probar%20Punto%20Extra%20para%20mis%20hijos" target="_blank" rel="noopener">Empieza por WhatsApp</a>
         <a class="btn btn-linea" href="#precios">Ver planes</a>
       </div>
       <div class="micro-trust">
@@ -418,6 +497,37 @@
         <h3>Tú recibes el reporte</h3>
         <p>Cada domingo te llega qué practicó cada hijo, cuántas veces, y en qué está atorado — sin perseguir a nadie.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="demo" id="demo">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow rv">Pruébalo ahora mismo</span>
+      <h2 class="display rv">Hazle una pregunta al tutor, <em>ahorita</em>.</h2>
+      <p class="lead rv">Este es el mismo tutor que usan tus hijos por WhatsApp. Escríbele una duda de tarea o toca un ejemplo — y fíjate en el detalle: <b>nunca da la respuesta</b>, te lleva paso a paso hasta que la encuentras tú.</p>
+      <div class="chips rv" aria-label="Ejemplos de preguntas">
+        <button type="button" data-q="No entiendo las fracciones equivalentes">Fracciones</button>
+        <button type="button" data-q="¿Cómo despejo x en 3x + 5 = 20?">Despejar x</button>
+        <button type="button" data-q="¿Cuánto es el 15% de 200?">Porcentajes</button>
+        <button type="button" data-q="¿Cuándo lleva tilde una palabra esdrújula?">Acentos</button>
+        <button type="button" data-q="Dame la respuesta de mi tarea">Pídele la respuesta 😏</button>
+      </div>
+      <div class="demo-cta rv">
+        <a class="btn btn-wa" href="https://wa.me/526141062426?text=Hola%2C%20prob%C3%A9%20el%20demo%20y%20quiero%20Punto%20Extra%20para%20mis%20hijos" target="_blank" rel="noopener">Quiero esto para mis hijos</a>
+      </div>
+    </div>
+    <div class="demo-caja rv">
+      <div class="chat-top"><span class="ava">+1</span><span>Punto Extra Tutor<small>demo · en línea</small></span></div>
+      <div class="demo-hilo" id="demo-hilo" aria-live="polite">
+        <div class="msg tutor">¡Hola! 👋 Soy el tutor de Punto Extra. Mándame una duda de la tarea de tus hijos — o toca un ejemplo — y te enseño cómo guío <b>sin dar la respuesta</b>.</div>
+      </div>
+      <div class="demo-input">
+        <input id="demo-input" type="text" placeholder="Escribe una duda de tarea…" maxlength="200" aria-label="Escribe tu pregunta al tutor">
+        <button id="demo-enviar" aria-label="Enviar">➤</button>
+      </div>
+      <div class="demo-pie">Demo sin registro. El tutor real responde por WhatsApp y se adapta al grado exacto de cada hijo.</div>
     </div>
   </div>
 </section>
@@ -536,7 +646,7 @@
         <div class="precio">$79<small>/mes</small></div>
         <div class="nota">1 hijo</div>
         <ul><li>Tutor ilimitado por WhatsApp</li><li>Quiz diario y rachas</li><li>Reporte semanal</li><li>Clase en vivo semanal</li></ul>
-        <a class="btn btn-linea" href="https://wa.me/5215500000000?text=Quiero%20el%20plan%20individual" target="_blank" rel="noopener">Elegir</a>
+        <a class="btn btn-linea" href="https://wa.me/526141062426?text=Quiero%20el%20plan%20individual" target="_blank" rel="noopener">Elegir</a>
       </div>
       <div class="plan estrella rv">
         <span class="badge">El favorito de las familias</span>
@@ -544,21 +654,21 @@
         <div class="precio">$99<small>/mes</small></div>
         <div class="nota">Hasta 4 hijos · ~$3.30 al día</div>
         <ul><li>Todo lo del individual</li><li><b>Para todos tus hijos</b></li><li>Reporte de toda la familia</li><li>Descuentos con aliados</li></ul>
-        <a class="btn btn-wa" href="https://wa.me/5215500000000?text=Quiero%20el%20plan%20familiar%20de%20%2499" target="_blank" rel="noopener">Empezar ahora</a>
+        <a class="btn btn-wa" href="https://wa.me/526141062426?text=Quiero%20el%20plan%20familiar%20de%20%2499" target="_blank" rel="noopener">Empezar ahora</a>
       </div>
       <div class="plan rv">
         <h3>Familiar anual</h3>
         <div class="precio">$899<small>/año</small></div>
         <div class="nota">≈ $75/mes · ahorra 24%</div>
         <ul><li>Todo lo del familiar</li><li>Pagable en OXXO (1 voucher)</li><li>O a 3 meses sin intereses</li><li>Curso de verano incluido</li></ul>
-        <a class="btn btn-linea" href="https://wa.me/5215500000000?text=Quiero%20el%20plan%20anual%20de%20%24899" target="_blank" rel="noopener">Elegir</a>
+        <a class="btn btn-linea" href="https://wa.me/526141062426?text=Quiero%20el%20plan%20anual%20de%20%24899" target="_blank" rel="noopener">Elegir</a>
       </div>
       <div class="plan rv">
         <h3>Aspirante UNAM/IPN</h3>
         <div class="precio">$599<small> único</small></div>
         <div class="nota">4 meses de prep intensiva</div>
         <ul><li>Simulacros cronometrados</li><li>Plan de estudio por tema</li><li>Clases de estrategia</li><li>Para prepa y licenciatura</li></ul>
-        <a class="btn btn-linea" href="https://wa.me/5215500000000?text=Quiero%20info%20del%20paquete%20Aspirante" target="_blank" rel="noopener">Elegir</a>
+        <a class="btn btn-linea" href="https://wa.me/526141062426?text=Quiero%20info%20del%20paquete%20Aspirante" target="_blank" rel="noopener">Elegir</a>
       </div>
     </div>
 
@@ -567,7 +677,7 @@
         <h3>¿Tu hijo quiere quedar en la prepa de la UNAM o el IPN?</h3>
         <p>Desde 2025 ya no hay examen COMIPEMS: la única competencia real es el examen propio de la UNAM y el IPN — pocos lugares, muchísimos aspirantes. Empieza a prepararlo hoy, no en abril.</p>
       </div>
-      <a class="btn btn-ambar" href="https://wa.me/5215500000000?text=Quiero%20un%20simulacro%20UNAM%2FIPN%20gratis" target="_blank" rel="noopener">Simulacro gratis</a>
+      <a class="btn btn-ambar" href="https://wa.me/526141062426?text=Quiero%20un%20simulacro%20UNAM%2FIPN%20gratis" target="_blank" rel="noopener">Simulacro gratis</a>
     </div>
   </div>
 </section>
@@ -606,8 +716,8 @@
 <div class="cierre">
   <div class="wrap">
     <h2 class="display rv">La tranquilidad de saber que <em>sí están aprendiendo</em>.</h2>
-    <p class="rv">Únete a las familias fundadoras: $49/mes de por vida para las primeras 100. Escríbenos hoy y tu primer reporte llega este domingo.</p>
-    <a class="btn btn-wa rv" href="https://wa.me/5215500000000?text=Hola%2C%20quiero%20ser%20familia%20fundadora%20de%20Punto%20Extra" target="_blank" rel="noopener">Empieza por WhatsApp</a>
+    <p class="rv">Únete a las familias fundadoras: $49/mes de por vida — quedan <b class="lugares" style="color:var(--ambar)">100</b> lugares. Escríbenos hoy y tu primer reporte llega este domingo.</p>
+    <a class="btn btn-wa rv" href="https://wa.me/526141062426?text=Hola%2C%20quiero%20ser%20familia%20fundadora%20de%20Punto%20Extra" target="_blank" rel="noopener">Empieza por WhatsApp</a>
   </div>
 </div>
 
@@ -616,6 +726,7 @@
     <a class="logo" href="#" style="color:var(--crema)">punto <span class="pill" style="color:var(--tinta)">extra</span></a>
     <div>
       <a href="mailto:hola@puntoextra.mx">hola@puntoextra.mx</a> ·
+      <a href="app/">Portal de la app</a> ·
       <a href="privacidad.html">Aviso de privacidad</a>
     </div>
     <div class="legal">Punto Extra es un servicio de tutoría complementaria; no somos una escuela ni otorgamos validez oficial de estudios. Los menores usan el servicio con el consentimiento y bajo la cuenta de su madre, padre o tutor (LFPDPPP). Precios en pesos mexicanos, IVA incluido. Cifras de mercado: SEP (Principales Cifras 2024–2025) y prensa nacional sobre la admisión UNAM/IPN 2025. © 2026 Punto Extra.</div>
@@ -625,6 +736,104 @@
 <script>
 (function(){
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── Lugares fundadores ──────────────────────────────
+  // Actualiza este número conforme se unan familias (100 = ninguna aún).
+  var FAMILIAS_FUNDADORAS = 0;
+  var restantes = Math.max(0, 100 - FAMILIAS_FUNDADORAS);
+  document.querySelectorAll('.lugares').forEach(function(e){ e.textContent = restantes; });
+
+  // ── Demo del tutor (guía socrática por reglas) ──────
+  var GUIAS = [
+    { claves: /dame la respuesta|cu[aá]l es la respuesta|resu[eé]lvel|hazme la tarea|dime el resultado/i, pasos: [
+      'Jaja, buen intento 😄 Pero el trato con tus papás es que TÚ aprendas. Va una pista: vuelve a leer el problema y dime, ¿qué es exactamente lo que te piden encontrar?',
+      'Sigo sin soltarla 😉 Mejor dime qué datos tienes, y te prometo que en dos pasos la encuentras tú solito.'
+    ]},
+    { claves: /fracci|quebrad|numerador|denominador|equivalente/i, pasos: [
+      '¡Va! 💪 Primero dime: en tu fracción, ¿qué número va arriba (numerador) y cuál abajo (denominador)?',
+      '¡Bien! Ahora el truco: ¿hay un número que divida exactamente arriba Y abajo? Ese es el secreto para simplificar.',
+      '¡Exacto! 🎉 Dividiste arriba y abajo entre el mismo número — eso es una fracción equivalente. Te ganaste tu punto extra ✨ ¿Probamos con otra?'
+    ]},
+    { claves: /despej|ecuaci|inc[oó]gnit|3x|\bx\b/i, pasos: [
+      'Vamos por partes 🧩 En 3x + 5 = 20, ¿qué está "estorbando" junto al 3x? Eso es lo primero que pasamos al otro lado, con la operación contraria.',
+      '¡Eso! 20 − 5 = 15, entonces 3x = 15. Ahora la x está multiplicada por 3… ¿qué operación deshace una multiplicación?',
+      '¡+1! 🎉 15 ÷ 3 = 5, así que x = 5. Y el truco de oro: sustitúyela en la ecuación original. ¿Se cumple 3(5) + 5 = 20? ¡Lo resolviste tú!'
+    ]},
+    { claves: /porcentaje|%|descuento|iva/i, pasos: [
+      'Truco de tutor 💡 Empieza siempre por el 10%: ¿cuánto es el 10% de 200? (Solo recorre el punto decimal.)',
+      '¡Bien, 20! Ahora, ¿y el 5%? Pista: es la mitad del 10%…',
+      '¡Exacto! 🎉 10% = 20 y 5% = 10, entonces 15% de 200 = 30. Así se arma cualquier porcentaje con pedacitos de 10% y 5%. Punto extra para ti ✨'
+    ]},
+    { claves: /acent|tilde|esdr[uú]jula|aguda|grave|s[ií]laba/i, pasos: [
+      'Hagámoslo con música 🎵 Separa la palabra en sílabas con palmadas y dime: ¿en cuál suena más fuerte?',
+      '¡Bien! Si la fuerza está en la antepenúltima sílaba, es esdrújula — como MÚ-si-ca. ¿Y sabes qué tienen de especial las esdrújulas con la tilde?',
+      '¡+1! 🎉 Las esdrújulas SIEMPRE llevan tilde, sin excepción. Es la regla más fácil del español. ¿Se lo explicas ahora tú a alguien de tu casa?'
+    ]},
+    { claves: /[aá]rea|per[ií]metro|tri[aá]ngulo|rect[aá]ngulo|c[ií]rculo|pit[aá]goras|hipotenusa|cateto/i, pasos: [
+      'Primero lo primero 📐 ¿Qué figura es, y qué te piden: el contorno (perímetro) o lo que cabe adentro (área)?',
+      'Bien. Antes de poner números, escribe la fórmula — esa es la mitad del examen. ¿Cuál corresponde?',
+      '¡Eso! 🎉 Ahora sustituye con calma y revisa las unidades (cm o cm²). Si me puedes explicar por qué usaste esa fórmula, ya lo dominas. +1 ✨'
+    ]}
+  ];
+  var GENERICO = [
+    '¡Va! 💪 Cuéntame con tus palabras: ¿qué es exactamente lo que te piden? Sin ver el libro.',
+    'Bien. ¿Qué datos o información tienes para lograrlo? Haz tu lista.',
+    '¿Qué primer paso se te ocurre? No pasa nada si te equivocas — inténtalo y me cuentas.',
+    '¡Así se hace! 🎉 Revisa tu resultado: ¿tiene lógica? Si me lo puedes explicar, ya es tuyo. Punto extra ✨'
+  ];
+
+  var hilo = document.getElementById('demo-hilo');
+  var input = document.getElementById('demo-input');
+  var enviarBtn = document.getElementById('demo-enviar');
+  var guiaActual = null, paso = 0, ocupado = false;
+
+  function burbuja(texto, mia){
+    var d = document.createElement('div');
+    d.className = 'msg ' + (mia ? 'yo' : 'tutor');
+    d.innerHTML = texto.replace(/</g,'&lt;').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+    hilo.appendChild(d);
+    hilo.scrollTop = hilo.scrollHeight;
+    return d;
+  }
+
+  function responder(texto){
+    var guia = null;
+    for (var i = 0; i < GUIAS.length; i++) if (GUIAS[i].claves.test(texto)) { guia = GUIAS[i]; break; }
+    if (guia !== guiaActual && guia !== null) { guiaActual = guia; paso = 0; }
+    else if (guia === null && guiaActual === null) { guiaActual = { pasos: GENERICO }; paso = 0; }
+    var pasos = guiaActual.pasos;
+    var r = pasos[Math.min(paso, pasos.length - 1)];
+    paso++;
+    if (paso >= pasos.length) { guiaActual = null; paso = 0; }
+    return r;
+  }
+
+  function enviar(texto){
+    texto = (texto || '').trim();
+    if (!texto || ocupado || !hilo) return;
+    ocupado = true; enviarBtn.disabled = true;
+    burbuja(texto, true);
+    input.value = '';
+    var t = document.createElement('div');
+    t.className = 'escribiendo'; t.innerHTML = '<i></i><i></i><i></i>';
+    hilo.appendChild(t); hilo.scrollTop = hilo.scrollHeight;
+    setTimeout(function(){
+      t.remove();
+      burbuja(responder(texto), false);
+      ocupado = false; enviarBtn.disabled = false;
+    }, reduce ? 150 : 850 + Math.random() * 500);
+  }
+
+  if (hilo) {
+    enviarBtn.addEventListener('click', function(){ enviar(input.value); });
+    input.addEventListener('keydown', function(e){ if (e.key === 'Enter') enviar(input.value); });
+    document.querySelectorAll('.chips button').forEach(function(ch){
+      ch.addEventListener('click', function(){
+        enviar(ch.dataset.q);
+        document.querySelector('.demo-caja').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
+      });
+    });
+  }
 
   // Menú móvil
   var hamb = document.querySelector('.hamb');

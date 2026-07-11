@@ -12,7 +12,8 @@
     "android": "npm run sync && npx cap open android",
     "android:apk": "npm run sync && cd android && ./gradlew assembleRelease",
     "android:release": "npm run sync && cd android && ./gradlew bundleRelease",
-    "assets": "node scripts/generate-assets.mjs"
+    "assets": "node scripts/generate-assets.mjs",
+    "portal": "npm run build && rm -rf ../landing/app && cp -r dist ../landing/app"
   },
   "dependencies": {
     "@capacitor/android": "^7.0.0",

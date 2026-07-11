@@ -1,0 +1,14 @@
+{
+  "name": "Punto Extra — El tutor de toda la familia",
+  "short_name": "Punto Extra",
+  "description": "Tutor de tareas para todos tus hijos: quizzes, rachas y el reporte semanal para papás.",
+  "lang": "es-MX",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#FFF8EF",
+  "theme_color": "#221A4A",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
