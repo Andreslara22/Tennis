@@ -125,6 +125,75 @@ export const BANCO: Pregunta[] = [
     pregunta: '"Implícito" significa que algo está…', opciones: ['Dicho con claridad', 'Sobreentendido sin decirse', 'Escrito dos veces', 'En otro idioma'], correcta: 1,
     pista: 'Es lo contrario de "explícito".',
     explicacion: 'Implícito = incluido sin expresarse directamente; se sobreentiende.' },
+
+  // ─── Ampliación del banco (v0.2) ───
+  { id: 'pb-m3', nivel: 'PB', materia: 'Matemáticas', tema: 'Restas con acarreo',
+    pregunta: '¿Cuánto es 52 − 27?', opciones: ['35', '25', '15', '29'], correcta: 1,
+    pista: 'Al 2 no le alcanza para quitarle 7… pide prestado a las decenas.',
+    explicacion: 'Pides prestado: 12−7=5 y 4−2=2. Resultado: 25.' },
+  { id: 'pb-e2', nivel: 'PB', materia: 'Español', tema: 'Mayúsculas',
+    pregunta: '¿Cuál palabra SIEMPRE se escribe con mayúscula inicial?', opciones: ['perro', 'México', 'escuela', 'lunes'], correcta: 1,
+    pista: 'Los nombres propios de lugares y personas llevan mayúscula.',
+    explicacion: 'México es nombre propio. Los días de la semana en español van con minúscula.' },
+  { id: 'pb-c2', nivel: 'PB', materia: 'Ciencias', tema: 'El cuerpo humano',
+    pregunta: '¿Qué órgano bombea la sangre por todo el cuerpo?', opciones: ['Pulmones', 'Cerebro', 'Corazón', 'Estómago'], correcta: 2,
+    pista: 'Ponte la mano en el pecho… ¿qué sientes latir?',
+    explicacion: 'El corazón late unas 100,000 veces al día bombeando la sangre.' },
+
+  { id: 'pa-m4', nivel: 'PA', materia: 'Matemáticas', tema: 'Múltiplos y divisores',
+    pregunta: '¿Cuál de estos números es múltiplo de 6?', opciones: ['26', '32', '42', '52'], correcta: 2,
+    pista: 'Un múltiplo de 6 lo es de 2 Y de 3 a la vez. Suma los dígitos para probar el 3.',
+    explicacion: '42 = 6 × 7. Es par y 4+2=6 (divisible entre 3).' },
+  { id: 'pa-m5', nivel: 'PA', materia: 'Matemáticas', tema: 'Problemas con dinero',
+    pregunta: 'Llevas $100 y compras 3 cuadernos de $24. ¿Cuánto te sobra?', opciones: ['$28', '$32', '$24', '$38'], correcta: 0,
+    pista: 'Primero calcula cuánto gastas en total: 3 × 24…',
+    explicacion: '3×24 = 72, y 100−72 = 28 pesos de cambio.' },
+  { id: 'pa-e2', nivel: 'PA', materia: 'Español', tema: 'Sinónimos y antónimos',
+    pregunta: '¿Cuál es el ANTÓNIMO de "escaso"?', opciones: ['Poco', 'Abundante', 'Pequeño', 'Raro'], correcta: 1,
+    pista: 'Antónimo = lo contrario. Si algo escaso es poquito, lo contrario es…',
+    explicacion: 'Escaso significa poco; su contrario es abundante.' },
+  { id: 'pa-h2', nivel: 'PA', materia: 'Historia', tema: 'Culturas prehispánicas',
+    pregunta: '¿Qué cultura fundó Tenochtitlan?', opciones: ['Maya', 'Olmeca', 'Mexica (azteca)', 'Zapoteca'], correcta: 2,
+    pista: 'La leyenda del águila sobre el nopal… la de nuestra bandera.',
+    explicacion: 'Los mexicas fundaron Tenochtitlan en 1325, donde hoy está la CDMX.' },
+
+  { id: 's-m4', nivel: 'SEC', materia: 'Matemáticas', tema: 'Jerarquía de operaciones',
+    pregunta: '¿Cuánto es 4 + 3 × 2²?', opciones: ['28', '16', '49', '196'], correcta: 1,
+    pista: 'Orden: primero potencias, luego multiplicación, al final la suma.',
+    explicacion: '2²=4 → 3×4=12 → 4+12=16.' },
+  { id: 's-m5', nivel: 'SEC', materia: 'Matemáticas', tema: 'Proporcionalidad',
+    pregunta: 'Si 4 kg de naranja cuestan $90, ¿cuánto cuestan 6 kg?', opciones: ['$120', '$135', '$140', '$150'], correcta: 1,
+    pista: 'Saca primero el precio de 1 kg: 90 ÷ 4…',
+    explicacion: '90÷4 = 22.5 por kilo, y 22.5 × 6 = 135.' },
+  { id: 's-e2', nivel: 'SEC', materia: 'Español', tema: 'Ortografía',
+    pregunta: '¿Cuál oración está escrita correctamente?', opciones: ['Haber si vienes mañana', 'A ver si vienes mañana', 'Aver si vienes mañana', 'Haver si vienes mañana'], correcta: 1,
+    pista: '"A ver" = mirar/comprobar. "Haber" es el verbo de "va a haber fiesta".',
+    explicacion: '"A ver si vienes" = vamos a comprobarlo. "Haber" solo como verbo auxiliar o existencia.' },
+  { id: 's-c3', nivel: 'SEC', materia: 'Ciencias', tema: 'Química: estados y mezclas',
+    pregunta: 'El agua de mar es un ejemplo de…', opciones: ['Elemento', 'Compuesto', 'Mezcla homogénea', 'Mezcla heterogénea'], correcta: 2,
+    pista: '¿Puedes distinguir la sal del agua a simple vista?',
+    explicacion: 'La sal está disuelta de manera uniforme: mezcla homogénea (disolución).' },
+  { id: 's-h2', nivel: 'SEC', materia: 'Historia', tema: 'La Reforma',
+    pregunta: '¿Quién fue el presidente de las Leyes de Reforma?', opciones: ['Benito Juárez', 'Porfirio Díaz', 'Miguel Hidalgo', 'Santa Anna'], correcta: 0,
+    pista: 'El "Benemérito de las Américas", nacido en Oaxaca.',
+    explicacion: 'Benito Juárez impulsó las Leyes de Reforma (1859–1860), que separaron Iglesia y Estado.' },
+
+  { id: 'pr-m3', nivel: 'PREPA', materia: 'Matemáticas', tema: 'Pendiente de una recta',
+    pregunta: '¿Cuál es la pendiente de la recta que pasa por (1, 2) y (3, 8)?', opciones: ['2', '3', '4', '6'], correcta: 1,
+    pista: 'm = (y₂ − y₁) / (x₂ − x₁). Sustituye con calma.',
+    explicacion: 'm = (8−2)/(3−1) = 6/2 = 3.' },
+  { id: 'pr-m4', nivel: 'PREPA', materia: 'Matemáticas', tema: 'Probabilidad',
+    pregunta: 'Al lanzar un dado, ¿cuál es la probabilidad de sacar un número par?', opciones: ['1/6', '1/3', '1/2', '2/3'], correcta: 2,
+    pista: '¿Cuántos números pares hay entre 1 y 6? ¿De cuántos casos totales?',
+    explicacion: 'Pares: 2, 4, 6 → 3 de 6 casos = 1/2.' },
+  { id: 'pr-c2', nivel: 'PREPA', materia: 'Ciencias', tema: 'Biología: genética',
+    pregunta: '¿Dónde se encuentra el ADN en una célula eucarionte?', opciones: ['En la membrana', 'En el núcleo', 'En los ribosomas', 'En el citoplasma libre'], correcta: 1,
+    pista: 'Es el "centro de control" de la célula.',
+    explicacion: 'En eucariontes el ADN está protegido dentro del núcleo (y un poco en mitocondrias).' },
+  { id: 'pr-e2', nivel: 'PREPA', materia: 'Español', tema: 'Conectores lógicos',
+    pregunta: '"Estudió mucho; ___, no aprobó." ¿Qué conector va?', opciones: ['por lo tanto', 'sin embargo', 'es decir', 'además'], correcta: 1,
+    pista: 'La segunda idea CONTRADICE lo esperado de la primera.',
+    explicacion: '"Sin embargo" marca contraste: estudió pero no aprobó.' },
 ]
 
 /** Devuelve las preguntas del día para un nivel (rotan según la fecha). */
@@ -135,4 +204,14 @@ export function quizDelDia(nivel: Nivel, n = 5): Pregunta[] {
   const dia = Math.floor(Date.now() / 86400000)
   const start = dia % pool.length
   return Array.from({ length: n }, (_, i) => pool[(start + i) % pool.length])
+}
+
+/** Preguntas para el simulacro cronometrado (mezcla materias del nivel). */
+export function simulacroPreguntas(nivel: Nivel, n = 8): Pregunta[] {
+  // los aspirantes a UNAM/IPN (3º sec y prepa) mezclan SEC + PREPA
+  const pool = nivel === 'PREPA' || nivel === 'SEC'
+    ? BANCO.filter((p) => p.nivel === 'SEC' || p.nivel === 'PREPA')
+    : BANCO.filter((p) => p.nivel === nivel)
+  const barajado = [...pool].sort(() => Math.random() - 0.5)
+  return barajado.slice(0, Math.min(n, barajado.length))
 }

@@ -1,5 +1,6 @@
 import { useStore } from '../store'
 import { linkWhatsApp, reporteSemanal, reporteTexto } from '../lib/reporte'
+import { actividad7Dias } from '../lib/logros'
 import { labelGrado } from '../types'
 
 export default function Reporte() {
@@ -38,6 +39,24 @@ export default function Reporte() {
                   <div className="rep-dato atora">⚠️ Se atora en: {r.temasAtorados.join(' y ')}</div>
                 )}
                 {r.hijo.racha > 1 && <div className="rep-dato">🔥 Racha de {r.hijo.racha} días (récord: {r.hijo.mejorRacha})</div>}
+                {(() => {
+                  const sims = state.simulacros.filter((s) => s.hijoId === r.hijo.id)
+                  const ult = sims[sims.length - 1]
+                  if (!ult) return null
+                  const prev = sims.length >= 2 ? sims[sims.length - 2] : null
+                  const delta = prev ? ult.aciertos - prev.aciertos : null
+                  return (
+                    <div className="rep-dato">
+                      ⏱️ Simulacro: {ult.aciertos}/{ult.total}
+                      {delta !== null && <b className={delta >= 0 ? 'bien' : 'atora'}> ({delta >= 0 ? '+' : ''}{delta} vs. anterior)</b>}
+                    </div>
+                  )
+                })()}
+                <div className="spark" aria-label="Actividad de los últimos 7 días">
+                  {actividad7Dias(r.hijo.id, state.interacciones).map((v, i) => (
+                    <span key={i} className={v > 0 ? 'on' : ''} style={{ height: `${v > 0 ? Math.min(100, 25 + v * 15) : 12}%` }} />
+                  ))}
+                </div>
               </>
             )}
           </div>

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import type { AppState, Ajustes, ChatMsg, Familia, Hijo, Interaccion } from './types'
+import type { AppState, Ajustes, ChatMsg, Familia, Hijo, Interaccion, Simulacro } from './types'
 import { hoy } from './types'
 import { borrarTodo, cargar, guardar } from './storage'
 
@@ -8,6 +8,7 @@ interface Store {
   setFamilia: (f: Familia) => void
   addInteraccion: (i: Interaccion) => void
   addMensaje: (m: ChatMsg) => void
+  addSimulacro: (s: Simulacro) => void
   setAjustes: (a: Partial<Ajustes>) => void
   registrarActividad: (hijoId: string, puntos: number) => void
   reiniciar: () => void
@@ -41,6 +42,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       setFamilia: (familia) => setState((s) => ({ ...s, familia })),
       addInteraccion: (i) => setState((s) => ({ ...s, interacciones: [...s.interacciones, i] })),
       addMensaje: (m) => setState((s) => ({ ...s, mensajes: [...s.mensajes, m] })),
+      addSimulacro: (sim) => setState((s) => ({ ...s, simulacros: [...s.simulacros, sim] })),
       setAjustes: (a) => setState((s) => ({ ...s, ajustes: { ...s.ajustes, ...a } })),
       registrarActividad: (hijoId, puntos) =>
         setState((s) =>

@@ -6,6 +6,7 @@ export const estadoInicial: AppState = {
   familia: null,
   interacciones: [],
   mensajes: [],
+  simulacros: [],
   ajustes: { apiKey: '', telefonoWhatsApp: '' },
 }
 

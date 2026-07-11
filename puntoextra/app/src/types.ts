@@ -78,6 +78,16 @@ export interface ChatMsg {
   fecha: string
 }
 
+export interface Simulacro {
+  id: string
+  hijoId: string
+  fecha: string // ISO
+  aciertos: number
+  total: number
+  duracionSeg: number // tiempo usado
+  porMateria: Record<string, { ok: number; total: number }>
+}
+
 export interface Ajustes {
   apiKey: string // clave Anthropic opcional (el tutor funciona offline sin ella)
   telefonoWhatsApp: string // a dónde se manda el reporte
@@ -87,6 +97,7 @@ export interface AppState {
   familia: Familia | null
   interacciones: Interaccion[]
   mensajes: ChatMsg[]
+  simulacros: Simulacro[]
   ajustes: Ajustes
 }
 

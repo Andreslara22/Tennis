@@ -1,5 +1,6 @@
 import { useStore } from '../store'
 import { interaccionesSemana } from '../lib/reporte'
+import { logrosDeHijo } from '../lib/logros'
 import { labelGrado } from '../types'
 
 export default function Home({ onTutor, onQuiz }: { onTutor: (id: string) => void; onQuiz: (id: string) => void }) {
@@ -22,6 +23,7 @@ export default function Home({ onTutor, onQuiz }: { onTutor: (id: string) => voi
 
       {familia.hijos.map((h) => {
         const acts = semana.filter((i) => i.hijoId === h.id)
+        const medallas = logrosDeHijo(h, state.interacciones, state.simulacros).filter((g) => g.ganado)
         return (
           <div className="card hijo-card" key={h.id}>
             <span className="avatar" style={{ background: h.color }}>
@@ -41,6 +43,13 @@ export default function Home({ onTutor, onQuiz }: { onTutor: (id: string) => voi
                   ⭐ <b>{h.puntos}</b> pts
                 </span>
               </div>
+              {medallas.length > 0 && (
+                <div className="medallas">
+                  {medallas.map((m) => (
+                    <span key={m.id} title={`${m.titulo}: ${m.desc}`}>{m.emoji}</span>
+                  ))}
+                </div>
+              )}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               <button className="btn btn-mora btn-sm" onClick={() => onTutor(h.id)}>
