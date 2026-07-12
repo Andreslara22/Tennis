@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useStore } from './store'
+import { manejarBotonAtras } from './lib/nativo'
 import Onboarding from './screens/Onboarding'
 import Home from './screens/Home'
 import Tutor from './screens/Tutor'
@@ -21,6 +22,16 @@ export default function App() {
   const { state } = useStore()
   const [tab, setTab] = useState<Tab>('home')
   const [hijoId, setHijoId] = useState<string | null>(null)
+  const tabRef = useRef(tab)
+  tabRef.current = tab
+
+  useEffect(() => {
+    manejarBotonAtras(() => {
+      if (tabRef.current === 'home') return true // ya en inicio → minimizar
+      setTab('home')
+      return false
+    })
+  }, [])
 
   if (!state.familia) return <Onboarding />
 

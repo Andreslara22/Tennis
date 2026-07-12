@@ -85,6 +85,6 @@ export function estadoDemo(): AppState {
     interacciones,
     mensajes,
     simulacros,
-    ajustes: { apiKey: '', telefonoWhatsApp: '' },
+    ajustes: { apiKey: '', telefonoWhatsApp: '', recordatorio: false },
   }
 }

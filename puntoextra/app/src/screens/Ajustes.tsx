@@ -1,11 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useStore } from '../store'
 import { PLANES } from '../types'
+import { capturarInstalacion, esNativo, instalarPWA, programarRecordatorio, puedeInstalar } from '../lib/nativo'
 
 export default function Ajustes() {
   const { state, setAjustes, setFamilia, reiniciar } = useStore()
   const familia = state.familia!
   const [confirmar, setConfirmar] = useState(false)
+  const [instalable, setInstalable] = useState(puedeInstalar())
+
+  useEffect(() => {
+    capturarInstalacion(() => setInstalable(puedeInstalar()))
+  }, [])
+
+  const toggleRecordatorio = async () => {
+    const nuevo = !state.ajustes.recordatorio
+    const ok = await programarRecordatorio(nuevo)
+    if (nuevo && !ok) return // sin permiso de notificaciones: no encender
+    setAjustes({ recordatorio: nuevo })
+  }
 
   return (
     <>
@@ -42,6 +55,30 @@ export default function Ajustes() {
           inputMode="tel"
         />
       </div>
+
+      <div className="card">
+        <h3>Recordatorio del quiz 🔔</h3>
+        {esNativo() ? (
+          <>
+            <p className="muted">Una notificación diaria a las 7:00 pm para que nadie pierda su racha.</p>
+            <button className={`btn btn-sm ${state.ajustes.recordatorio ? 'btn-mora' : 'btn-ghost'}`} onClick={toggleRecordatorio}>
+              {state.ajustes.recordatorio ? 'Activado · 7:00 pm ✓' : 'Activar recordatorio'}
+            </button>
+          </>
+        ) : (
+          <p className="muted">Disponible en la app de Android. En el portal web puedes instalar la app abajo.</p>
+        )}
+      </div>
+
+      {!esNativo() && instalable && (
+        <div className="card">
+          <h3>📲 Instalar en tu teléfono</h3>
+          <p className="muted">Agrega Punto Extra a tu pantalla de inicio: abre al instante y funciona sin conexión.</p>
+          <button className="btn btn-mora btn-sm" onClick={() => instalarPWA().then(() => setInstalable(puedeInstalar()))}>
+            Instalar app
+          </button>
+        </div>
+      )}
 
       <div className="card">
         <h3>Tutor con IA</h3>

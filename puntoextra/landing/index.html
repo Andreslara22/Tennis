@@ -52,10 +52,13 @@
   ]
 }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/nunito.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+  @font-face{font-family:'Nunito';font-style:normal;font-weight:400 900;font-display:swap;src:url(fonts/nunito.woff2) format('woff2')}
+  @font-face{font-family:'Fraunces';font-style:normal;font-weight:600 900;font-display:swap;src:url(fonts/fraunces.woff2) format('woff2')}
+  @font-face{font-family:'Fraunces';font-style:italic;font-weight:600 900;font-display:swap;src:url(fonts/fraunces-italic.woff2) format('woff2')}
+
   :root{
     --tinta:#221A4A; --tinta-2:#181239; --crema:#FFF8EF; --crema-2:#FDF3E3;
     --mora:#5B3DF5; --mora-noche:#4527D8; --ambar:#FFC53D; --ambar-hondo:#E8A81E;
@@ -360,6 +363,15 @@
   details[open] summary::after{transform:rotate(45deg)}
   details p{color:var(--gris);padding:0 .2rem 1.4rem;font-size:.99rem;max-width:60ch}
   details p b{color:var(--tinta)}
+
+  /* ── CTA fija móvil ─────────────────────────────────── */
+  .cta-fija{position:fixed;bottom:0;left:0;right:0;z-index:70;display:none;gap:.6rem;padding:.6rem .9rem calc(.6rem + env(safe-area-inset-bottom));
+    background:rgba(255,248,239,.94);backdrop-filter:blur(12px);border-top:1px solid var(--linea);
+    transform:translateY(110%);transition:transform .3s ease}
+  .cta-fija.visible{transform:none}
+  .cta-fija .btn{flex:1;font-size:.95rem;padding:.8rem .6rem}
+  @media(max-width:720px){.cta-fija{display:flex}}
+  @media (prefers-reduced-motion: reduce){.cta-fija{transition:none}}
 
   /* ── Cierre + footer ────────────────────────────────── */
   .cierre{background:var(--tinta);color:var(--crema);text-align:center;padding:120px 0;position:relative;overflow:hidden}
@@ -768,6 +780,11 @@
   </div>
 </footer>
 
+<div class="cta-fija" id="cta-fija" aria-hidden="true">
+  <a class="btn btn-wa" href="https://wa.me/526141062426?text=Hola%2C%20quiero%20info%20de%20Punto%20Extra" target="_blank" rel="noopener">💬 WhatsApp</a>
+  <a class="btn btn-linea" href="#precios">Ver precios</a>
+</div>
+
 <script>
 (function(){
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -868,6 +885,17 @@
         document.querySelector('.demo-caja').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
       });
     });
+  }
+
+  // CTA fija móvil: aparece al pasar el hero, se esconde junto al cierre
+  var ctaFija = document.getElementById('cta-fija');
+  var heroEl = document.querySelector('.hero');
+  var cierreEl = document.querySelector('.cierre');
+  if (ctaFija && heroEl && 'IntersectionObserver' in window) {
+    var pasoHero = false, enCierre = false;
+    var pinta = function(){ ctaFija.classList.toggle('visible', pasoHero && !enCierre); };
+    new IntersectionObserver(function(en){ pasoHero = !en[0].isIntersecting; pinta(); }, { threshold: 0.05 }).observe(heroEl);
+    if (cierreEl) new IntersectionObserver(function(en){ enCierre = en[0].isIntersecting; pinta(); }, { threshold: 0.1 }).observe(cierreEl);
   }
 
   // Menú móvil

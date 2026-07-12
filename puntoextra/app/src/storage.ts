@@ -7,7 +7,7 @@ export const estadoInicial: AppState = {
   interacciones: [],
   mensajes: [],
   simulacros: [],
-  ajustes: { apiKey: '', telefonoWhatsApp: '' },
+  ajustes: { apiKey: '', telefonoWhatsApp: '', recordatorio: false },
 }
 
 export function cargar(): AppState {

@@ -91,6 +91,7 @@ export interface Simulacro {
 export interface Ajustes {
   apiKey: string // clave Anthropic opcional (el tutor funciona offline sin ella)
   telefonoWhatsApp: string // a dónde se manda el reporte
+  recordatorio: boolean // recordatorio diario del quiz (solo app nativa)
 }
 
 export interface AppState {
