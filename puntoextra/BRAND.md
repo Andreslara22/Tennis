@@ -56,6 +56,19 @@ una clase en vivo semanal y un reporte cada domingo para mamá y papá.
 La **insignia "+1"** es el activo gráfico central: círculo ámbar con "+1" en tinta y
 destellos. Es el punto extra recién ganado — aparece en logros, rachas y celebraciones.
 
+## 2.5 Punti, la mascota 🖍️
+
+**Punti** es el lápiz kawaii de Punto Extra: goma rosa, banda lavanda, cuerpo ámbar,
+ojos grandes brillosos y manitas juntas al frente (pose oficial del logo/icono).
+Archivo maestro: `brand/punti.svg` · icono: `brand/icon.svg` · en la app: `app/src/components/Punti.tsx`.
+
+- **Poses:** *manitas juntas* (logo oficial), *saluda* (bienvenidas), *celebra* (aciertos,
+  logros, simulacros — con destellos).
+- **Animación:** flotadito suave, parpadeo cada ~4.6s, saludo de bracito, destellos
+  pulsantes. Siempre en CSS/SVG (nunca GIF) y respetando `prefers-reduced-motion`.
+- **Reglas:** Punti nunca regaña ni llora; celebra o acompaña. No se estira, no se
+  recolorea, no habla en primera persona en el copy de precios/legal.
+
 ## 3. Voz
 
 Cercana, de mamá a mamá, español mexicano, cero tecnicismos. Hablamos de "tu hijo",
@@ -96,9 +109,8 @@ El ámbar (`#FFC53D`) solo lleva encima texto Tinta, nunca blanco.
 
 - **Wordmark:** `punto` en Tinta (Nunito 900, minúsculas) + **píldora ámbar con "extra"**
   y destellos. Archivo: `brand/logo.svg`.
-- **Icono de app:** burbuja de chat blanca sobre Mora con la insignia "+1" y destellos —
-  la burbuja dice "WhatsApp/conversación", el "+1" dice "se ganó su punto".
-  Archivo: `brand/icon.svg`.
+- **Icono de app:** **Punti** (manitas juntas) sobre gradiente Mora con destellos ámbar.
+  Archivo: `brand/icon.svg` (usado también como favicon y en la ficha de Play).
 - Área de protección: el diámetro de la insignia alrededor de todo el logo.
 - No inclinar, no delinear, no cambiar la insignia de color, no ponerla sobre fotos ocupadas.
 

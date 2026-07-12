@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useStore } from '../store'
+import Punti from '../components/Punti'
 import { quizDelDia, simulacroPreguntas, type Pregunta } from '../lib/quizzes'
 import { nivelDeGrado, uid, type Nivel, type Simulacro as SimT } from '../types'
 
@@ -114,7 +115,7 @@ function QuizDiario(props: {
   if (fin)
     return (
       <div className="card" style={{ textAlign: 'center', padding: 28 }}>
-        <div style={{ fontSize: '3rem' }}>{aciertos >= 4 ? '🏆' : aciertos >= 2 ? '🏅' : '💪'}</div>
+        {aciertos >= 2 ? <Punti pose="celebra" width={110} /> : <Punti pose="juntas" width={100} />}
         <h3 style={{ fontSize: '1.3rem' }}>{aciertos}/{preguntas.length} a la primera</h3>
         <p className="muted" style={{ margin: '8px 0 16px' }}>
           {aciertos >= 4
@@ -268,7 +269,7 @@ function Simulacro(props: {
     const delta = anterior ? resultado.aciertos - anterior.aciertos : null
     return (
       <div className="card" style={{ textAlign: 'center', padding: 26 }}>
-        <div style={{ fontSize: '3rem' }}>{pct >= 75 ? '🏆' : pct >= 50 ? '📈' : '🧗'}</div>
+        <Punti pose={pct >= 50 ? 'celebra' : 'juntas'} width={104} />
         <h3 style={{ fontSize: '1.5rem' }}>{resultado.aciertos}/{resultado.total}</h3>
         {delta !== null && (
           <p className={delta >= 0 ? 'sim-mejor' : 'sim-peor'} style={{ fontWeight: 800 }}>

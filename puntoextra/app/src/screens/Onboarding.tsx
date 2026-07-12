@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useStore } from '../store'
+import Punti from '../components/Punti'
 import { AVATAR_COLORS, GRADOS, PLANES, uid, type Grado, type Plan } from '../types'
 
 interface HijoDraft {
@@ -37,6 +38,7 @@ export default function Onboarding() {
 
   return (
     <div className="onb">
+      <Punti pose="saluda" width={104} />
       <div className="logo">
         punto&nbsp;<span className="extra">extra</span>
       </div>

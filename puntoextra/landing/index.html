@@ -191,6 +191,21 @@
   .ok{color:var(--verde);font-weight:800}
   .atora{color:var(--coral);font-weight:800}
 
+  /* ── Punti (mascota) ────────────────────────────────── */
+  .punti-hero{position:absolute;top:-54px;left:-54px;width:118px;z-index:3;filter:drop-shadow(0 14px 22px rgba(34,26,74,.28))}
+  @media(max-width:720px){.punti-hero{width:88px;top:-30px;left:-6px}}
+  .punti-cierre{width:112px;margin:0 auto 1.4rem;position:relative;filter:drop-shadow(0 16px 26px rgba(0,0,0,.35))}
+  .p-flota{animation:pFlota 5s ease-in-out infinite}
+  @keyframes pFlota{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  .p-ojos{transform-box:fill-box;transform-origin:center;animation:pParpadea 4.6s infinite}
+  @keyframes pParpadea{0%,91%,97%,100%{transform:scaleY(1)}94%{transform:scaleY(0.08)}}
+  .p-brazo{transform-box:view-box;transform-origin:166px 176px;animation:pSaluda 2.6s ease-in-out infinite}
+  @keyframes pSaluda{0%,100%{transform:rotate(0deg)}30%{transform:rotate(14deg)}60%{transform:rotate(-6deg)}}
+  .p-destello{transform-box:fill-box;transform-origin:center;animation:pBrilla 2.2s ease-in-out infinite}
+  .p-destello.d2{animation-delay:.7s}.p-destello.d3{animation-delay:1.3s}
+  @keyframes pBrilla{0%,100%{transform:scale(.6);opacity:.35}50%{transform:scale(1.15);opacity:1}}
+  @media (prefers-reduced-motion: reduce){.p-flota,.p-ojos,.p-brazo,.p-destello{animation:none}}
+
   /* ── Marquee ───────────────────────────────────────── */
   .marquee{background:var(--tinta);color:var(--crema);overflow:hidden;padding:1.1rem 0;border-top:3px solid var(--ambar)}
   .marquee .track{display:flex;gap:0;white-space:nowrap;animation:desliza 30s linear infinite;width:max-content}
@@ -450,7 +465,37 @@
       </div>
     </div>
     <div class="escena">
-      <div class="badge-uno" aria-hidden="true">+1</div>
+      <div class="punti-hero" aria-hidden="true">
+        <svg viewBox="0 0 250 300" overflow="visible">
+          <g class="p-flota">
+            <path d="M74 84 v-14 q0 -40 46 -40 q46 0 46 40 v14 Z" fill="#FF9FB2"/>
+            <ellipse cx="98" cy="52" rx="14" ry="7" fill="#FFC4D0" transform="rotate(-12 98 52)"/>
+            <rect x="68" y="80" width="104" height="26" rx="11" fill="#A79BF5"/>
+            <line x1="79" y1="88" x2="161" y2="88" stroke="#8F80F0" stroke-width="4" stroke-linecap="round"/>
+            <line x1="79" y1="98" x2="161" y2="98" stroke="#8F80F0" stroke-width="4" stroke-linecap="round"/>
+            <path d="M74 106 h92 v128 h-92 Z" fill="#FFD36B"/>
+            <path d="M74 106 h20 v128 h-20 Z" fill="#FFE59A"/>
+            <path d="M146 106 h20 v128 h-20 Z" fill="#F2B94B"/>
+            <path d="M74 232 Q85.5 224 97 232 Q108.5 240 120 232 Q131.5 224 143 232 Q154.5 240 166 232 L133 276 Q120 288 107 276 Z" fill="#F7E6C4"/>
+            <path d="M107 258 Q120 249 133 258 L126 271 Q120 277 114 271 Z" fill="#4A4160"/>
+            <g class="p-ojos">
+              <circle cx="100.2" cy="146" r="11.2" fill="#221A4A"/>
+              <circle cx="139.8" cy="146" r="11.2" fill="#221A4A"/>
+              <circle cx="96.9" cy="142" r="4.3" fill="#fff"/>
+              <circle cx="136.5" cy="142" r="4.3" fill="#fff"/>
+            </g>
+            <circle cx="84.4" cy="163" r="7.3" fill="#FFA3B5" opacity="0.7"/>
+            <circle cx="155.6" cy="163" r="7.3" fill="#FFA3B5" opacity="0.7"/>
+            <path d="M112 168 Q120 175 128 168" stroke="#221A4A" stroke-width="4" stroke-linecap="round" fill="none"/>
+            <path d="M74 172 Q60 206 92 222" fill="none" stroke="#F2B94B" stroke-width="15" stroke-linecap="round"/>
+            <circle cx="103" cy="225" r="13" fill="#FFD36B"/>
+            <g class="p-brazo">
+              <path d="M166 176 Q192 158 200 126" fill="none" stroke="#F2B94B" stroke-width="15" stroke-linecap="round"/>
+              <circle cx="202" cy="118" r="13" fill="#FFD36B"/>
+            </g>
+          </g>
+        </svg>
+      </div>
       <div class="phone" aria-hidden="true">
         <div class="screen">
           <div class="chat-top"><span class="ava">+1</span><span>Punto Extra Tutor<small>en línea</small></span></div>
@@ -736,6 +781,38 @@
 
 <div class="cierre">
   <div class="wrap">
+    <div class="punti-cierre rv" aria-hidden="true">
+      <svg viewBox="0 0 250 300" overflow="visible">
+        <path class="p-destello" d="M30 40 Q34 56 50 60 Q34 64 30 80 Q26 64 10 60 Q26 56 30 40 Z" fill="#FFC53D"/>
+        <path class="p-destello d2" d="M225 28 Q228 40 240 43 Q228 46 225 58 Q222 46 210 43 Q222 40 225 28 Z" fill="#FF9FB2"/>
+        <path class="p-destello d3" d="M236 130 Q238 139 247 141 Q238 143 236 152 Q234 143 225 141 Q234 139 236 130 Z" fill="#A79BF5"/>
+        <g class="p-flota">
+          <path d="M74 84 v-14 q0 -40 46 -40 q46 0 46 40 v14 Z" fill="#FF9FB2"/>
+          <ellipse cx="98" cy="52" rx="14" ry="7" fill="#FFC4D0" transform="rotate(-12 98 52)"/>
+          <rect x="68" y="80" width="104" height="26" rx="11" fill="#A79BF5"/>
+          <line x1="79" y1="88" x2="161" y2="88" stroke="#8F80F0" stroke-width="4" stroke-linecap="round"/>
+          <line x1="79" y1="98" x2="161" y2="98" stroke="#8F80F0" stroke-width="4" stroke-linecap="round"/>
+          <path d="M74 106 h92 v128 h-92 Z" fill="#FFD36B"/>
+          <path d="M74 106 h20 v128 h-20 Z" fill="#FFE59A"/>
+          <path d="M146 106 h20 v128 h-20 Z" fill="#F2B94B"/>
+          <path d="M74 232 Q85.5 224 97 232 Q108.5 240 120 232 Q131.5 224 143 232 Q154.5 240 166 232 L133 276 Q120 288 107 276 Z" fill="#F7E6C4"/>
+          <path d="M107 258 Q120 249 133 258 L126 271 Q120 277 114 271 Z" fill="#4A4160"/>
+          <g class="p-ojos">
+            <circle cx="100.2" cy="144" r="11.2" fill="#221A4A"/>
+            <circle cx="139.8" cy="144" r="11.2" fill="#221A4A"/>
+            <circle cx="96.9" cy="139" r="4.3" fill="#fff"/>
+            <circle cx="136.5" cy="139" r="4.3" fill="#fff"/>
+          </g>
+          <circle cx="84.4" cy="163" r="7.3" fill="#FFA3B5" opacity="0.7"/>
+          <circle cx="155.6" cy="163" r="7.3" fill="#FFA3B5" opacity="0.7"/>
+          <path d="M108 165 Q120 181 132 165 Z" fill="#221A4A"/>
+          <path d="M74 170 Q48 148 44 118" fill="none" stroke="#F2B94B" stroke-width="15" stroke-linecap="round"/>
+          <circle cx="42" cy="110" r="13" fill="#FFD36B"/>
+          <path d="M166 170 Q192 148 196 118" fill="none" stroke="#F2B94B" stroke-width="15" stroke-linecap="round"/>
+          <circle cx="198" cy="110" r="13" fill="#FFD36B"/>
+        </g>
+      </svg>
+    </div>
     <h2 class="display rv">La tranquilidad de saber que <em>sí están aprendiendo</em>.</h2>
     <p class="rv">Únete a las familias fundadoras: $49/mes de por vida — quedan <b class="lugares" style="color:var(--ambar)">100</b> lugares. Escríbenos hoy y tu primer reporte llega este domingo.</p>
     <a class="btn btn-wa rv" href="https://wa.me/526141062426?text=Hola%2C%20quiero%20ser%20familia%20fundadora%20de%20Punto%20Extra" target="_blank" rel="noopener">Empieza por WhatsApp</a>

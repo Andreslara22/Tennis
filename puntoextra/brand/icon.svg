@@ -1,30 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
-  <!-- Punto Extra · icono de app: burbuja de chat + insignia "+1" con destellos -->
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#6A4DFF"/>
-      <stop offset="100%" stop-color="#4527D8"/>
-    </linearGradient>
-    <radialGradient id="badge" cx="0.35" cy="0.3" r="1">
-      <stop offset="0%" stop-color="#FFD971"/>
-      <stop offset="60%" stop-color="#FFC53D"/>
-      <stop offset="100%" stop-color="#E8A81E"/>
-    </radialGradient>
-  </defs>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#6A4DFF"/><stop offset="100%" stop-color="#4527D8"/>
+  </linearGradient></defs>
   <rect width="1024" height="1024" rx="224" fill="url(#bg)"/>
-  <!-- burbuja de chat (cuerpo + colita) -->
-  <rect x="200" y="270" width="584" height="420" rx="100" fill="#FFFFFF"/>
-  <path d="M280 650 L280 810 Q280 842 306 822 L450 690 Z" fill="#FFFFFF"/>
-  <!-- líneas de "texto" dentro de la burbuja -->
-  <rect x="300" y="386" width="260" height="44" rx="22" fill="#D9D2F9"/>
-  <rect x="300" y="474" width="188" height="44" rx="22" fill="#D9D2F9"/>
-  <!-- destellos: el punto extra recién ganado -->
-  <path d="M700 128 Q712 176 760 188 Q712 200 700 248 Q688 200 640 188 Q688 176 700 128 Z" fill="#FFC53D"/>
-  <path d="M852 96 Q859 124 887 131 Q859 138 852 166 Q845 138 817 131 Q845 124 852 96 Z" fill="#FFC53D" opacity="0.7"/>
-  <path d="M905 236 Q910 256 930 261 Q910 266 905 286 Q900 266 880 261 Q900 256 905 236 Z" fill="#FFC53D" opacity="0.5"/>
-  <!-- insignia +1 -->
-  <circle cx="712" cy="520" r="168" fill="url(#badge)"/>
-  <circle cx="712" cy="520" r="168" fill="none" stroke="#221A4A" stroke-width="14" opacity="0.14"/>
-  <circle cx="712" cy="520" r="128" fill="none" stroke="#221A4A" stroke-width="10" opacity="0.26" stroke-dasharray="4 22" stroke-linecap="round"/>
-  <text x="712" y="576" text-anchor="middle" font-family="Nunito, DejaVu Sans, sans-serif" font-weight="900" font-size="150" fill="#221A4A">+1</text>
+  <path d="M210 148 Q220.4 189.6 262 200 Q220.4 210.4 210 252 Q199.6 210.4 158 200 Q199.6 189.6 210 148 Z" fill="#FFC53D" opacity="0.95"/> <path d="M830 128 Q838 160 870 168 Q838 176 830 208 Q822 176 790 168 Q822 160 830 128 Z" fill="#FFC53D" opacity="0.7"/>
+  
+  <g transform="translate(164 78) scale(2.9)">
+    <path d="M74 84 v-14 q0 -40 46 -40 q46 0 46 40 v14 Z" fill="#FF9FB2"/>
+    <ellipse cx="98" cy="52" rx="14" ry="7" fill="#FFC4D0" transform="rotate(-12 98 52)"/>
+    <rect x="68" y="80" width="104" height="26" rx="11" fill="#A79BF5"/>
+    <line x1="79" y1="88" x2="161" y2="88" stroke="#8F80F0" stroke-width="4" stroke-linecap="round"/>
+    <line x1="79" y1="98" x2="161" y2="98" stroke="#8F80F0" stroke-width="4" stroke-linecap="round"/>
+    <path d="M74 106 h92 v128 h-92 Z" fill="#FFD36B"/>
+    <path d="M74 106 h20 v128 h-20 Z" fill="#FFE59A"/>
+    <path d="M146 106 h20 v128 h-20 Z" fill="#F2B94B"/>
+    <path d="M74 232 Q85.5 224 97 232 Q108.5 240 120 232 Q131.5 224 143 232 Q154.5 240 166 232 L133 276 Q120 288 107 276 Z" fill="#F7E6C4"/>
+    <path d="M107 258 Q120 249 133 258 L126 271 Q120 277 114 271 Z" fill="#4A4160"/>
+    <circle cx="100.2" cy="146" r="11.2" fill="#221A4A"/>
+    <circle cx="139.8" cy="146" r="11.2" fill="#221A4A"/>
+    <circle cx="96.9" cy="142" r="4.3" fill="#fff"/>
+    <circle cx="136.5" cy="142" r="4.3" fill="#fff"/>
+    <circle cx="105" cy="150" r="1.9" fill="#fff" opacity="0.9"/>
+    <circle cx="144.4" cy="150" r="1.9" fill="#fff" opacity="0.9"/>
+    <circle cx="84.4" cy="163" r="7.3" fill="#FFA3B5" opacity="0.7"/>
+    <circle cx="155.6" cy="163" r="7.3" fill="#FFA3B5" opacity="0.7"/>
+    <path d="M112 168 Q120 175 128 168" stroke="#221A4A" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <path d="M74 172 Q60 206 92 222" fill="none" stroke="#F2B94B" stroke-width="15" stroke-linecap="round"/>
+    <path d="M166 172 Q180 206 148 222" fill="none" stroke="#F2B94B" stroke-width="15" stroke-linecap="round"/>
+    <circle cx="103" cy="225" r="13" fill="#FFD36B"/>
+    <circle cx="137" cy="225" r="13" fill="#FFD36B"/>
+  </g>
 </svg>
