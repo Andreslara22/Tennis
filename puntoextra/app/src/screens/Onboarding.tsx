@@ -40,7 +40,7 @@ export default function Onboarding() {
     <div className="onb">
       <Punti pose="saluda" width={104} />
       <div className="logo">
-        punto&nbsp;<span className="extra">extra</span>
+        Punto&nbsp;<span className="extra">Extra</span>
       </div>
       <p className="sub" style={{ marginBottom: 24 }}>
         El tutor de toda la familia

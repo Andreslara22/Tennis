@@ -82,19 +82,17 @@ const svgFeature = `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height=
   ${fondo(1024, 500)}
   ${destello(90, 90, 30, 0.9)} ${destello(390, 420, 22, 0.6)}
   ${punti(1.42, 60, 40)}
-  <text x="460" y="180" font-family="sans-serif" font-weight="900" font-size="76" fill="#FFFFFF">punto extra</text>
-  <text x="464" y="244" font-family="sans-serif" font-weight="700" font-size="34" fill="#EDE8FF">El tutor de toda la familia</text>
-  <text x="464" y="306" font-family="sans-serif" font-weight="900" font-size="37" fill="${AMBAR}">$99 al mes · hasta 4 hijos</text>
+  <text x="460" y="210" font-family="Georgia,serif" font-weight="700" font-size="78" fill="#FFFFFF">Punto Extra</text>
+  <text x="464" y="280" font-family="Georgia,serif" font-style="italic" font-weight="400" font-size="38" fill="#EDE8FF">El tutor de toda la familia</text>
 </svg>`
 
 const svgOg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
   ${fondo(1200, 630)}
   ${destello(110, 110, 34, 0.9)} ${destello(470, 540, 26, 0.6)}
   ${punti(1.8, 60, 45)}
-  <text x="540" y="240" font-family="sans-serif" font-weight="900" font-size="92" fill="#FFFFFF">punto extra</text>
-  <text x="545" y="320" font-family="sans-serif" font-weight="700" font-size="42" fill="#EDE8FF">El tutor de toda la familia</text>
-  <text x="545" y="400" font-family="sans-serif" font-weight="900" font-size="46" fill="${AMBAR}">$99 al mes · hasta 4 hijos</text>
-  <text x="545" y="463" font-family="sans-serif" font-weight="700" font-size="30" fill="#C9BFF7">Tutor por WhatsApp · Temario SEP · Prep UNAM/IPN</text>
+  <text x="540" y="270" font-family="Georgia,serif" font-weight="700" font-size="96" fill="#FFFFFF">Punto Extra</text>
+  <text x="545" y="350" font-family="Georgia,serif" font-style="italic" font-weight="400" font-size="44" fill="#EDE8FF">El tutor de toda la familia</text>
+  <text x="545" y="425" font-family="sans-serif" font-weight="700" font-size="30" fill="#C9BFF7">Tutor por WhatsApp · Temario SEP · Prep UNAM/IPN</text>
 </svg>`
 
 // Favicon / icono web: Punti sobre tesela violeta

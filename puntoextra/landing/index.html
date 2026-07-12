@@ -53,11 +53,11 @@
 }
 </script>
 <link rel="preload" href="fonts/nunito.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/lora.woff2" as="font" type="font/woff2" crossorigin>
 <style>
   @font-face{font-family:'Nunito';font-style:normal;font-weight:400 900;font-display:swap;src:url(fonts/nunito.woff2) format('woff2')}
-  @font-face{font-family:'Fraunces';font-style:normal;font-weight:600 900;font-display:swap;src:url(fonts/fraunces.woff2) format('woff2')}
-  @font-face{font-family:'Fraunces';font-style:italic;font-weight:600 900;font-display:swap;src:url(fonts/fraunces-italic.woff2) format('woff2')}
+  @font-face{font-family:'Lora';font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/lora.woff2) format('woff2')}
+  @font-face{font-family:'Lora';font-style:italic;font-weight:400 700;font-display:swap;src:url(fonts/lora-italic.woff2) format('woff2')}
 
   :root{
     --tinta:#221A4A; --tinta-2:#181239; --crema:#FFF8EF; --crema-2:#FDF3E3;
@@ -65,7 +65,7 @@
     --wa:#25D366; --wa-oscuro:#1DA851; --coral:#FF6B5E; --verde:#178A4C;
     --gris:#6B6685; --lila:#EFEAFE; --linea:rgba(34,26,74,.1);
     --linea-luz:rgba(255,248,239,.14); --gris-luz:#B7B0D8;
-    --display:'Fraunces',Georgia,serif; --body:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --display:'Lora',Georgia,serif; --body:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -75,8 +75,8 @@
   a{color:inherit}
   .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
   h1,h2,h3{line-height:1.08;text-wrap:balance}
-  .display{font-family:var(--display);font-weight:900;letter-spacing:-.01em}
-  .display em{font-style:italic;font-weight:900;color:var(--mora)}
+  .display{font-family:var(--display);font-weight:700;letter-spacing:-.01em}
+  .display em{font-style:italic;font-weight:700;color:var(--mora)}
   .eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-size:.78rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--mora)}
   .eyebrow::before{content:"";width:26px;height:2px;background:var(--ambar);border-radius:2px}
   section{padding:96px 0}
@@ -105,7 +105,7 @@
   @media(max-width:520px){.topbar{font-size:.78rem;padding:.5rem 12px}.topbar .oculta-sm{display:none}}
   header.nav-shell{position:sticky;top:0;z-index:60;background:rgba(255,248,239,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--linea)}
   .nav{display:flex;align-items:center;justify-content:space-between;padding-block:.85rem}
-  .logo{display:flex;align-items:baseline;gap:.3rem;font-family:var(--body);font-weight:900;font-size:1.45rem;letter-spacing:-.03em;text-decoration:none}
+  .logo{display:flex;align-items:baseline;gap:.35rem;font-family:var(--display);font-weight:700;font-size:1.45rem;letter-spacing:-.01em;text-decoration:none}
   .logo .pill{background:var(--ambar);border-radius:999px;padding:.04em .5em .1em;font-size:.82em;box-shadow:inset 0 -2px 0 rgba(34,26,74,.22)}
   .nav-links{display:none;gap:2rem;font-weight:700;font-size:.93rem}
   .nav-links a{text-decoration:none;color:var(--gris);transition:color .15s}
@@ -417,7 +417,7 @@
 
 <header class="nav-shell">
   <div class="wrap nav">
-    <a class="logo" href="#">punto <span class="pill">extra</span></a>
+    <a class="logo" href="#">Punto <span class="pill">Extra</span></a>
     <nav class="nav-links">
       <a href="#como">Cómo funciona</a>
       <a href="#incluye">Qué incluye</a>
@@ -823,7 +823,7 @@
   <div class="wrap">
     <div class="pie-arriba">
       <div class="pie-marca">
-        <a class="logo" href="#" style="color:var(--crema)">punto <span class="pill" style="color:var(--tinta)">extra</span></a>
+        <a class="logo" href="#" style="color:var(--crema)">Punto <span class="pill" style="color:var(--tinta)">Extra</span></a>
         <p>El tutor de toda la familia por $99 al mes. Explica paso a paso, nunca da la respuesta — y cada domingo tú recibes el reporte.</p>
         <a class="btn btn-wa" href="https://wa.me/526141062426?text=Hola%2C%20quiero%20info%20de%20Punto%20Extra" target="_blank" rel="noopener" style="font-size:.9rem;padding:.7rem 1.3rem">Escríbenos por WhatsApp</a>
       </div>

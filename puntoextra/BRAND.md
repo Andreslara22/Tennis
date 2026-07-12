@@ -46,10 +46,10 @@ una clase en vivo semanal y un reporte cada domingo para mamá y papá.
 
 | Elemento | Valor |
 |---|---|
-| Nombre | **Punto Extra** (wordmark: `punto` + píldora ámbar `extra`) |
+| Nombre | **Punto Extra** (wordmark: `Punto` + píldora ámbar `Extra`, en Lora serif) |
 | Tagline principal | **El tutor de toda la familia.** |
 | Tagline de producto | *El punto extra que tus hijos necesitan.* |
-| Tagline de precio | *Todos tus hijos, todas las materias, $99 al mes.* |
+| Tagline de precio | *(el precio vive en la sección de precios, no en el wordmark)* |
 | Nombre de la app | Punto Extra |
 | Paquete Android | `mx.puntoextra.app` |
 
@@ -100,15 +100,17 @@ El ámbar (`#FFC53D`) solo lleva encima texto Tinta, nunca blanco.
 
 ## 5. Tipografía
 
-- **Titulares y UI:** [Nunito](https://fonts.google.com/specimen/Nunito) (redondeada,
-  amable, excelente en pesos 700–900). Fallback: `system-ui, -apple-system, "Segoe UI", sans-serif`.
+- **Wordmark y titulares:** [Lora](https://fonts.google.com/specimen/Lora) (serif académica,
+  contraste moderado, itálicas elegantes). Fallback: `Georgia, serif`.
+- **Cuerpo y UI:** [Nunito](https://fonts.google.com/specimen/Nunito) (redondeada, amable).
+  Fallback: `system-ui, -apple-system, "Segoe UI", sans-serif`.
 - **Números y datos del reporte:** Nunito 800 tabular.
 - Nunca usar tipografías "infantiles" (Comic Sans y similares): la compradora es la mamá.
 
 ## 6. Logo
 
-- **Wordmark:** `punto` en Tinta (Nunito 900, minúsculas) + **píldora ámbar con "extra"**
-  y destellos. Archivo: `brand/logo.svg`.
+- **Wordmark:** `Punto` en Tinta (Lora 700) + **píldora ámbar con "Extra"**.
+  Archivo: `brand/logo.svg`. Sin eslogan de precio junto al logo.
 - **Icono de app:** **Punti** (manitas juntas) sobre gradiente Mora con destellos ámbar.
   Archivo: `brand/icon.svg` (usado también como favicon y en la ficha de Play).
 - Área de protección: el diámetro de la insignia alrededor de todo el logo.

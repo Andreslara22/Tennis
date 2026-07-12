@@ -1,13 +1,13 @@
   @font-face{font-family:'Nunito';font-style:normal;font-weight:400 900;font-display:swap;src:url(../fonts/nunito.woff2) format('woff2')}
-  @font-face{font-family:'Fraunces';font-style:normal;font-weight:600 900;font-display:swap;src:url(../fonts/fraunces.woff2) format('woff2')}
-  @font-face{font-family:'Fraunces';font-style:italic;font-weight:600 900;font-display:swap;src:url(../fonts/fraunces-italic.woff2) format('woff2')}
+  @font-face{font-family:'Lora';font-style:normal;font-weight:400 700;font-display:swap;src:url(../fonts/lora.woff2) format('woff2')}
+  @font-face{font-family:'Lora';font-style:italic;font-weight:400 700;font-display:swap;src:url(../fonts/lora-italic.woff2) format('woff2')}
 /* Punto Extra · estilos del blog */
 :root{
   --tinta:#221A4A; --tinta-2:#181239; --crema:#FFF8EF; --crema-2:#FDF3E3;
   --mora:#5B3DF5; --mora-noche:#4527D8; --ambar:#FFC53D; --ambar-hondo:#E8A81E;
   --wa:#25D366; --wa-oscuro:#1DA851; --coral:#FF6B5E; --verde:#178A4C;
   --gris:#6B6685; --lila:#EFEAFE; --linea:rgba(34,26,74,.1); --gris-luz:#B7B0D8;
-  --display:'Fraunces',Georgia,serif; --body:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --display:'Lora',Georgia,serif; --body:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:var(--body);background:var(--crema);color:var(--tinta);line-height:1.7;-webkit-tap-highlight-color:transparent}
@@ -16,7 +16,7 @@ a{color:inherit}
 .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
 .wrap-post{max-width:760px;margin:0 auto;padding:0 24px}
 h1,h2,h3{line-height:1.12;text-wrap:balance}
-.display{font-family:var(--display);font-weight:900;letter-spacing:-.01em}
+.display{font-family:var(--display);font-weight:700;letter-spacing:-.01em}
 .display em{font-style:italic;color:var(--mora)}
 .eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-size:.78rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--mora)}
 .eyebrow::before{content:"";width:26px;height:2px;background:var(--ambar);border-radius:2px}
@@ -24,7 +24,7 @@ h1,h2,h3{line-height:1.12;text-wrap:balance}
 /* Nav */
 header.nav-shell{position:sticky;top:0;z-index:60;background:rgba(255,248,239,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--linea)}
 .nav{display:flex;align-items:center;justify-content:space-between;padding-block:.85rem}
-.logo{display:flex;align-items:baseline;gap:.3rem;font-weight:900;font-size:1.35rem;letter-spacing:-.03em;text-decoration:none}
+.logo{display:flex;align-items:baseline;gap:.35rem;font-family:var(--display);font-weight:700;font-size:1.35rem;letter-spacing:-.01em;text-decoration:none}
 .logo .pill{background:var(--ambar);border-radius:999px;padding:.04em .5em .1em;font-size:.82em;box-shadow:inset 0 -2px 0 rgba(34,26,74,.22)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;font-weight:800;font-size:.9rem;padding:.6rem 1.2rem;border-radius:999px;text-decoration:none;border:none;cursor:pointer;transition:transform .18s}
 .btn:hover{transform:translateY(-2px)}

@@ -49,7 +49,7 @@ export default function App() {
       <div className="app">
         <div className="top">
           <div className="logo">
-            punto&nbsp;<span className="extra">extra</span>
+            Punto&nbsp;<span className="extra">Extra</span>
           </div>
           <span className="plan-pill">
             {state.familia.plan === 'ninguno' ? 'Sin plan' : `Plan ${state.familia.plan}`}
